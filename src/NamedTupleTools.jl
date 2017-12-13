@@ -1,3 +1,8 @@
+"""
+     NamedTupleTools
+
+This module provides some useful aspecting of NamedTuples.
+"""
 module NamedTupleTools
 
 export
