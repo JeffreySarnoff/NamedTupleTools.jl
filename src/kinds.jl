@@ -4,15 +4,22 @@
 
 const AkoNamedTuple = Val{:AkoNamedTuple}
 
-const AbstractNamedTuple = :AbstractNamedTuple
-const RealizedNamedTuple = :RealizedNamedTuple
+const AbstractNamedTuple = Val{:AbstractNamedTuple}
+const RealizedNamedTuple = Val{:RealizedNamedTuple}
 
 isa(x, y) = Base.isa(x, y)
 
 isa(x, ::Type{AkoNamedTuple}) = false
+isa(x, ::Type{AbstractNamedTuple}) where T = false
+isa(x, ::Type{RealizedNamedTuple}) where T = false
 
 isa(x::NamedTuple{T}, ::Type{AkoNamedTuple}) where T = true
 isa(::Type{NamedTuple{T}}, ::Type{AkoNamedTuple}) where T = true
+
+isa(::Type{NamedTuple{T}}, ::Type{AbstractNamedTuple}) where T = true
+isa(x::NamedTuple{T}, ::Type{AbstractNamedTuple}) where T = false
+isa(::Type{NamedTuple{T}}, ::Type{RealizedNamedTuple}) where T = false
+isa(x::NamedTuple{T}, ::Type{RealizedNamedTuple}) where T = true
 
 
 #=
