@@ -7,8 +7,8 @@ This module provides some useful aspecting of NamedTuples.
 """
 module NamedTupleTools
 
-export nt_names, nt_values,
-       NT_names, NT_values
+export nt_names, nt_values, nt_namesvalues,
+       NT_names, NT_values, NT_namesvalues,
 
 const SINT = Union{ Int8,  Int16,  Int32,  Int64}
 const UINT = Union{UInt8, UInt16, UInt32, UInt64}
