@@ -4,7 +4,18 @@
 
 =#
 
+const AbstractNamedTuple = :AbstractNamedTuple
+const RealizedNamedTuple = :RealizedNamedTuple
 
+Base.isa(x, ::Type}}} NamedTuple) = false
+Base.isa(::Type{N
+
+
+
+a{medTuple{T}}, NamedTuple) where T = true
+akoNamedTuple(x::NamedTuple{T}) where T = true
+
+#=
 thesenames = (:a, :b, :c)
 thesevalues = ('a', 'b', 'c')
 prototype_nt = NamedTuple{thesenames}
@@ -26,3 +37,4 @@ isa( prototype_nt, NamedTuple ) == false
 akoNamedTuple(x) = false
 akoNamedTuple(::Type{NamedTuple{T}}) where T = true
 akoNamedTuple(x::NamedTuple{T}) where T = true
+=#
