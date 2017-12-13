@@ -7,7 +7,12 @@ This module provides some useful aspecting of NamedTuples.
 """
 module NamedTupleTools
 
-export
+export nt_names, nt_values,
+       NT_names, NT_values
+
+const SINT = Union{ Int8,  Int16,  Int32,  Int64}
+const UINT = Union{UInt8, UInt16, UInt32, UInt64}
+const SIUI = Union{SINT, UINT}
 
 include("kinds.jl")
 include("parts.jl")
