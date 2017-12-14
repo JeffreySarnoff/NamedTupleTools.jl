@@ -2,40 +2,15 @@
     On The Kinds of NamedTuple
 =#
 
-const AkoNamedTuple = Val{:AkoNamedTuple}
+isako(x, y) = Base.is(x, y)
 
+const KindsOfNamedTuples = Union{NamedTuple, NamedTuple{N}} where N
 const AbstractNamedTuple = Val{:AbstractNamedTuple}
 const RealizedNamedTuple = Val{:RealizedNamedTuple}
 
-isa(x, y) = Base.isa(x, y)
+isako(x, NamedTuple) = x <: KindsOfNamedTuples
 
-isa(x, ::Type{AkoNamedTuple}) = false
-isa(x, ::Type{AbstractNamedTuple}) where T = false
-isa(x, ::Type{RealizedNamedTuple}) where T = false
-
-isa(x::NamedTuple{T}, ::Type{AkoNamedTuple}) where T = true
-isa(::Type{NamedTuple{T}}, ::Type{AkoNamedTuple}) where T = true
-
-isa(::Type{NamedTuple{T}}, ::Type{AbstractNamedTuple}) where T = true
-isa(x::NamedTuple{T}, ::Type{AbstractNamedTuple}) where T = false
-isa(::Type{NamedTuple{T}}, ::Type{RealizedNamedTuple}) where T = false
-isa(x::NamedTuple{T}, ::Type{RealizedNamedTuple}) where T = true
-
-
-#=
-thesenames = (:a, :b, :c)
-thesevalues = ('a', 'b', 'c')
-prototype_nt = NamedTuple{thesenames}
-realized_nt = prototype_nt(thesevalues)
-whatami(prototype_nt) = :prototype_nt
-whatami(realized_nt) = :realized_nt
-@inline whatami(ako_nt) = isa(ako_nt, Type)
-isa(prototype_nt,Type) == true
-isa(realized_nt,Type) == false
-akoNamedTuple(x) = isa(Base._nt_names(realized_nt), Tuple)
-isa( realized_nt, NamedTuple ) == true
-isa( prototype_nt, NamedTuple ) == false
-akoNamedTuple(x) = false
-akoNamedTuple(::Type{NamedTuple{T}}) where T = true
-akoNamedTuple(x::NamedTuple{T}) where T = true
-=#
+isako(::Type{NamedTuple{T}}, ::Type{AbstractNamedTuple}) = true
+isako(::Type{NamedTuple{T}}, ::Type{RealizedNamedTuple}) = false
+isako(x::NamedTuple{T}, ::Type{RealizedNamedTuple}) where T = true
+isako(x::NamedTuple{T}, ::Type{AbstractNamedTuple}) where T = false
