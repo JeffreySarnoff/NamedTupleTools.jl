@@ -6,16 +6,45 @@
 
 
 """
-    NT_Names(names)
+    nt_names(names)
     
 Generate a NamedTuple Prototype that labels precipient values using `names`.
+
+#Example
+
+julia> cardinal_directions = (:East, :South, :West, :North)
+julia> nt_names(cardinal_directions)
+NamedTuple{(:East, :South, :West, :North),T} where T<:Tuple
+
+julia> nt_names(:East, :South, :West, :North)
+NamedTuple{(:East, :South, :West, :North),T} where T<:Tuple
 """
-macro NT_Names(names)
-   :(NamedTuple{names})
-end
+nt_names(names::NTuple{Symbol}) = NamedTuple{names}
+nt_names(names::Vararg{Symbol}) = NamedTuple{(names...,)}
+
+nt_names(namedtuple, names) =
+    isa(namedtuple, Type) ? NamedTuple{names} : NamedTuple{names}(values(namedtuple))
+   
+"""
+    nt_values(named)
+    
+Generate a NamedTuple Prototype that labels precipient values using `names`.
+
+#Example
+
+julia> cardinal_directions = (:East, :South, :West, :North)
+julia> nt_names(cardinal_directions)
+NamedTuple{(:East, :South, :West, :North),T} where T<:Tuple
+
+julia> nt_names(:East, :South, :West, :North)
+NamedTuple{(:East, :South, :West, :North),T} where T<:Tuple
+"""
+nt_names(names::NTuple{Symbol}) = NamedTuple{names}
+nt_names(names::Vararg{Symbol}) = NamedTuple{(names...,)}
+
 
 """
-    NT_NamesValues(names, values)
+    nt_NamesValues(names, values)
     
 Generate a NamedTuple that evinces the assignation of the `values` to the `names`.
 """
