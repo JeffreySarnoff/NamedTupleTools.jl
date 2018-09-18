@@ -7,9 +7,9 @@ This module provides some useful NamedTuple tooling.
 """
 module NamedTupleTools
 
-export tuplenames, remove, isprototype
+export tuplenames, isprototype
 
-import Base: fieldnames, keys, values, merge
+import Base: fieldnames, keys, values, delete!, merge
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -62,25 +62,18 @@ isprototype(::Type{T}) where {T<:NamedTuple} = true
 isprototype(nt::T) where {T<:NamedTuple} = false
 
 """
-   remove(namedtuple, namedtuple2)
-   remove(namedtuple, symbol)
-   remove(namedtuple, (symbols))
-   remove(namedtuple, symbols...)
-   remove(ntprototype, ntprototype2)
-
+   delete!(namedtuple, symbol(s)|Tuple)
+   delete!(ntprototype, symbol(s)|Tuple)
+   
 Generate a namedtuple [ntprototype] from the first arg omitting fields present in the second arg.
 """
-remove(a::NamedTuple, b::NamedTuple) = Base.structdiff(a,b)
-remove(a::NamedTuple, b::Symbol) = Base.structdiff(a, tuplenames(b))
-remove(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, tuplenames(b))
-remove(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, tuplenames(bs))
+delete!(a::NamedTuple, b::Symbol) = Base.structdiff(a, tuplenames(b))
+delete!(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, tuplenames(b))
+delete!(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, tuplenames(bs))
 
-remove(::Type{T}, b::NamedTuple) where {T<:NamedTuple} = Base.structdiff(T,b)
-remove(::Type{T}, b::Symbol) where {T<:NamedTuple} = Base.structdiff(T, tuplenames(b))
-remove(::Type{T}, b::NTuple{N,Symbol}) where {N,T<:NamedTuple} = Base.structdiff(T, tuplenames(b))
-remove(::Type{T}, bs::Vararg{Symbol}) where {N,T<:NamedTuple} = Base.structdiff(T, tuplenames(bs))
-remove(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
-    tuplenames((Base.setdiff(N1,N2)...,))
+delete!(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = tuplenames((Base.setdiff(S,(b,))...,))
+delete!(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = tuplenames((Base.setdiff(S,b)...,))
+delete!(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = tuplenames((Base.setdiff(S,bs)...,))
 
 Base.merge(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
     tuplenames((unique((N1..., N2...,))...,))
