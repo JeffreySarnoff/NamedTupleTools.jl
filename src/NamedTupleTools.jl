@@ -9,6 +9,9 @@ module NamedTupleTools
 
 export ntproto, ntnames, ntvalues
 
+# accept comma delimited values
+Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
+
 """
     ntproto(  name1, name2, ..  )
     ntproto( (name1, name2, ..) )
