@@ -1,5 +1,7 @@
 # NamedTupleTools.jl
-## Some NamedTuple utilities
+### Some NamedTuple utilities
+
+-----
 
 ## Use
 ```julia
