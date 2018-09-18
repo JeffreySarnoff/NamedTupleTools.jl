@@ -9,6 +9,8 @@ module NamedTupleTools
 
 export tuplenames
 
+import Base: fieldnames, values
+
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
@@ -28,15 +30,14 @@ tuplenames(names::Vararg{Symbol}) = NamedTuple{names}
 
 Retrieve the names as a tuple of symbols.
 """
-Base.fieldnames(::Type{T}) where {T<:NamedTuple} = Base._nt_names(T)
-Base.fieldnames(nt::T) where {T<:NamedTuple} = Base._nt_names(T)
+fieldnames(::Type{T}) where {T<:NamedTuple} = Base._nt_names(T)
+fieldnames(nt::T) where {T<:NamedTuple} = Base._nt_names(T)
 
 """
     values( namedtuple )
 
 Retrieve the values as a tuple.
 """
-Base.values(::Type{T}) where {T<:NamedTuple} = ()
-Base.values(nt::T) where {T<:NamedTuple} = Base.values(nt)
+values(::Type{T}) where {T<:NamedTuple} = ()
 
 end # module NamedTupleTools
