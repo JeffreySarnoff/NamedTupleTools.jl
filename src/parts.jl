@@ -16,7 +16,8 @@ nt = NamedTuple{(:first, :second)}(("initial", "final"))
 nt_names(nt) == (:first, :second)
 
 """
-nt_names(namedtuple::T) where T<:NamedTuple = Base._nt_names(namedtuple)
+nt_names(nt::T) where {T<:NamedTuple} = Base._nt_names(nt)
+nt_names(::Type{T}) where {T<:NamedTuple} = Base._nt_names(T)
 
 """
     nt_names(namedtuple, ordinal)
@@ -41,7 +42,8 @@ nt = NamedTuple{(:first, :second)}(("initial", "final"))
 nt_values(nt) == ("initial", "final")
 
 """
-nt_values(namedtuple::T) where T<:NamedTuple = Base.values(namedtuple)
+nt_values(nt::T) where {T<:NamedTuple} = Base.values(nt)
+nt_values(::Type{T}) where {T<:NamedTuple} = ()
 
 """
     nt_values(namedtuple, ordinal)
