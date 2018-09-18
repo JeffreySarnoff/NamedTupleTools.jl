@@ -76,7 +76,7 @@ remove(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, tuplenames(bs))
 remove(::Type{T}, b::NamedTuple) where {T<:NamedTuple} = Base.structdiff(a,b)
 remove(::Type{T}, b::Symbol) where {T<:NamedTuple} = Base.structdiff(a, tuplenames(b))
 remove(::Type{T}, b::NTuple{N,Symbol}) where {N,T<:NamedTuple} = Base.structdiff(a, tuplenames(b))
-remove(::Type{T}, bs:Vararg{Symbol}) where {N,T<:NamedTuple} = Base.structdiff(a, tuplenames(bs))
+remove(::Type{T}, bs::Vararg{Symbol}) where {N,T<:NamedTuple} = Base.structdiff(a, tuplenames(bs))
 remove(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
     tuplenames((Base.symdiff(N1,N2)...,))
 
