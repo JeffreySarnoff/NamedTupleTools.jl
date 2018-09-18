@@ -3,7 +3,7 @@
 
 This module provides some useful NamedTuple tooling.
 
-@ref(tuplenames), @ref(fieldnames), @ref(keys), @ref(values), @ref(without)
+@ref(tuplenames), @ref(fieldnames), @ref(keys), @ref(values), @ref(remove)
 """
 module NamedTupleTools
 
