@@ -3,11 +3,11 @@
 
 This module provides some useful NamedTuple tooling.
 
-@ref(tuplenames), @ref(fieldnames), @ref(keys), @ref(values)
+@ref(tuplenames), @ref(fieldnames), @ref(keys), @ref(values), @ref(without)
 """
 module NamedTupleTools
 
-export tuplenames, isprototype
+export tuplenames, remove, isprototype
 
 import Base: fieldnames, keys, values
 
@@ -58,5 +58,23 @@ Predicate that identifies NamedTuple prototypes.
 """
 isprototype(::Type{T}) where {T<:NamedTuple} = true
 isprototype(nt::T) where {T<:NamedTuple} = false
+
+"""
+   remove(namedtuple1, namedtuple2)
+   remove(ntprototype, namedtuple2)
+   remove(namedtuple1, ntprototype)
+   remove(ntprototype1, ntprototype2)
+
+Generate a namedtuple [ntprototype] from the first arg omitting fields present in the second arg.
+"""
+remove(a::NamedTuple, b::NamedTuple) = Base.structdiff(a,b)
+remove(a::NamedTuple, b::Symbol) = Base.structdiff(a, tuplenames(b))
+remove(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, tuplenames(b))
+remove(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, tuplenames(bs))
+
+remove(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
+    tuplenames((Base.symdiff(N1,N2)...,))
+
+#merge(a::NamedTuple,b::NamedTuple)
 
 end # module NamedTupleTools
