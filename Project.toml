@@ -1,0 +1,5 @@
+authors = ["Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>"]
+name = "NamedTupleTools"
+uuid = "86c415f0-bb27-11e8-1626-49a490d60138"
+license = "MIT"
+version = "0.1.0"
