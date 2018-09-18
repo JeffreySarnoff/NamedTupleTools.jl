@@ -73,17 +73,11 @@ remove(a::NamedTuple, b::Symbol) = Base.structdiff(a, tuplenames(b))
 remove(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, tuplenames(b))
 remove(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, tuplenames(bs))
 
+remove(::Type{T}, b::NamedTuple) where {T<:NamedTuple} = Base.structdiff(a,b)
+remove(::Type{T}, b::Symbol) where {T<:NamedTuple} = Base.structdiff(a, tuplenames(b))
+remove(::Type{T}, b::NTuple{N,Symbol}) where {N,T<:NamedTuple} = Base.structdiff(a, tuplenames(b))
+remove(::Type{T}, bs:Vararg{Symbol}) where {N,T<:NamedTuple} = Base.structdiff(a, tuplenames(bs))
 remove(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
     tuplenames((Base.symdiff(N1,N2)...,))
-
-"""
-    without(namedtuple, Symbol(s) | Tuple)
-
-Generate a namedtuple prototype that is as fieldnames(namedtuple) without the names in the second arg(s).
-Apply to namedtuples that comport with the first argument to get namedtuples with the given symbols omitted.
-"""
-without(nt::T, ks:Symbol) where {N, T<:NamedTuple} = NamedTuple{keys(remove(nt, (ks,)))}
-without(nt::T, ks::NTuple{N,Symbol}) where {N, T<:NamedTuple} = NamedTuple{keys(remove(nt, ks))}
-without(nt::T, ks::Vararg{Symbol}) where {T<:NamedTuple} = NamedTuple{keys(remove(nt, ks))}
 
 end # module NamedTupleTools
