@@ -3,13 +3,13 @@
 
 This module provides some useful NamedTuple tooling.
 
-@ref(tuplenames), @ref(fieldnames), @ref(values)
+@ref(tuplenames), @ref(fieldnames), @ref(keys), @ref(values)
 """
 module NamedTupleTools
 
 export tuplenames, isprototype
 
-import Base: fieldnames, values
+import Base: fieldnames, keys, values
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -32,6 +32,15 @@ Retrieve the names as a tuple of symbols.
 """
 fieldnames(::Type{T}) where {T<:NamedTuple} = Base._nt_names(T)
 fieldnames(nt::T) where {T<:NamedTuple} = Base._nt_names(T)
+
+"""
+    keys( ntprototype )
+    keys( namedtuple  )
+
+Retrieve the names as a tuple of symbols.
+"""
+keys(::Type{T}) where {T<:NamedTuple} = Base._nt_names(T)
+# keys(namedtuple) already defined
 
 """
     values( namedtuple )
