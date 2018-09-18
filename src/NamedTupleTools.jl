@@ -81,6 +81,7 @@ remove(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2
     tuplenames((Base.symdiff(N1,N2)...,))
 
 Base.merge(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
-    tuplenames((union(fieldnames(T1),fieldnames(T2))...,))
+    tuplenames((unique((N1..., N2...,))...,))
+
 
 end # module NamedTupleTools
