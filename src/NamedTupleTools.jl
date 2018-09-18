@@ -60,10 +60,11 @@ isprototype(::Type{T}) where {T<:NamedTuple} = true
 isprototype(nt::T) where {T<:NamedTuple} = false
 
 """
-   remove(namedtuple1, namedtuple2)
-   remove(ntprototype, namedtuple2)
-   remove(namedtuple1, ntprototype)
-   remove(ntprototype1, ntprototype2)
+   remove(namedtuple, namedtuple2)
+   remove(namedtuple, symbol)
+   remove(namedtuple, (symbols))
+   remove(namedtuple, symbols...)
+   remove(ntprototype, ntprototype2)
 
 Generate a namedtuple [ntprototype] from the first arg omitting fields present in the second arg.
 """
