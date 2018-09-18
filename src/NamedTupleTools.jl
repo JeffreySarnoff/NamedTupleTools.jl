@@ -9,7 +9,7 @@ module NamedTupleTools
 
 export tuplenames, remove, isprototype
 
-import Base: fieldnames, keys, values
+import Base: fieldnames, keys, values, merge
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -79,5 +79,8 @@ remove(::Type{T}, b::NTuple{N,Symbol}) where {N,T<:NamedTuple} = Base.structdiff
 remove(::Type{T}, bs:Vararg{Symbol}) where {N,T<:NamedTuple} = Base.structdiff(a, tuplenames(bs))
 remove(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
     tuplenames((Base.symdiff(N1,N2)...,))
+
+Base.merge(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
+    tuplenames((union(fieldnames(T1),fieldnames(T2))...,))
 
 end # module NamedTupleTools
