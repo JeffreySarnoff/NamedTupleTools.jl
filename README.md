@@ -1,6 +1,14 @@
 # NamedTupleTools.jl
 ### Some NamedTuple utilities
 
+
+#### Copyright © 2015-2018 by Jeffrey Sarnoff. This work is released under The MIT License.
+
+-----
+
+
+[![Build Status](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl)
+
 -----
 
 ## Use
