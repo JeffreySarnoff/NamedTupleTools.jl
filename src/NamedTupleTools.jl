@@ -7,7 +7,7 @@ This module provides some useful NamedTuple tooling.
 """
 module NamedTupleTools
 
-export tuplenames
+export tuplenames, isprototype
 
 import Base: fieldnames, values
 
@@ -39,5 +39,15 @@ fieldnames(nt::T) where {T<:NamedTuple} = Base._nt_names(T)
 Retrieve the values as a tuple.
 """
 values(::Type{T}) where {T<:NamedTuple} = ()
+# values(nt::NamedTuple) is already defined
+
+"""
+    isprototype( ntprototype )
+    isprototype( namedtuple  )
+
+Predicate that identifies NamedTuple prototypes.
+"""
+isprototype(::Type{T}) where {T<:NamedTuple} = true
+isprototype(nt::T) where {T<:NamedTuple} = false
 
 end # module NamedTupleTools
