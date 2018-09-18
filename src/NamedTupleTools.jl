@@ -1,22 +1,39 @@
 """
      NamedTupleTools
 
-This module provides some useful aspecting of NamedTuples.
+This module provides some useful NamedTuple tooling.
 
-@ref(names), @ref(values)
+@ref(ntproto), @ref(ntnames), @ref(ntvalues)
 """
 module NamedTupleTools
 
-export ako,
-       nt_names, nt_values, nt_namesvalues,
-       NT_names, NT_values, NT_namesvalues,
+export ntproto, ntnames, ntvalues
 
-const SINT = Union{ Int8,  Int16,  Int32,  Int64}
-const UINT = Union{UInt8, UInt16, UInt32, UInt64}
-const SIUI = Union{SINT, UINT}
+"""
+    ntproto(  name1, name2, ..  )
+    ntproto( (name1, name2, ..) )
 
-include("kinds.jl")
-include("parts.jl")
-include("wholes.jl")
+Generate a NamedTuple prototype by specifying the field names.
+The prototype is applied to field values, giving a completed NamedTuple.
+"""
+ntproto(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
+ntproto(names::Vararg{Symbol}) = NamedTuple{names}
+
+"""
+    ntnames( ntprototype )
+    ntnames( namedtuple  )
+
+Retrieve the names as a tuple of symbols.
+"""
+ntnames(::Type{T}) where {T<:NamedTuple} = Base._nt_names(T)
+ntnames(nt::T) where {T<:NamedTuple} = Base._nt_names(T)
+
+"""
+    ntvalues( namedtuple )
+
+Retrieve the values as a tuple.
+"""
+ntvalues(::Type{T}) where {T<:NamedTuple} = ()
+ntvalues(nt::T) where {T<:NamedTuple} = Base.values(nt)
 
 end # module NamedTupleTools
