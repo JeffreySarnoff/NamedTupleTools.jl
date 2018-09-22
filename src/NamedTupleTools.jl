@@ -8,7 +8,7 @@ see [`tuplenames`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref),
 """
 module NamedTupleTools
 
-export tuplenames, isprototype
+export setfieldnames, isprototype
 
 import Base: fieldnames, keys, values, delete!, merge
 
@@ -27,6 +27,8 @@ see: [`isprototype`](@ref)
 """
 tuplenames(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
 tuplenames(names::Vararg{Symbol}) = NamedTuple{names}
+tuplenames(names::NTuple{N,String}) where {N}  = tuplenames(Symbol.(names))
+tuplenames(names::Vararg{String}) = tuplenames(Symbol.(names))
 tuplenames(nt::T) where {T<:NamedTuple} = tuplenames(fieldnames(nt))
 
 """
