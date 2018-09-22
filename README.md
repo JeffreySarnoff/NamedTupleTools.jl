@@ -11,6 +11,11 @@
 
 -----
 
+## Overview
+
+`NamedTuples` are built from fieldnames, given as `Symbols` and field values, as they may be given.
+These utilities make some uses of `NamedTuples` a little more straightforward.  
+
 ## Use
 ```julia
 using NamedTupleTools
