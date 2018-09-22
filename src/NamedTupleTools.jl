@@ -4,13 +4,13 @@
 This module provides some useful NamedTuple tooling.
 
 see [`tuplenames`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref),
-    [`values`](@ref), [`delete!`](@ref), [`merge`](@ref)
+    [`values`](@ref), [`valtype`](@ref), [`delete!`](@ref), [`merge`](@ref)
 """
 module NamedTupleTools
 
 export tuplenames, isprototype
 
-import Base: fieldnames, keys, values, delete!, merge
+import Base: fieldnames, keys, values, delete!, merge, valtype
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -64,6 +64,13 @@ values(::Type{T}) where {T<:NamedTuple} = ()
 # values(nt::NamedTuple) is already defined
 
 """
+    valtype( namedtuple )
+
+Retrieve the values' types as a tuple.
+"""
+valtype(::Type{NamedTuple{N,T}}) where {N,T} = T
+
+"""
     isprototype( ntprototype )
     isprototype( namedtuple  )
 
@@ -71,7 +78,7 @@ Predicate that identifies NamedTuple prototypes.
 
 see: [`tuplenames`](@ref)
 """
-isprototype(::Type{T}) where {T<:NamedTuple} = true
+isprototype(::Type{T}) where {T<:NamedTuple} = valtype(T) === Any
 isprototype(nt::T) where {T<:NamedTuple} = false
 
 """
