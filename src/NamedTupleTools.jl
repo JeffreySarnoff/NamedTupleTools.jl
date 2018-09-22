@@ -8,7 +8,7 @@ see [`tuplenames`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref),
 """
 module NamedTupleTools
 
-export setfieldnames, isprototype
+export tuplenames, isprototype
 
 import Base: fieldnames, keys, values, delete!, merge
 
