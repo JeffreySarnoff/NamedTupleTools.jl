@@ -16,24 +16,38 @@
 `NamedTuples` are built from fieldnames, given as `Symbols` and field values, as they may be given.
 These utilities make some uses of `NamedTuples` a little more straightforward.  
 
+### namedtuple
+
+```
+```
+
 ## Use
 ```julia
 using NamedTupleTools
 
-ntproto1 = tuplenames(:a, :b, :c, :d)
-ntproto2 = tuplenames(:a, :b)
+    namedtuple(  name1, name2, ..  )
+    namedtuple( (name1, name2, ..) )
+       where the `names` are all `Symbols` or all `Strings`
 
-nt1 = ntproto1(1, 2, 3, 4)   # (a = 1, b = 2, c = 3, d = 4)
-nt2 = ntproto2("one", "two") # (a = "one", b = "two")
+Generate a NamedTuple prototype by specifying or obtaining the fieldnames.
+The prototype is applied to fieldvalues, giving a completed NamedTuple.
 
-isprototype(ntproto1) # true
-isprototype(nt1) # false
+julia> ntprototype = namedtuple( :a, :b, :c )
+NamedTuple{(:a, :b, :c),T} where T<:Tuple
+julia> nt123 = ntprototype(1, 2, 3)
+(a = 1, b = 2, c = 3)
+julia> ntAb3 = ntprototype("A", "b", 3)
+(a = "A", b = "b", c = 3)
 
-ntproto2(nt1) # (a = 1, b = 2)
+isprototype(ntprototype) # true
+isprototype(nt123) # false
 
-delete!(nt1, :a) # (b = 2, c = 3, d = 4)
-delete!(nt1, :a, :c) == delete!(nt1, (:a, :c)) # (b = 2, d = 4)
-delete!(ntproto1, (:b, :c)) # prototype: NamedTuple{(:a, :d),T} where T<:Tuple
 
-merge(nt1, nt2) # (a = "one", b = "two", c = 3, d = 4)
+delete!(nt123, :a) # (b = 2, c = 3)
+delete!(nt123, :a, :c) == delete!(nt123, (:a, :c)) # (b = 2,)
+delete!(ntprototype, :b) == namedtuple(:a, :c)
+
+nt1 = (a = 1, b = 2, c = 3, d = 4)
+nt2 = (a = "one", c = 3.0)
+merge(nt1, nt2) # (a = "one", b = 2, c = 3.0, d = 4)
 ```
