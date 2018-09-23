@@ -8,7 +8,7 @@ see [`tuplenames`](@ref), [`isprototype`](@ref), [`fieldname`](@ref), [`values`]
 """
 module NamedTupleTools
 
-export tuplenames, valtypes, isprototype
+export namedtuple, valtypes, isprototype
 
 import Base: length, fieldnames, keys, values, delete!, merge, valtype
 
@@ -20,20 +20,20 @@ length(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
 length(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
 
 """
-    tuplenames(  name1, name2, ..  )
-    tuplenames( (name1, name2, ..) )
-    tuplenames(  namedtuple )
+    namedtuple(  name1, name2, ..  )
+    namedtuple( (name1, name2, ..) )
+    namedtuple(  namedtuple )
 
 Generate a NamedTuple prototype by specifying or obtaining the fieldnames.
 The prototype is applied to fieldvalues, giving a completed NamedTuple.
 
 see: [`isprototype`](@ref)
 """
-tuplenames(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
-tuplenames(names::Vararg{Symbol}) = NamedTuple{names}
-tuplenames(names::NTuple{N,String}) where {N}  = tuplenames(Symbol.(names))
-tuplenames(names::Vararg{String}) = tuplenames(Symbol.(names))
-tuplenames(nt::T) where {T<:NamedTuple} = tuplenames(fieldnames(nt))
+namedtuple(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
+namedtuple(names::Vararg{Symbol}) = NamedTuple{names}
+namedtuple(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
+namedtuple(names::Vararg{String}) = namedtuple(Symbol.(names))
+namedtuple(nt::T) where {T<:NamedTuple} = namedtuple(fieldnames(nt))
 
 """
     fieldname( ntprototype, index )
@@ -57,6 +57,8 @@ values(::Type{T}) where {T<:NamedTuple} = ()
     valtype( namedtuple )
 
 Retrieve the values' types as a typeof(tuple).
+
+see: [`valtypes`](@ref)
 """
 valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
 valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
@@ -67,6 +69,8 @@ valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} 
     valtypes( typeof(namedtuple) )
 
 Retrieve the values' types as a tuple.
+
+see: [`valtype`](@ref)
 """
 valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2].parameters)
 valtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
@@ -79,7 +83,7 @@ valtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}}
 
 Predicate that identifies NamedTuple prototypes.
 
-see: [`tuplenames`](@ref)
+see: [`namedtuple`](@ref)
 """
 isprototype(::Type{T}) where {T<:NamedTuple} = eltype(T) === Any
 isprototype(nt::T) where {T<:NamedTuple} = false
