@@ -3,17 +3,20 @@
 
 This module provides some useful NamedTuple tooling.
 
-see [`tuplenames`](@ref), [`isprototype`](@ref), [`fieldname`](@ref),
-    [`values`](@ref), [`valtype`](@ref), [`delete!`](@ref), [`merge`](@ref)
+see [`tuplenames`](@ref), [`isprototype`](@ref), [`fieldname`](@ref), [`values`](@ref)
+    [`valuetype`](@ref), [`valtypes`](@ref), [`delete!`](@ref), [`merge`](@ref)
 """
 module NamedTupleTools
 
-export tuplenames, isprototype
+export tuplenames, valtypes, isprototype
 
-import Base: fieldnames, keys, values, delete!, merge, valtype
+import Base: length, fieldnames, keys, values, delete!, merge, valtype
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
+
+length(::Type{T}) where {T<:Tuple} = length(T.parameters)
+length(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
 
 """
     tuplenames(  name1, name2, ..  )
@@ -52,11 +55,21 @@ values(::Type{T}) where {T<:NamedTuple} = ()
 """
     valtype( namedtuple )
 
-Retrieve the values' types as a tuple.
+Retrieve the values' types as a typeof(tuple).
 """
 valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
-valtype(::Type{T}) where {S, A<:Tuple, T<:Union{NamedTuple{S},NamedTuple{S,A}}} =
+valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
     typeof(T) === UnionAll ? Tuple : T.parameters[2]
+
+"""
+    valtypes( namedtuple )
+    valtypes( typeof(namedtuple) )
+
+Retrieve the values' types as a tuple.
+"""
+valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(valtype(x))
+valtypes(::Type{T}) where {N,S, T<:NamedTuple{N,S}} = Tuple(valtype(x))
+
 
 """
     isprototype( ntprototype )
