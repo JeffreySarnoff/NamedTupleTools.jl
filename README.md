@@ -56,9 +56,9 @@ true
 julia> delete!(ntproto, :b) === namedtuple(:a, :c)
 true
 
-julia> nt1 = (a = 1, b = 2, c = 3, d = 4);
-julia> nt2 = (a = "one", c = 3.0);
+julia> ntproto1 = namedtuple(:a, :b);
+julia> ntproto2 = namedtuple(:b, :c);
 
-julia> merge(nt1, nt2) === (a = "one", b = 2, c = 3.0, d = 4)
-true
+julia> merge(ntproto1,ntproto2)
+NamedTuple{(:a, :b, :c),T} where T<:Tuple
 ```
