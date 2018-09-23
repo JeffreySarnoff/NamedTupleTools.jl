@@ -3,14 +3,14 @@
 
 This module provides some useful NamedTuple tooling.
 
-see [`tuplenames`](@ref), [`isprototype`](@ref), [`fieldname`](@ref), [`values`](@ref)
-    [`valuetype`](@ref), [`valtypes`](@ref), [`delete!`](@ref), [`merge`](@ref)
+see [`namedtuple`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref), [`fieldname`](@ref), 
+    [`keys`](@ref), [`values`](@ref), [`valtypes`](@ref), [`delete!`](@ref), [`merge`](@ref)
 """
 module NamedTupleTools
 
 export namedtuple, valtypes, isprototype
 
-import Base: length, fieldnames, keys, values, delete!, merge, valtype
+import Base: length, values, delete!, merge, valtype
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -51,26 +51,6 @@ namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T, nm8::T, nm9::
     NamedTuple{(nm1,nm2,nm3,nm4,nm5,nm6,nm7,nm8,nm9)}
 namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T, nm8::T, nm9::T, nm10::T) where T<:Symbol =
     NamedTuple{(nm1,nm2,nm3,nm4,nm5,nm6,nm7,nm8,nm9,nm10)}
-
-
-
-"""
-    fieldname( ntprototype, index )
-    fieldname( typeof(namedtuple), index)
-
-Retrieve the name of the indexed field (a symbol).
-"""
-fieldname(::Type{T}, i::Integer) where {T<:NamedTuple} = fieldnames(T)[i]
-
-"""
-    values( namedtuple )
-
-Retrieve the values as a tuple.
-
-see: [`fieldnames`](@ref) or [`keys`](@ref)
-"""
-values(::Type{T}) where {T<:NamedTuple} = ()
-# values(nt::NamedTuple) is already defined
 
 """
     valtype( namedtuple )
