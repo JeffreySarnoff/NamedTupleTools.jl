@@ -110,13 +110,13 @@ Generate a namedtuple [ntprototype] from the first arg omitting fields present i
 
 see: [`merge`](@ref)
 """
-delete!(a::NamedTuple, b::Symbol) = Base.structdiff(a, tuplenames(b))
-delete!(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, tuplenames(b))
-delete!(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, tuplenames(bs))
+delete!(a::NamedTuple, b::Symbol) = Base.structdiff(a, namedtuple(b))
+delete!(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, namedtuple(b))
+delete!(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
 
-delete!(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = tuplenames((Base.setdiff(S,(b,))...,))
-delete!(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = tuplenames((Base.setdiff(S,b)...,))
-delete!(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = tuplenames((Base.setdiff(S,bs)...,))
+delete!(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,(b,))...,))
+delete!(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,b)...,))
+delete!(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
 
 """
     merge(namedtuple1, namedtuple2)
@@ -128,7 +128,7 @@ Generate a namedtuple with all fieldnames and values of namedtuple2
 see: [`delete!`](@ref)
 """
 merge(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
-    tuplenames((unique((N1..., N2...,))...,))
+    namedtuple((unique((N1..., N2...,))...,))
 # merge(nt1::T1, nt2::T2) where {T1<:NamedTuple, T2<:NamedTuple} is already defined
 
 end # module NamedTupleTools
