@@ -34,6 +34,26 @@ namedtuple(names::Vararg{Symbol}) = NamedTuple{names}
 namedtuple(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
 namedtuple(names::Vararg{String}) = namedtuple(Symbol.(names))
 namedtuple(nt::T) where {T<:NamedTuple} = namedtuple(fieldnames(nt))
+# for speed
+namedtuple(nm1::T) where T<:Symbol = NamedTuple{(nm1,)}
+namedtuple(nm1::T, nm2::T) where T<:Symbol = NamedTuple{(nm1,nm2)}
+namedtuple(nm1::T, nm2::T, nm3::T) where T<:Symbol = NamedTuple{(nm1,nm2,nm3)}
+namedtuple(nm1::T, nm2::T, nm3::T) where T<:Symbol = NamedTuple{(nm1,nm2,nm3)}
+namedtuple(nm1::T, nm2::T, nm3::T, nm4::T) where T<:Symbol = NamedTuple{(nm1,nm2,nm3,nm4)}
+namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T) where T<:Symbol =
+    NamedTuple{(nm1,nm2,nm3,nm4,nm5)}
+namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T) where T<:Symbol =
+    NamedTuple{(nm1,nm2,nm3,nm4,nm5,nm6)}
+namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T) where T<:Symbol =
+    NamedTuple{(nm1,nm2,nm3,nm4,nm5,nm6,nm7)}
+namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T, nm8::T) where T<:Symbol =
+    NamedTuple{(nm1,nm2,nm3,nm4,nm5,nm6,nm7,nm8)}
+namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T, nm8::T, nm9::T) where T<:Symbol =
+    NamedTuple{(nm1,nm2,nm3,nm4,nm5,nm6,nm7,nm8,nm9)}
+namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T, nm8::T, nm9::T, nm10::T) where T<:Symbol =
+    NamedTuple{(nm1,nm2,nm3,nm4,nm5,nm6,nm7,nm8,nm9,nm10)}
+
+
 
 """
     fieldname( ntprototype, index )
