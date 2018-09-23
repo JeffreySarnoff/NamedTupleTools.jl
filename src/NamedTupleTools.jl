@@ -60,7 +60,7 @@ Retrieve the values' types as a typeof(tuple).
 """
 valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
 valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-    typeof(T) === UnionAll ? Tuple : T.parameters[2]
+    typeof(T) === UnionAll ? NTuple{length(N),Any} : T.parameters[2]
 
 """
     valtypes( namedtuple )
@@ -68,8 +68,9 @@ valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} 
 
 Retrieve the values' types as a tuple.
 """
-valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(S.parameters)
-valtypes(::Type{T}) where {N,S, T<:NamedTuple{N,S}} = Tuple(S.parameters)
+valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(valtype(T))
+valtypes(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
+    Tuple(valtype(T).parameters)
 
 """
     isprototype( ntprototype )
