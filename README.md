@@ -46,11 +46,12 @@ isprototype(ntprototype) # true
 isprototype(nt123) # false
 
 
-delete!(nt123, :a) # (b = 2, c = 3)
-delete!(nt123, :a, :c) == delete!(nt123, (:a, :c)) # (b = 2,)
-delete!(ntprototype, :b) == namedtuple(:a, :c)
+delete!(nt123, :a) === (b = 2, c = 3)
+delete!(nt123, :a, :c) === delete!(nt123, (:a, :c)) === (b = 2,)
+delete!(ntprototype, :b) === namedtuple(:a, :c)
 
-nt1 = (a = 1, b = 2, c = 3, d = 4)
-nt2 = (a = "one", c = 3.0)
-merge(nt1, nt2) # (a = "one", b = 2, c = 3.0, d = 4)
+nt1 = (a = 1, b = 2, c = 3, d = 4);
+nt2 = (a = "one", c = 3.0);
+
+merge(nt1, nt2) === (a = "one", b = 2, c = 3.0, d = 4)
 ```
