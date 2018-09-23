@@ -1,8 +1,8 @@
 using NamedTupleTools
 using Test
 
-ntproto1 = tuplenames(:a, :b, :c, :d)
-ntproto2 = tuplenames(:a, :b)
+ntproto1 = namedtuple(:a, :b, :c, :d)
+ntproto2 = namedtuple(:a, :b)
 
 @test ntproto1 == NamedTuple{(:a, :b, :c, :d),T} where T<:Tuple
 
