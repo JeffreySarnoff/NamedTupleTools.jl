@@ -68,7 +68,7 @@ valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} 
 
 Retrieve the values' types as a tuple.
 """
-valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(valtype(T))
+valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2])
 valtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
        typeof(T) === UnionAll ? Tuple((NTuple{length(N),Any}).parameters) :
                                 Tuple(T.parameters[2].parameters)
