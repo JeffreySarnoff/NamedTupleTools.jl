@@ -68,9 +68,8 @@ valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} 
 
 Retrieve the values' types as a tuple.
 """
-valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(valtype(x))
-valtypes(::Type{T}) where {N,S, T<:NamedTuple{N,S}} = Tuple(valtype(x))
-
+valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(S.parameters)
+valtypes(::Type{T}) where {N,S, T<:NamedTuple{N,S}} = Tuple(S.parameters)
 
 """
     isprototype( ntprototype )
