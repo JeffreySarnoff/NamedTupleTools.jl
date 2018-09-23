@@ -17,6 +17,7 @@ Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
 length(::Type{T}) where {T<:Tuple} = length(T.parameters)
 length(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
+length(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
 
 """
     tuplenames(  name1, name2, ..  )
