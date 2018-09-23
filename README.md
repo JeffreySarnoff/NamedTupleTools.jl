@@ -42,16 +42,23 @@ julia> nt123 = ntproto(1, 2, 3)
 julia> ntAb3 = ntproto("A", "b", 3)
 (a = "A", b = "b", c = 3)
 
-isprototype(ntprototype) # true
-isprototype(nt123) # false
+julia> isprototype(ntprototype)
+true
+
+julia> isprototype(nt123)
+false
 
 
-delete!(nt123, :a) === (b = 2, c = 3)
-delete!(nt123, :a, :c) === delete!(nt123, (:a, :c)) === (b = 2,)
-delete!(ntprototype, :b) === namedtuple(:a, :c)
+julia> delete!(nt123, :a) === (b = 2, c = 3)
+true
+julia> delete!(nt123, :a, :c) === delete!(nt123, (:a, :c)) === (b = 2,)
+true
+julia> delete!(ntprototype, :b) === namedtuple(:a, :c)
+true
 
-nt1 = (a = 1, b = 2, c = 3, d = 4);
-nt2 = (a = "one", c = 3.0);
+julia> nt1 = (a = 1, b = 2, c = 3, d = 4);
+julia> nt2 = (a = "one", c = 3.0);
 
-merge(nt1, nt2) === (a = "one", b = 2, c = 3.0, d = 4)
+julia> merge(nt1, nt2) === (a = "one", b = 2, c = 3.0, d = 4)
+true
 ```
