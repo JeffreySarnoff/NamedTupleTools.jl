@@ -47,6 +47,9 @@ namedtuple(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
 namedtuple(names::Vararg{Symbol}) = NamedTuple{names}
 namedtuple(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
 namedtuple(names::Vararg{String}) = namedtuple(Symbol.(names))
+namedtuple(names::T) where {T<:AbstractVector{Symbol}} = namedtuple(names...,)
+namedtuple(names::T) where {T<:AbstractVector{String}} = namedtuple(Symbol.(names))
+
 namedtuple(nt::T) where {N,V,T<:NamedTuple{N,V}} = NamedTuple{N}
 # for speed
 namedtuple(nm1::T) where T<:Symbol = NamedTuple{(nm1,)}
