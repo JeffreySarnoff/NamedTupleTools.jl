@@ -3,14 +3,14 @@
 
 This module provides some useful NamedTuple tooling.
 
-see [`tuplenames`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref),
-    [`values`](@ref), [`eltype`](@ref), [`delete!`](@ref), [`merge`](@ref)
+see [`tuplenames`](@ref), [`isprototype`](@ref), [`fieldname`](@ref),
+    [`values`](@ref), [`valtype`](@ref), [`delete!`](@ref), [`merge`](@ref)
 """
 module NamedTupleTools
 
 export tuplenames, isprototype
 
-import Base: fieldnames, keys, values, delete!, merge, eltype
+import Base: fieldnames, keys, values, delete!, merge, valtype
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -32,26 +32,12 @@ tuplenames(names::Vararg{String}) = tuplenames(Symbol.(names))
 tuplenames(nt::T) where {T<:NamedTuple} = tuplenames(fieldnames(nt))
 
 """
-    fieldnames( ntprototype )
-    fieldnames( namedtuple  )
+    fieldname( ntprototype, index )
+    fieldname( typeof(namedtuple), index)
 
-Retrieve the names as a tuple of symbols.
-
-`keys` does the same thing
+Retrieve the name of the indexed field (a symbol).
 """
-fieldnames(::Type{T}) where {T<:NamedTuple} = Base._nt_names(T)
-fieldnames(nt::T) where {T<:NamedTuple} = Base._nt_names(T)
-
-"""
-    keys( ntprototype )
-    keys( namedtuple  )
-
-Retrieve the names as a tuple of symbols.
-
-`fieldnames` does the same thing
-"""
-keys(::Type{T}) where {T<:NamedTuple} = Base._nt_names(T)
-# keys(namedtuple) already defined
+fieldname(::Type{T}, i::Integer) where {T<:NamedTuple} = fieldnames(T)[i]
 
 """
     values( namedtuple )
@@ -64,11 +50,13 @@ values(::Type{T}) where {T<:NamedTuple} = ()
 # values(nt::NamedTuple) is already defined
 
 """
-    eltype( namedtuple )
+    valtype( namedtuple )
 
 Retrieve the values' types as a tuple.
 """
-eltype(::Type{NamedTuple{N,T}}) where {N,T} = T
+valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
+valtype(::Type{T}) where {S, A<:Tuple, T<:Union{NamedTuple{S},NamedTuple{S,A}}} =
+    typeof(T) === UnionAll ? Tuple : T.parameters[2]
 
 """
     isprototype( ntprototype )
