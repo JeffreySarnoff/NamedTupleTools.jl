@@ -38,7 +38,6 @@ namedtuple(nt::T) where {N,V,T<:NamedTuple{N,V}} = NamedTuple{N}
 namedtuple(nm1::T) where T<:Symbol = NamedTuple{(nm1,)}
 namedtuple(nm1::T, nm2::T) where T<:Symbol = NamedTuple{(nm1,nm2)}
 namedtuple(nm1::T, nm2::T, nm3::T) where T<:Symbol = NamedTuple{(nm1,nm2,nm3)}
-namedtuple(nm1::T, nm2::T, nm3::T) where T<:Symbol = NamedTuple{(nm1,nm2,nm3)}
 namedtuple(nm1::T, nm2::T, nm3::T, nm4::T) where T<:Symbol = NamedTuple{(nm1,nm2,nm3,nm4)}
 namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T) where T<:Symbol =
     NamedTuple{(nm1,nm2,nm3,nm4,nm5)}
