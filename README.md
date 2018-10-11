@@ -49,11 +49,11 @@ julia> isprototype(nt123)
 false
 
 
-julia> delete!(nt123, :a) === (b = 2, c = 3)
+julia> delete(nt123, :a) === (b = 2, c = 3)
 true
-julia> delete!(nt123, :a, :c) === delete!(nt123, (:a, :c)) === (b = 2,)
+julia> delete(nt123, :a, :c) === delete(nt123, (:a, :c)) === (b = 2,)
 true
-julia> delete!(ntproto, :b) === namedtuple(:a, :c)
+julia> delete(ntproto, :b) === namedtuple(:a, :c)
 true
 
 julia> ntproto1 = namedtuple(:a, :b);
