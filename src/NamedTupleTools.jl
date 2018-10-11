@@ -4,13 +4,13 @@
 This module provides some useful NamedTuple tooling.
 
 see [`namedtuple`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref), [`fieldname`](@ref), 
-    [`keys`](@ref), [`values`](@ref), [`valtypes`](@ref), [`delete!`](@ref), [`merge`](@ref)
+    [`keys`](@ref), [`values`](@ref), [`valtypes`](@ref), [`delete`](@ref), [`merge`](@ref)
 """
 module NamedTupleTools
 
-export namedtuple, valtypes, isprototype
+export namedtuple, valtypes, isprototype, delete
 
-import Base: length, values, delete!, merge, valtype
+import Base: length, values, merge, valtype
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -106,20 +106,20 @@ isprototype(nt::T) where {T<:NamedTuple} = false
 isprototype(::Type{UnionAll}) = false
 
 """
-   delete!(namedtuple, symbol(s)|Tuple)
-   delete!(ntprototype, symbol(s)|Tuple)
+   delete(namedtuple, symbol(s)|Tuple)
+   delete(ntprototype, symbol(s)|Tuple)
    
 Generate a namedtuple [ntprototype] from the first arg omitting fields present in the second arg.
 
 see: [`merge`](@ref)
 """
-delete!(a::NamedTuple, b::Symbol) = Base.structdiff(a, namedtuple(b))
-delete!(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, namedtuple(b))
-delete!(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
+delete(a::NamedTuple, b::Symbol) = Base.structdiff(a, namedtuple(b))
+delete(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, namedtuple(b))
+delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
 
-delete!(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,(b,))...,))
-delete!(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,b)...,))
-delete!(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
+delete(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,(b,))...,))
+delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,b)...,))
+delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
 
 """
     merge(namedtuple1, namedtuple2)
