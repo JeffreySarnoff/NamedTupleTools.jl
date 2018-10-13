@@ -123,6 +123,7 @@ delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple(
 
 """
     merge(namedtuple1, namedtuple2)
+    merge(nt1, nt2, nt3, ..)
 
 Generate a namedtuple with all fieldnames and values of namedtuple2
     and every fieldname of namedtuple1 that does not occur in namedtuple2
@@ -134,4 +135,5 @@ merge(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}
     namedtuple((unique((N1..., N2...,))...,))
 # merge(nt1::T1, nt2::T2) where {T1<:NamedTuple, T2<:NamedTuple} is already defined
 
+merge(
 end # module NamedTupleTools
