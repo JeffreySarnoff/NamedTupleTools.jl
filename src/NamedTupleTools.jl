@@ -135,5 +135,6 @@ merge(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}
     namedtuple((unique((N1..., N2...,))...,))
 # merge(nt1::T1, nt2::T2) where {T1<:NamedTuple, T2<:NamedTuple} is already defined
 
-merge(
+# merge(
+
 end # module NamedTupleTools
