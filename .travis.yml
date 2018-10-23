@@ -6,6 +6,8 @@ os:
 julia:
   - 1.0
   - nightly
+git:
+  depth: 99999999  
 notifications:
   email: false
 #script: # the default script is equivalent to the following
