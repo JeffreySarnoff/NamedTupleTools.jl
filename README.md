@@ -16,7 +16,6 @@
 `NamedTuples` are built from fieldnames, given as `Symbols` and field values, as they may be given.
 These utilities make some uses of `NamedTuples` a little more straightforward.  
 
-
 ## Use
 ```julia
 using NamedTupleTools
@@ -61,4 +60,26 @@ julia> ntproto2 = namedtuple(:b, :c);
 
 julia> merge(ntproto1,ntproto2)
 NamedTuple{(:a, :b, :c),T} where T<:Tuple
+```
+
+## struct construction, conversion
+```
+using NamedTupleTools
+
+julia> struct MyStruct
+           tally::Int
+           team::String
+       end
+
+julia> mystruct = MyStruct(5, "hometeam")
+MyStruct(5, "hometeam")
+
+julia> mynamedtuple = NamedTuple(mystruct)
+(tally = 5, team = "hometeam")
+
+julia> mystructtuple = (tally = 18, team = "vistors")
+(tally = 18, team = "vistors")
+
+julia> myotherstruct = convert(MyStruct, mystructtuple)
+MyStruct(18, "vistors")
 ```
