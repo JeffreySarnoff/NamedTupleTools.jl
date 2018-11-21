@@ -10,7 +10,7 @@ module NamedTupleTools
 
 export namedtuple, valtypes, isprototype, delete, fieldvalues
 
-import Base: length, values, merge, valtype
+import Base: values, merge, valtype
 
 
 """
@@ -41,15 +41,14 @@ function Base.convert(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      return S(values...,)
 end
 
-function 
 
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
-length(::Type{T}) where {T<:Tuple} = length(T.parameters)
-length(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
-length(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
+Base.length(::Type{T}) where {T<:Tuple} = length(T.parameters)
+Base.length(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
+Base.length(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
 
 """
     namedtuple(  name1, name2, ..  )
