@@ -8,9 +8,41 @@ see [`namedtuple`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref), [`fieldna
 """
 module NamedTupleTools
 
-export namedtuple, valtypes, isprototype, delete
+export namedtuple, valtypes, isprototype, delete, fieldvalues
 
 import Base: length, values, merge, valtype
+
+
+"""
+    fieldvalues
+
+obtain values assigned to fields of a struct type
+(in field order)
+"""
+function fieldvalues(x::T) where {T}
+     !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
+     
+     return ((getfield(x, name) for name in fieldnames(T))...,)
+end
+
+function Base.NamedTuple(x::T) where {T}
+     !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
+     names = fieldnames(T)
+     values = fieldvalues(x)
+     return NamedTuple{names}(values)
+end
+
+function Base.convert(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
+     names = N
+     values = fieldvalues(x)
+     if fieldnames(S) != names
+          throw(ErrorException("fields in ($S) do not match ($x)"))
+     end
+     return S(values...,)
+end
+
+function 
+
 
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -152,5 +184,6 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
     reduce(merge,(a, b, c, d, e))
 merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}) where {an, bn, cn, dn, en, fn} =
     reduce(merge,(a, b, c, d, e, f))
+
 
 end # module NamedTupleTools
