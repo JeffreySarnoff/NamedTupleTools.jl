@@ -189,7 +189,8 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
 Base.NamedTuple(d::Dict{Symbol,T}) where {T} = (; d...)
 
 function Base.Dict(nt::NT) where {N,T,NT<:NamedTuple{N,T}}
-    Dict(zip(fieldnames(typeof(nt)), fieldvalues(nt)))
+    z = zip(fieldnames(typeof(nt)), fieldvalues(nt))
+    return Dict(z)
 end
 
 
