@@ -83,3 +83,18 @@ MyStruct(5, "hometeam")
 julia> mystruct == ntstruct
 true
 ```
+
+## Dict construction, conversion
+```julia
+julia> dict = Dict(:a=>1, :b=>2//11, :c=>"three")
+Dict{Symbol,Any} with 3 entries:
+  :a => 1
+  :b => 2//11
+  :c => "three"
+
+julia> nt = NamedTuple(dict)
+(a = 1, b = 2//11, c = "three")
+
+julia> Dict(nt) == dict
+true
+```
