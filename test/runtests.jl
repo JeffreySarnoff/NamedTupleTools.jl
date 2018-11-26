@@ -35,3 +35,9 @@ nt = (tally=5, team="hometeam")
 ntstruct = structfromnt(MyStruct, nt)
 
 @test ntstruct == mystruct
+
+
+dict = Dict(:a=>1, :b=>2//11, :c=>"three")
+nt = NamedTuple(dict)
+
+@test Dict(nt) == dict
