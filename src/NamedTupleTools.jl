@@ -8,7 +8,7 @@ see [`namedtuple`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref), [`fieldna
 """
 module NamedTupleTools
 
-export namedtuple, valtypes, isprototype, delete, fieldvalues
+export namedtuple, valtypes, isprototype, delete, fieldvalues, ntfromstruct, structfromnt
 
 import Base: values, merge, valtype
 
@@ -25,14 +25,14 @@ function fieldvalues(x::T) where {T}
      return ((getfield(x, name) for name in fieldnames(T))...,)
 end
 
-function namedtuple(x::T) where {T}
+function ntfromstruct(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
      names = fieldnames(T)
      values = fieldvalues(x)
      return NamedTuple{names}(values)
 end
 
-function namedtuple(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
+function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      names = N
      values = fieldvalues(x)
      if fieldnames(S) != names
