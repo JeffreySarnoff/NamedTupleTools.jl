@@ -12,6 +12,9 @@ export namedtuple, valtypes, isprototype, delete, fieldvalues, ntfromstruct, str
 
 import Base: values, merge, valtype
 
+# accept comma delimited values
+#Base.
+NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
 """
     fieldvalues
