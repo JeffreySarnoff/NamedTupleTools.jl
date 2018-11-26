@@ -183,4 +183,10 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
     reduce(merge,(a, b, c, d, e, f))
 
 
+# conversions
+
+# from Alex Arslan
+Base.NamedTuple(d::Dict{Symbol,T}) where {T} = (; d...)
+
+
 end # module NamedTupleTools
