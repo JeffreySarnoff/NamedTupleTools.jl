@@ -46,9 +46,9 @@ end
 # accept comma delimited values
 Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
-Base.length(::Type{T}) where {T<:Tuple} = length(T.parameters)
-Base.length(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
-Base.length(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
+len(::Type{T}) where {T<:Tuple} = length(T.parameters)
+len(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
+len(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
 
 """
     namedtuple(  name1, name2, ..  )
@@ -109,7 +109,7 @@ see: [`valtypes`](@ref)
 """
 valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
 valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-    typeof(T) === UnionAll ? NTuple{length(N),Any} : T.parameters[2]
+    typeof(T) === UnionAll ? NTuple{len(N),Any} : T.parameters[2]
 
 """
     valtypes( namedtuple )
@@ -121,7 +121,7 @@ see: [`valtype`](@ref)
 """
 valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2].parameters)
 valtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-       typeof(T) === UnionAll ? Tuple((NTuple{length(N),Any}).parameters) :
+       typeof(T) === UnionAll ? Tuple((NTuple{len(N),Any}).parameters) :
                                 Tuple(T.parameters[2].parameters)
 
 """
