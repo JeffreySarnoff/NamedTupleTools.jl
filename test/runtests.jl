@@ -20,3 +20,17 @@ nt2 = ntproto2("one", "two")
 @test delete(ntproto1, (:b, :c)) === NamedTuple{(:a, :d),T} where T<:Tuple
 
 @test merge(nt1, nt2) === (a = "one", b  = "two", c = 3, d = 4)
+
+struct MyStruct
+    tally::Int
+    team::String
+end
+
+mystruct = MyStruct(5, "hometeam")
+mynamedtuple = ntfromstruct(mystruct)
+
+@test mynamedtuple == (tally = 5, team = "hometeam")
+
+myotherstruct = structfromnt(MyStruct, (tally=18, team="visitors"))
+
+@test myotherstruct == MyStruct(18, "vistors")
