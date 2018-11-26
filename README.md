@@ -74,12 +74,12 @@ julia> struct MyStruct
 julia> mystruct = MyStruct(5, "hometeam")
 MyStruct(5, "hometeam")
 
-julia> mynamedtuple = NamedTuple(mystruct)
+julia> mynamedtuple = namedtuple(mystruct)
 (tally = 5, team = "hometeam")
 
 julia> mystructtuple = (tally = 18, team = "vistors")
 (tally = 18, team = "vistors")
 
-julia> myotherstruct = convert(MyStruct, mystructtuple)
+julia> myotherstruct = namedtuple(MyStruct, mystructtuple)
 MyStruct(18, "vistors")
 ```
