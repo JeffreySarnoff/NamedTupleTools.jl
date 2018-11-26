@@ -31,6 +31,7 @@ mynamedtuple = ntfromstruct(mystruct)
 
 @test mynamedtuple == (tally = 5, team = "hometeam")
 
-myotherstruct = structfromnt(MyStruct, (tally=18, team="visitors"))
+nt = (tally=5, team="hometeam")
+ntstruct = structfromnt(MyStruct, nt)
 
-@test myotherstruct == MyStruct(18, "vistors")
+@test ntstruct == mystruct
