@@ -42,10 +42,6 @@ function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
 end
 
 
-
-# accept comma delimited values
-namedtuple{T}(xs...) where {T} = NamedTuple{T}(xs)
-
 len(::Type{T}) where {T<:Tuple} = length(T.parameters)
 len(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
 len(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
