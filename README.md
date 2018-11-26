@@ -77,6 +77,9 @@ MyStruct(5, "hometeam")
 julia> mynamedtuple = ntfromstruct(mystruct)
 (tally = 5, team = "hometeam")
 
-julia> myotherstruct = structfromnt(MyStruct, (tally = 18, team = "vistors"))
-MyStruct(18, "vistors")
+julia> ntstruct = structfromnt(MyStruct, mynamedtuple)
+MyStruct(5, "hometeam")
+
+julia> mystruct == ntstruct
+true
 ```
