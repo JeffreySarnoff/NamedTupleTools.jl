@@ -74,12 +74,9 @@ julia> struct MyStruct
 julia> mystruct = MyStruct(5, "hometeam")
 MyStruct(5, "hometeam")
 
-julia> mynamedtuple = namedtuple(mystruct)
+julia> mynamedtuple = ntfromstruct(mystruct)
 (tally = 5, team = "hometeam")
 
-julia> mystructtuple = (tally = 18, team = "vistors")
-(tally = 18, team = "vistors")
-
-julia> myotherstruct = namedtuple(MyStruct, mystructtuple)
+julia> myotherstruct = structfromnt(MyStruct, (tally = 18, team = "vistors"))
 MyStruct(18, "vistors")
 ```
