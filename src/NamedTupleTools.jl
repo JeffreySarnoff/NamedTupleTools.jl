@@ -25,14 +25,14 @@ function fieldvalues(x::T) where {T}
      return ((getfield(x, name) for name in fieldnames(T))...,)
 end
 
-function Base.NamedTuple(x::T) where {T}
+function namedtuple(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
      names = fieldnames(T)
      values = fieldvalues(x)
      return NamedTuple{names}(values)
 end
 
-function Base.convert(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
+function namedtuple(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      names = N
      values = fieldvalues(x)
      if fieldnames(S) != names
@@ -44,7 +44,7 @@ end
 
 
 # accept comma delimited values
-Base.NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
+namedtuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
 len(::Type{T}) where {T<:Tuple} = length(T.parameters)
 len(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
