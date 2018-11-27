@@ -58,6 +58,7 @@ true
 julia> ntproto1 = namedtuple(:a, :b);
 julia> ntproto2 = namedtuple(:b, :c);
 
+# merge supports merging 2..7 NamedTuples
 julia> merge(ntproto1,ntproto2)
 NamedTuple{(:a, :b, :c),T} where T<:Tuple
 ```
