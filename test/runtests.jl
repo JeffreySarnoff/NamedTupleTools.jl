@@ -41,3 +41,7 @@ dict = Dict(:a=>1, :b=>2//11, :c=>"three")
 nt = NamedTuple(dict)
 
 @test Dict(nt) == dict
+
+vec_pair = [:a => 1, :b => 2]
+nt = (a = 1, b = 2)
+@test namedtuple(vec_pair) == nt

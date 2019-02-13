@@ -197,5 +197,6 @@ function Base.Dict(nt::NT) where {N,T,NT<:NamedTuple{N,T}}
     return Dict(z)
 end
 
+namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
 
 end # module NamedTupleTools
