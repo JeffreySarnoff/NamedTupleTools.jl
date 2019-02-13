@@ -190,13 +190,20 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
 # conversions
 
 # from Alex Arslan
-Base.NamedTuple(d::Dict{Symbol,T}) where {T} = (; d...)
-
 function Base.Dict(nt::NT) where {N,T,NT<:NamedTuple{N,T}}
     z = zip(fieldnames(typeof(nt)), fieldvalues(nt))
     return Dict(z)
 end
+# and (now deprecated)
+Base.NamedTuple(d::Dict{Symbol,T}) where {T} = (; d...)
 
+# replaced with more efficient less type-piratey implementation
+namedtuple(dict::Dict{Symbol, T}) where {T} = NamedTuple{Tuple(keys(dict))}(values(dict))
+namedtuple(dict::Dict{Symbol, Any}) = NamedTuple{Tuple(keys(dict))}(values(dict))
+
+# additional constructors
+
+# from pdeffebach
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
 
 end # module NamedTupleTools
