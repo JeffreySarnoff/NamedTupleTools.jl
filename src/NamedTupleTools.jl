@@ -203,7 +203,7 @@ namedtuple(dict::Dict{Symbol, Any}) = NamedTuple{Tuple(keys(dict))}(values(dict)
 
 # additional constructors
 
-# from pdeffebach
+# from PR by pdeffebach
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
 
 end # module NamedTupleTools
