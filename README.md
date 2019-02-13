@@ -93,9 +93,20 @@ Dict{Symbol,Any} with 3 entries:
   :b => 2//11
   :c => "three"
 
-julia> nt = NamedTuple(dict)
+julia> nt = namedtuple(dict)
 (a = 1, b = 2//11, c = "three")
 
 julia> Dict(nt) == dict
 true
+```
+
+## Vector of Pairs
+```julia
+julia> vec = [:a => 1, :b => 2]
+2-element Array{Pair{Symbol,Int64},1}:
+ :a => 1
+ :b => 2
+
+julia> nt = namedtuple(vec)
+(a = 1, b = 2)
 ```
