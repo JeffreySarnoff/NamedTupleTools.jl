@@ -36,11 +36,15 @@ ntstruct = structfromnt(MyStruct, nt)
 
 @test ntstruct == mystruct
 
+v = [:a => 1, :b => 2]
+@test namedtuple(v) == NamedTuple{(:a, :b)}(1, 2)
+
 
 dict = Dict(:a=>1, :b=>2//11, :c=>"three")
 nt = NamedTuple(dict)
 
 @test Dict(nt) == dict
+@test namedtuple(dict) == nt
 
 vec_pair = [:a => 1, :b => 2]
 nt = (a = 1, b = 2)
