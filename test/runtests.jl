@@ -49,3 +49,6 @@ nt = NamedTuple(dict)
 vec_pair = [:a => 1, :b => 2]
 nt = (a = 1, b = 2)
 @test namedtuple(vec_pair) == nt
+
+a = 1; b = 2;
+@test @namedtuple(a, b) == nt
