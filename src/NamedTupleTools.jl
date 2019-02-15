@@ -8,7 +8,9 @@ see [`namedtuple`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref), [`fieldna
 """
 module NamedTupleTools
 
-export namedtuple, valtypes, isprototype, delete, fieldvalues, ntfromstruct, structfromnt
+export @namedtuple,
+       namedtuple,
+       valtypes, isprototype, delete, fieldvalues, ntfromstruct, structfromnt
 
 import Base: values, merge, valtype
 
