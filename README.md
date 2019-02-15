@@ -100,7 +100,7 @@ julia> Dict(nt) == dict
 true
 ```
 
-## Vector of Pairs
+## Vector of Pairs (pdeffebach)
 ```julia
 julia> vec = [:a => 1, :b => 2]
 2-element Array{Pair{Symbol,Int64},1}:
@@ -109,4 +109,13 @@ julia> vec = [:a => 1, :b => 2]
 
 julia> nt = namedtuple(vec)
 (a = 1, b = 2)
+```
+
+##  Defined Variables (Sebastian Pfitzner)
+```julia
+julia> a, b, c, d = 1, 1.0, 1//1, "one"
+(1, 1.0, 1//1, "one")
+julia> nt = @namedtuple(a, b, c, d)
+(a = 1, b = 1.0, c = 1//1, d = "one")
+
 ```
