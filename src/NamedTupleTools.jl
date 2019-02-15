@@ -197,6 +197,7 @@ end
 # and (now deprecated)
 Base.NamedTuple(d::Dict{Symbol,T}) where {T} = (; d...)
 
+
 # replaced with more efficient less type-piratey implementation
 namedtuple(dict::Dict{Symbol, T}) where {T} = NamedTuple{Tuple(keys(dict))}(values(dict))
 namedtuple(dict::Dict{Symbol, Any}) = NamedTuple{Tuple(keys(dict))}(values(dict))
@@ -205,5 +206,17 @@ namedtuple(dict::Dict{Symbol, Any}) = NamedTuple{Tuple(keys(dict))}(values(dict)
 
 # from PR by pdeffebach
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
+
+# from Sebastian Pfitzner (on Slack)
+macro namedtuple(vars...)
+   args = Any[]
+   for i in 1:length(vars)
+       push!(args, Expr(:(=), esc(vars[i]), :($(esc(vars[i])))))
+   end
+   expr = Expr(:tuple, args...)
+   return expr
+end
+
+
 
 end # module NamedTupleTools
