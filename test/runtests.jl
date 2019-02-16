@@ -36,8 +36,13 @@ ntstruct = structfromnt(MyStruct, nt)
 
 @test ntstruct == mystruct
 
+nt = NamedTuple{(:a, :b)}(1, 2)
+
 v = [:a => 1, :b => 2]
-@test namedtuple(v) == NamedTuple{(:a, :b)}(1, 2)
+@test namedtuple(v) == nt
+
+v = ["a" => 1, "b" => 2]
+@test namedtuple(v) == nt
 
 
 dict = Dict(:a=>1, :b=>2//11, :c=>"three")
