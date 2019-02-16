@@ -17,6 +17,12 @@ export @namedtuple,
 
 import Base: fieldnames, fieldtypes, valtype, values, merge
 
+if isdefined(:fieldtypes)
+     import Base: fieldtypes
+else
+     export fieldtypes
+end
+          
 # length(T), length(x::T) without type piracy
 lengthof(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
 lengthof(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
