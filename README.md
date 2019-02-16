@@ -14,9 +14,41 @@
 `NamedTuples` are built from fieldnames, given as `Symbols` and field values, as they may be given.
 These utilities make some uses of `NamedTuples` a little more straightforward.  
 
+## Selecting Elements
+```julia
+julia> using NamedTupleTools
+
+julia> nt = NamedTuple{(:a, :b)}(1.0, "two")
+(a = 1.0, b = "two")
+
+julia> typeof(nt) == NamedTuple{(:a, :b),Tuple{Float64,String}}
+true
+
+julia> fieldnames(nt) == (:a, :b)
+true
+
+julia> fieldtypes(nt) == (Float64, String)
+true
+
+julia> valtype(nt) == Tuple{Float64, String}
+true
+
+julia> fieldvalues(nt) == (1.0, "two")
+true
+```
+
 ## Use
 ```julia
 using NamedTupleTools
+
+nt = NamedTuple{(:a, :b)}(1.0, "two")
+typeof(nt)
+
+fieldnames(nt) == (:a, :b)
+fieldtypes(nt) == (Float64, String)
+valtype(nt) == Tuple{Float64, String}
+fieldtypes(nt) == (Float64, String)
+
 
 julia> namedtuple(:a, :b, :c)(1, 2.0, "three")
 (a = 1, b = 2.0, c = "three")
