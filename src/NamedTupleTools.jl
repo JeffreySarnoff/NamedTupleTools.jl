@@ -9,7 +9,10 @@ see [`namedtuple`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref), [`fieldna
 module NamedTupleTools
 
 export @namedtuple,
-       namedtuple,
+       namedtuple, isprototype,
+       fieldnames, fieldtypes, fieldvalues,
+       delete,
+       ntfromstruct, structfromnt
        valtypes, isprototype, delete, fieldvalues, ntfromstruct, structfromnt
 
 import Base: values, merge, valtype
@@ -204,6 +207,8 @@ namedtuple(dict::Dict{S, T}) where {S<:AbstractString, T} = NamedTuple{Tuple(Sym
 
 # from PR by pdeffebach
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
+# with names as strings
+namedtuple(v::Vector{<:Pair{<:String}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
 
 # from Sebastian Pfitzner (on Slack)
 macro namedtuple(vars...)
