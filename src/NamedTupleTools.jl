@@ -13,7 +13,6 @@ export @namedtuple,
        fieldnames, fieldtypes, fieldvalues,
        delete,
        ntfromstruct, structfromnt
-       valtypes, isprototype, delete, fieldvalues, ntfromstruct, structfromnt
 
 import Base: values, merge, valtype
 
@@ -115,15 +114,15 @@ valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} 
     typeof(T) === UnionAll ? NTuple{len(N),Any} : T.parameters[2]
 
 """
-    valtypes( namedtuple )
-    valtypes( typeof(namedtuple) )
+    fieldtypes( namedtuple )
+    fieldtypes( typeof(namedtuple) )
 
 Retrieve the values' types as a tuple.
 
 see: [`valtype`](@ref)
 """
-valtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2].parameters)
-valtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
+fieldtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2].parameters)
+fieldtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
        typeof(T) === UnionAll ? Tuple((NTuple{len(N),Any}).parameters) :
                                 Tuple(T.parameters[2].parameters)
 
