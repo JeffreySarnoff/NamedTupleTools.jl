@@ -6,7 +6,7 @@
 
 -----
 
-[![Build Status](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl)
+[![Build Status](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl)[![codecov](https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl)
 -----
 
 ## Overview
@@ -37,7 +37,7 @@ julia> fieldvalues(nt) == (1.0, "two")
 true
 ```
 
-## Use
+## Use NamedTuple prototypes
 ```julia
 using NamedTupleTools
 
