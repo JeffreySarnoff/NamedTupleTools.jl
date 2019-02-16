@@ -13,7 +13,7 @@ export @namedtuple,
        namedtuple, isprototype,
        fieldvalues,
        delete,
-       ntfromstruct, structfromnt
+       structfromnt
 
 import Base: fieldnames, valtype, values, merge
 
@@ -72,6 +72,7 @@ valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
 valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
     typeof(T) === UnionAll ? NTuple{lengthof(N),Any} : T.parameters[2]
 
+namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
