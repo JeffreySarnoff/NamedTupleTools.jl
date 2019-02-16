@@ -1,6 +1,13 @@
 using NamedTupleTools
 using Test
 
+nt = NamedTuple{(:a, :b)}(1.0, "two")
+
+@test fieldnames(nt) == (:a, :b)
+@test fieldtypes(nt) == (Float64, String)
+@test valtype(nt) == Tuple{Float64, String}
+@test fieldtypes(nt) == (Float64, String)
+
 ntproto1 = namedtuple(:a, :b, :c, :d)
 ntproto2 = namedtuple(:a, :b)
 
@@ -39,13 +46,10 @@ ntstruct = structfromnt(MyStruct, nt)
 
 v = [:a => 1, :b => 2]
 @test namedtuple(v) == NamedTuple{(:a, :b)}(1, 2)
-
 v = ["a" => 1, "b" => 2]
 @test namedtuple(v) == NamedTuple{(:a, :b)}(1, 2)
-
 v = [:b => 2, :a => 1]
 @test namedtuple(v) == NamedTuple{(:b, :a)}(2, 1)
-
 v = ["b" => 2, "a" => 1]
 @test namedtuple(v) == NamedTuple{(:b, :a)}(2, 1)
 
@@ -56,9 +60,6 @@ nt = NamedTuple(dict)
 @test Dict(nt) == dict
 @test namedtuple(dict) == nt
 
-vec_pair = [:a => 1, :b => 2]
 nt = (a = 1, b = 2)
-@test namedtuple(vec_pair) == nt
-
 a = 1; b = 2;
 @test @namedtuple(a, b) == nt
