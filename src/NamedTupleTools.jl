@@ -11,7 +11,7 @@ module NamedTupleTools
 
 export @namedtuple,
        namedtuple, isprototype,
-       fieldnames, fieldvalues,
+       fieldvalues,
        delete,
        ntfromstruct, structfromnt
 
