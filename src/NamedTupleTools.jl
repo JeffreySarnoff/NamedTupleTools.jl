@@ -198,13 +198,9 @@ function Base.Dict(nt::NT) where {N,T,NT<:NamedTuple{N,T}}
 end
 # and (now deprecated)
 Base.NamedTuple(d::Dict{Symbol,T}) where {T} = (; d...)
-
-
 # replaced with more efficient less type-piratey implementation
 namedtuple(dict::Dict{Symbol, T}) where {T} = NamedTuple{Tuple(keys(dict))}(values(dict))
-namedtuple(dict::Dict{Symbol, Any}) = NamedTuple{Tuple(keys(dict))}(values(dict))
-
-# additional constructors
+namedtuple(dict::Dict{S, T}) where {S<:AbstractString, T} = NamedTuple{Tuple(Symbol.(keys(dict)))}(values(dict))
 
 # from PR by pdeffebach
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
