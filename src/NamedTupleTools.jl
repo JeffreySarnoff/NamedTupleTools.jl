@@ -13,7 +13,7 @@ export @namedtuple,
        namedtuple, isprototype,
        fieldvalues,
        delete,
-       structfromnt
+       ntfromstruct, structfromnt
 
 import Base: fieldnames, valtype, values, merge
 
