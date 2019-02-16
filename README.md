@@ -85,7 +85,15 @@ true
 
 ## Dict construction, conversion
 ```julia
-julia> dict = Dict(:a=>1, :b=>2//11, :c=>"three")
+julia> dict = Dict("a" => 1, "b" => 2)
+Dict{String,Int} with 3 entries:
+  "a" => 1
+  "b" => 2
+
+julia> nt = namedtuple(dict)
+(a = 1, b = "two")
+
+julia> dict = Dict(:a => 1, :b => 2//11, :c => "three")
 Dict{Symbol,Any} with 3 entries:
   :a => 1
   :b => 2//11
