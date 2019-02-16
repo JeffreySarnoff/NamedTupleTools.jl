@@ -20,6 +20,9 @@ import Base: fieldnames, fieldtypes, valtype, values, merge
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
+lengthof(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
+lengthof(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
+
 fieldnames(nt::NamedTuple{N,T}) where {N,T} = N
 
 """
@@ -43,8 +46,9 @@ Retrieve the values' types as a tuple.
 see: [`valtype`](@ref)
 """
 fieldtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2].parameters)
+
 fieldtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-       typeof(T) === UnionAll ? Tuple((NTuple{len(N),Any}).parameters) :
+       typeof(T) === UnionAll ? Tuple((NTuple{lengthof(N),Any}).parameters) :
                                 Tuple(T.parameters[2].parameters)
 
 """
@@ -55,8 +59,9 @@ Retrieve the values' types as a typeof(tuple).
 see: [`fieldtypes`](@ref)
 """
 valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
+
 valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-    typeof(T) === UnionAll ? NTuple{len(N),Any} : T.parameters[2]
+    typeof(T) === UnionAll ? NTuple{lengthof(N),Any} : T.parameters[2]
 
 
 function ntfromstruct(x::T) where {T}
@@ -75,10 +80,6 @@ function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      return S(values...,)
 end
 
-
-len(::Type{T}) where {T<:Tuple} = length(T.parameters)
-len(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
-len(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
 
 """
     namedtuple(  name1, name2, ..  )
