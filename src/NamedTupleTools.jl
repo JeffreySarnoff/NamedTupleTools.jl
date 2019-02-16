@@ -15,7 +15,7 @@ export @namedtuple,
        delete,
        ntfromstruct, structfromnt
 
-import Base: fieldnames, fieldtypes, valtype, values, merge
+import Base: fieldnames, valtype, values, merge
 
 if isdefined(:fieldtypes)
      import Base: fieldtypes
