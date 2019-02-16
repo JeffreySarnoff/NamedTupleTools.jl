@@ -17,12 +17,13 @@ export @namedtuple,
 
 import Base: fieldnames, fieldtypes, valtype, values, merge
 
-# accept comma delimited values
-NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
-
+# length(T), length(x::T) without type piracy
 lengthof(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
 lengthof(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
-lengthof(::Type{NTuple{N,Symbol}}) where {N} = N
+lengthof(x::NTuple{N,Symbol}) where {N} = N
+
+# accept comma delimited values
+NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
 fieldnames(nt::NamedTuple{N,T}) where {N,T} = N
 
