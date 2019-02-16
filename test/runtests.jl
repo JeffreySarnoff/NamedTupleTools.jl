@@ -8,6 +8,8 @@ nt = NamedTuple{(:a, :b)}(1.0, "two")
 @test valtype(nt) == Tuple{Float64, String}
 @test fieldtypes(nt) == (Float64, String)
 
+namedtuple(:a, :b) == NamedTuple{(:a, :b),T} where T<:Tuple
+
 ntproto1 = namedtuple(:a, :b, :c, :d)
 ntproto2 = namedtuple(:a, :b)
 
@@ -18,6 +20,7 @@ nt2 = ntproto2("one", "two")
 
 @test isprototype(ntproto1) === true
 @test isprototype(nt1) === false
+@test isprototype(UnionAll) === false
 
 @test nt2 === (a = "one", b = "two")
 @test ntproto2(nt1) === (a = 1, b = 2)
@@ -25,6 +28,10 @@ nt2 = ntproto2("one", "two")
 @test delete(ntproto1, :a) === NamedTuple{(:b, :c, :d),T} where T<:Tuple
 @test delete(ntproto1, :a, :c) === NamedTuple{(:b, :d),T} where T<:Tuple
 @test delete(ntproto1, (:b, :c)) === NamedTuple{(:a, :d),T} where T<:Tuple
+
+@test delete(nt1, :a) == (b = 2, c = 3, d = 4)
+@test delete(nt1, :a, :c) == (b = 2, d = 4)
+@test delete(nt1, (:a, :b, :c)) === (d = 4,)
 
 @test merge(nt1, nt2) === (a = "one", b  = "two", c = 3, d = 4)
 
