@@ -17,7 +17,7 @@ export @namedtuple,
 
 import Base: fieldnames, valtype, values, merge
 
-if isdefined(:fieldtypes)
+if isdefined(Base, :fieldtypes)
      import Base: fieldtypes
 else
      export fieldtypes
