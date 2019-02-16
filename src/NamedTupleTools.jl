@@ -22,7 +22,7 @@ NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
 lengthof(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
 lengthof(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
-lengthof(::Type{T}) where {N,T<:NTuple{N,Symbol}) = N
+lengthof(::Type{NTuple{N,Symbol}) where {N} = N
 
 fieldnames(nt::NamedTuple{N,T}) where {N,T} = N
 
