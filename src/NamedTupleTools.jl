@@ -15,10 +15,12 @@ export @namedtuple,
        delete,
        ntfromstruct, structfromnt
 
-import Base: fieldtypes, valtype, values, merge
+import Base: fieldnames, fieldtypes, valtype, values, merge
 
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
+
+fieldnames(nt::NamedTuple{N,T}) where {N,T} = N
 
 """
     fieldvalues
@@ -44,7 +46,6 @@ fieldtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2].paramet
 fieldtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
        typeof(T) === UnionAll ? Tuple((NTuple{len(N),Any}).parameters) :
                                 Tuple(T.parameters[2].parameters)
-
 
 """
     valtype( namedtuple )
