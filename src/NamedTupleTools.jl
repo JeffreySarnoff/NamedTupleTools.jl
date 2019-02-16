@@ -3,8 +3,9 @@
 
 This module provides some useful NamedTuple tooling.
 
-see [`namedtuple`](@ref), [`isprototype`](@ref), [`fieldnames`](@ref), [`fieldname`](@ref), 
-    [`keys`](@ref), [`values`](@ref), [`valtypes`](@ref), [`delete`](@ref), [`merge`](@ref)
+see [`namedtuple`](@ref), [`isprototype`](@ref),
+    [`fieldnames`](@ref), [`fieldtypes`](@ref), [`fieldvalues`](@ref)
+    [`delete`](@ref), [`merge`](@ref)
 """
 module NamedTupleTools
 
