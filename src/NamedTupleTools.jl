@@ -20,7 +20,8 @@ import Base: fieldnames, fieldtypes, valtype, values, merge
 # length(T), length(x::T) without type piracy
 lengthof(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
 lengthof(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
-lengthof(x::NTuple{N,Symbol}) where {N} = N
+lengthof(::Type{NTuple{N,S}}) where {N,s} = N
+lengthof(x::NTuple{N,S}) where {N,s} = N
 
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
