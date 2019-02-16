@@ -41,15 +41,6 @@ true
 ```julia
 using NamedTupleTools
 
-nt = NamedTuple{(:a, :b)}(1.0, "two")
-typeof(nt)
-
-fieldnames(nt) == (:a, :b)
-fieldtypes(nt) == (Float64, String)
-valtype(nt) == Tuple{Float64, String}
-fieldtypes(nt) == (Float64, String)
-
-
 julia> namedtuple(:a, :b, :c)(1, 2.0, "three")
 (a = 1, b = 2.0, c = "three")
 
@@ -65,30 +56,53 @@ The prototype is applied to fieldvalues, giving a completed NamedTuple.
 julia> ntproto = namedtuple( :a, :b, :c )
 NamedTuple{(:a, :b, :c),T} where T<:Tuple
 
-julia> nt123 = ntproto(1, 2, 3)
+julia> ntproto(1, 2, 3)
 (a = 1, b = 2, c = 3)
 
-julia> ntAb3 = ntproto("A", "b", 3)
+julia> ntproto("A", "b", 3)
 (a = "A", b = "b", c = 3)
 
 julia> isprototype(ntproto)
 true
 
-julia> isprototype(nt123)
+julia> isprototype((a = 1, b = 2, c = 3))
 false
+```
 
+## Delete
+```julia
+using NamedTupleTools
 
-julia> delete(nt123, :a) === (b = 2, c = 3)
-true
-julia> delete(nt123, :a, :c) === delete(nt123, (:a, :c)) === (b = 2,)
-true
+julia> ntproto = namedtuple( :a, :b, :c );
+NamedTuple{(:a, :b, :c),T} where T<:Tuple
+
 julia> delete(ntproto, :b) === namedtuple(:a, :c)
 true
+
+julia> fieldnames(delete(ntproto, :b))
+NamedTuple{(:a, :c),T} where T<:Tuple
+
+julia> fieldnames(delete(ntproto, (:a, :c)), fieldnames(delete(ntproto, :a, :c)
+(:b,), (:b,)
+
+julia> nt = ntproto(1, 2, 3)
+(a = 1, b = 2, c = 3)
+
+julia> delete(nt, :a)
+(b = 2, c = 3)
+
+julia> delete(nt, :a, :c)
+(b = 2,)
+```
+
+## Merge
+
+```julia
+# merge from 2..7 NamedTuples
 
 julia> ntproto1 = namedtuple(:a, :b);
 julia> ntproto2 = namedtuple(:b, :c);
 
-# merge supports merging 2..7 NamedTuples
 julia> merge(ntproto1,ntproto2)
 NamedTuple{(:a, :b, :c),T} where T<:Tuple
 ```
@@ -115,7 +129,7 @@ julia> mystruct == ntstruct
 true
 ```
 
-## Dict construction, conversion
+## Dict construction, reconstruction 
 ```julia
 julia> dict = Dict("a" => 1, "b" => 2)
 Dict{String,Int} with 3 entries:
