@@ -11,11 +11,11 @@ module NamedTupleTools
 
 export @namedtuple,
        namedtuple, isprototype,
-       fieldnames, fieldtypes, fieldvalues,
+       fieldnames, fieldvalues,
        delete,
        ntfromstruct, structfromnt
 
-import Base: values, merge, valtype
+import Base: fieldtypes, valtype, values, merge
 
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -31,6 +31,32 @@ function fieldvalues(x::T) where {T}
      
      return ((getfield(x, name) for name in fieldnames(T))...,)
 end
+
+"""
+    fieldtypes( namedtuple )
+    fieldtypes( typeof(namedtuple) )
+
+Retrieve the values' types as a tuple.
+
+see: [`valtype`](@ref)
+"""
+fieldtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2].parameters)
+fieldtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
+       typeof(T) === UnionAll ? Tuple((NTuple{len(N),Any}).parameters) :
+                                Tuple(T.parameters[2].parameters)
+
+
+"""
+    valtype( namedtuple )
+
+Retrieve the values' types as a typeof(tuple).
+
+see: [`fieldtypes`](@ref)
+"""
+valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
+valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
+    typeof(T) === UnionAll ? NTuple{len(N),Any} : T.parameters[2]
+
 
 function ntfromstruct(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
@@ -103,29 +129,6 @@ namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T, nm8::T, nm9::
 namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T, nm8::T, nm9::T, nm10::T) where T<:Symbol =
     NamedTuple{(nm1,nm2,nm3,nm4,nm5,nm6,nm7,nm8,nm9,nm10)}
 
-"""
-    valtype( namedtuple )
-
-Retrieve the values' types as a typeof(tuple).
-
-see: [`valtypes`](@ref)
-"""
-valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
-valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-    typeof(T) === UnionAll ? NTuple{len(N),Any} : T.parameters[2]
-
-"""
-    fieldtypes( namedtuple )
-    fieldtypes( typeof(namedtuple) )
-
-Retrieve the values' types as a tuple.
-
-see: [`valtype`](@ref)
-"""
-fieldtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2].parameters)
-fieldtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-       typeof(T) === UnionAll ? Tuple((NTuple{len(N),Any}).parameters) :
-                                Tuple(T.parameters[2].parameters)
 
 """
     isprototype( ntprototype )
