@@ -74,6 +74,8 @@ valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} 
 
 namedtuple(x::DataType) = ntfromstruct(x)
 
+
+
 function ntfromstruct(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
      names = fieldnames(T)
@@ -81,6 +83,7 @@ function ntfromstruct(x::T) where {T}
      return NamedTuple{names}(values)
 end
 
+# an instance of type S, a Struct
 function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      names = N
      values = fieldvalues(x)
@@ -89,6 +92,26 @@ function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      end
      return S(values...,)
 end
+
+# the Struct itself
+structfromnt(structname::Union{Symbol, String}, nt::NamedTuple) = structfrom(structname, fieldnames(nt), fieldtypes(nt))
+
+# Fredrik Ekre   
+struct_from(structname, names, types) = 
+	"Expr(:struct,
+		false,
+		Expr(:curly,
+			 :$structname
+		),
+		Expr(:block,
+			map((x,y) -> Expr(:(::), x, y), $names, $types)...
+		)
+	)"
+	
+structfrom(structname, names, types) = eval(eval(Meta.parse(struct_from(structname, names, types))))
+
+
+
 
 
 """
