@@ -75,7 +75,6 @@ valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} 
 namedtuple(x::DataType) = ntfromstruct(x)
 
 
-
 function ntfromstruct(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
      names = fieldnames(T)
@@ -96,7 +95,7 @@ end
 # the Struct itself
 structfromnt(structname::Union{Symbol, String}, nt::NamedTuple) = structfrom(structname, fieldnames(nt), fieldtypes(nt))
 
-# Fredrik Ekre   
+# Expr part from Fredrik Ekre   
 struct_from(structname, names, types) = 
 	"Expr(:struct,
 		false,
@@ -109,10 +108,6 @@ struct_from(structname, names, types) =
 	)"
 	
 structfrom(structname, names, types) = eval(eval(Meta.parse(struct_from(structname, names, types))))
-
-
-
-
 
 """
     namedtuple(  name1, name2, ..  )
