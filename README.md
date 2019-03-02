@@ -152,7 +152,7 @@ julia> Dict(nt) == dict
 true
 ```
 
-## Vector of Pairs (pdeffebach)
+## Vector of Pairs (Peter Deffebach)
 ```julia
 julia> vec = [:a => 1, :b => 2]
 2-element Array{Pair{Symbol,Int64},1}:
