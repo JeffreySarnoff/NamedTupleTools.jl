@@ -131,10 +131,10 @@ true
 
 ## Dict construction, reconstruction 
 ```julia
-julia> dict = Dict("a" => 1, "b" => "two")
+julia> dict = Dict(:a => 1, :b => "two")
 Dict{String,Int} with 3 entries:
-  "a" => 1
-  "b" => 2
+  :a => 1
+  :b => 2
 
 julia> nt = namedtuple(dict)
 (a = 1, b = "two")
