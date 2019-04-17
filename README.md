@@ -24,7 +24,10 @@ julia> nt = NamedTuple{(:a, :b)}(1.0, "two")
 julia> typeof(nt) == NamedTuple{(:a, :b),Tuple{Float64,String}}
 true
 
-julia> fieldnames(nt) == (:a, :b)
+julia> propertynames(nt) == (:a, :b)
+true
+
+julia> fieldnames(nt) == (:a, :b)             # synonym for the moment
 true
 
 julia> fieldtypes(nt) == (Float64, String)
