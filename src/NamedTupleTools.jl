@@ -15,7 +15,7 @@ export @namedtuple,
        delete,
        ntfromstruct, structfromnt
 
-import Base: fieldnames, valtype, values, merge
+import Base: propertynames, fieldnames, valtype, values, merge
 
 if isdefined(Base, :fieldtypes)
      import Base: fieldtypes
@@ -32,7 +32,8 @@ lengthof(x::NTuple{N,S}) where {N,S} = N
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
-fieldnames(nt::NamedTuple{N,T}) where {N,T} = N
+propertynames(nt::NamedTuple{N,T}) where {N,T} = N   # correct
+fieldnames(nt::NamedTuple{N,T}) where {N,T} = N      # deprecate
 
 """
     fieldvalues
