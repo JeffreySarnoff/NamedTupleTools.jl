@@ -134,24 +134,24 @@ true
 
 ## Dict construction, reconstruction 
 ```julia
-julia> dict = Dict(:a => 1, :b => "two")
+julia> adict = Dict(:a => 1, :b => "two")
 Dict{String,Int} with 3 entries:
   :a => 1
   :b => 2
 
-julia> nt = namedtuple(dict)
+julia> nt = namedtuple(adict)
 (a = 1, b = "two")
 
-julia> dict = Dict(:a => 1, :b => 2//11, :c => "three")
+julia> adict = Dict(:a => 1, :b => 2//11, :c => "three")
 Dict{Symbol,Any} with 3 entries:
   :a => 1
   :b => 2//11
   :c => "three"
 
-julia> nt = namedtuple(dict)
+julia> nt = namedtuple(adict)
 (a = 1, b = 2//11, c = "three")
 
-julia> Dict(nt) == dict
+julia> dict(nt) == adict
 true
 ```
 
