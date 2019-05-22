@@ -228,16 +228,10 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
 
 # conversions
 
-# from Alex Arslan
-function Base.Dict(nt::NT) where {N,T,NT<:NamedTuple{N,T}}
-    z = zip(fieldnames(typeof(nt)), fieldvalues(nt))
-    return Dict(z)
-end
-# and (now deprecated)
-Base.NamedTuple(d::Dict{Symbol,T}) where {T} = (; d...)
-# replaced with more efficient less type-piratey implementation
-namedtuple(dict::Dict{Symbol, T}) where {T} = NamedTuple{Tuple(keys(dict))}(values(dict))
-namedtuple(dict::Dict{S, T}) where {S<:AbstractString, T} = NamedTuple{Tuple(Symbol.(keys(dict)))}(values(dict))
+dict(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = Dict(pairs(nt))
+# from Ibilli https://discourse.julialang.org/t/how-to-make-a-named-tuple-from-a-dictionary/10899/16
+namedtuple(dict::Dict{Symbol, T}) where {T} = (d...,)
+namedtuple(dict::Dict{S, T}) where {S<:AbstractString, T} = (d...,)
 
 # from PR by pdeffebach
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
