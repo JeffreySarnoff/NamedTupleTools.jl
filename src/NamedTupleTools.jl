@@ -13,7 +13,8 @@ export @namedtuple,
        namedtuple, isprototype,
        fieldvalues,
        delete,
-       ntfromstruct, structfromnt
+       ntfromstruct, structfromnt,
+       @structfromnt
 
 import Base: propertynames, fieldnames, valtype, values, merge
 
@@ -73,8 +74,27 @@ valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
 valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
     typeof(T) === UnionAll ? NTuple{lengthof(N),Any} : T.parameters[2]
 
-namedtuple(x::DataType) = ntfromstruct(x)
 
+
+
+"""
+    untuple( Tuple{_} )
+
+Retrieve the types that are internal to the `Tuple` as a (_).
+"""
+untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
+
+
+"""
+    retuple( (_) )
+
+Generate a `Tuple` with the given internal types as a `Tuple{_}`.
+"""
+retuple(x::Tuple) = Tuple{x...,}
+
+
+
+namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
@@ -94,7 +114,18 @@ function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
 end
 
 # the Struct itself
-structfromnt(structname::Union{Symbol, String}, nt::NamedTuple) = structfrom(structname, fieldnames(nt), fieldtypes(nt))
+function structfromnt(structname::Union{Symbol, String}, nt::NamedTuple{N,T}) where {N,T}
+    sname = Symbol(structname)
+    names = N
+    types = untuple(T)
+    tostruct = Meta.parse(NamedTupleTools.struct_from(sname, names, types))
+    eval(tostruct) # generate Struct
+    return nothing
+end
+
+macro structfromnt(sname, nt)
+    :( eval(structfromnt($(esc(sname)), $(esc(nt)))) )
+end
 
 # Expr part from Fredrik Ekre   
 struct_from(structname, names, types) = 
