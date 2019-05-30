@@ -2,7 +2,7 @@ authors = ["Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>"]
 name = "NamedTupleTools"
 uuid = "d9ec5142-1e00-5aa0-9d6a-321866360f50"
 license = "MIT"
-version = "0.8.0"
+version = "0.8.1"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
