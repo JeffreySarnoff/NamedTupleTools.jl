@@ -259,10 +259,10 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
 
 # conversions
 
-dict(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = Dict(pairs(nt))
+dictionary(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = Dict(pairs(nt))
 # from Ibilli https://discourse.julialang.org/t/how-to-make-a-named-tuple-from-a-dictionary/10899/16
-namedtuple(dict::Dict{Symbol, T}) where {T} = (d...,)
-namedtuple(dict::Dict{S, T}) where {S<:AbstractString, T} = (d...,)
+namedtuple(d::Dict{Symbol, T}) where {T} = (d...,)
+namedtuple(d::Dict{S, T}) where {S<:AbstractString, T} = (d...,)
 
 # from PR by pdeffebach
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
