@@ -62,9 +62,9 @@ v = ["b" => 2, "a" => 1]
 
 
 dict = Dict(:a=>1, :b=>2//11, :c=>"three")
-nt = NamedTuple(dict)
+nt = namedtuple(dict)
 
-@test Dict(nt) == dict
+@test NamedTupleTools.dictionary(nt) == dict
 @test namedtuple(dict) == nt
 
 nt = (a = 1, b = 2)
