@@ -263,6 +263,13 @@ dictionary(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = Dict(pairs(nt))
 # from Ibilli https://discourse.julialang.org/t/how-to-make-a-named-tuple-from-a-dictionary/10899/16
 namedtuple(d::Dict{Symbol, T}) where {T} = (d...,)
 namedtuple(d::Dict{S, T}) where {S<:AbstractString, T} = (d...,)
+function namedtuple(d::Dict{Symbol, Any})
+    parts = (d...,)
+    names = first.(parts)
+    vals  = last.(parts)
+    return NamedTuple{names}(vals)
+end
+
 
 # from PR by pdeffebach
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
