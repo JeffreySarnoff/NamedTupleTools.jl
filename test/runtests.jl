@@ -69,4 +69,5 @@ nt = namedtuple(dict)
 
 nt = (a = 1, b = 2)
 a = 1; b = 2;
-@test @namedtuple(a, b) == nt
+nt_ab = @namedtuple(a, b)
+@test nt_ab == nt
