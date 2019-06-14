@@ -150,7 +150,7 @@ function namedtuple(namesforvalues::NTuple{N,Symbol}, valuesfornames) where {N}
      return namedtuple(namesforvalues)(valuesfornames)
 end
 
-namedtuple(namesforvalues::NTuple{N,Symbol}, valuesfornames) where {N} =
+namedtuple(namesforvalues::Vector{Symbol}, valuesfornames) where {N} =
     namedtuple((namesforvalues...,), valuesfornames)
 
 """
