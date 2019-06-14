@@ -2,22 +2,22 @@ using NamedTupleTools
 using Test
 
 namesofvalues  = (:instrument, :madeby)
-matchingvalues = ("violin". "Stradivarius")
+matchingvalues = ("violin", "Stradivarius")
 nt = namedtuple(namesofvalues, matchingvalues)
 @test nt == (instrument = "violin", madeby = "Stradivarius")
 
 namesofvalues  = [:instrument, :madeby]
-matchingvalues = ["violin". "Stradivarius"]
+matchingvalues = ["violin", "Stradivarius"]
 nt = namedtuple(namesofvalues, matchingvalues)
 @test nt == (instrument = "violin", madeby = "Stradivarius")
 
 namesofvalues  = (:instrument, :madeby)
-matchingvalues = ["violin". "Stradivarius"]
+matchingvalues = ["violin", "Stradivarius"]
 nt = namedtuple(namesofvalues, matchingvalues)
 @test nt == (instrument = "violin", madeby = "Stradivarius")
 
 namesofvalues  = [:instrument, :madeby]
-matchingvalues = ("violin". "Stradivarius")
+matchingvalues = ("violin", "Stradivarius")
 nt = namedtuple(namesofvalues, matchingvalues)
 @test nt == (instrument = "violin", madeby = "Stradivarius")
 
