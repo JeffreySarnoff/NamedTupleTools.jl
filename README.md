@@ -18,7 +18,7 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 ```julia
 julia> using NamedTupleTools
 julia> namesofvalues  = (:instrument, :madeby)
-julia> matchingvalues = ("violin". "Stradivarius")
+julia> matchingvalues = ("violin", "Stradivarius")
 
 julia> nt = namedtuple(namesofvalues, matchingvalues)
 (instrument = "violin", madeby = "Stradivarius")
