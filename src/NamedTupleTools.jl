@@ -142,6 +142,18 @@ struct_from(structname, names, types) =
 structfrom(structname, names, types) = eval(eval(Meta.parse(struct_from(structname, names, types))))
 
 """
+    namedtuple(namesforvalues, valuesfornames)
+"""
+function namedtuple(namesforvalues::NTuple{N,Symbol}, valuesfornames)
+    length(namesforvalues) == length(valuesfornames) ||
+	throw(ErrorException("lengths must match"))
+     return namedtuple(namesforvalues)(valuesfornames)
+end
+
+namedtuple(namesforvalues::NTuple{N,Symbol}, valuesfornames) =
+    namedtuple((namesforvalues...,), valuesfornames)
+
+"""
     namedtuple(  name1, name2, ..  )
     namedtuple( (name1, name2, ..) )
     namedtuple(  namedtuple )
