@@ -144,7 +144,7 @@ structfrom(structname, names, types) = eval(eval(Meta.parse(struct_from(structna
 """
     namedtuple(namesforvalues, valuesfornames)
 """
-function namedtuple(namesforvalues::NTuple{N,Symbol}, valuesfornames)
+function namedtuple(namesforvalues::NTuple{N,Symbol}, valuesfornames) where {N}
     length(namesforvalues) == length(valuesfornames) ||
 	throw(ErrorException("lengths must match"))
      return namedtuple(namesforvalues)(valuesfornames)
