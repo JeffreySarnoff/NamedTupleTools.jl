@@ -144,14 +144,18 @@ structfrom(structname, names, types) = eval(eval(Meta.parse(struct_from(structna
 """
     namedtuple(namesforvalues, valuesfornames)
 """
-function namedtuple(namesforvalues::NTuple{N,Symbol}, valuesfornames) where {N}
-    length(namesforvalues) == length(valuesfornames) ||
-	throw(ErrorException("lengths must match"))
-     return namedtuple(namesforvalues)(valuesfornames)
+
+# from kristoffer.carlsson
+
+@inline function namedtuple(namesforvalues::NTuple{N,Symbol}, valuesfornames) where {N}
+    N == length(valuesfornames) || throw(ErrorException("lengths must match"))
+    return (; zip(namesforvalues, valuesfornames)...,)
 end
 
-namedtuple(namesforvalues::Vector{Symbol}, valuesfornames) where {N} =
-    namedtuple((namesforvalues...,), valuesfornames)
+@inline function namedtuple(namesforvalues::Vector{Symbol}, valuesfornames)
+    length(namesforvalues) == length(valuesfornames) || throw(ErrorException("lengths must match"))
+     return (; zip(namesforvalues, valuesfornames)...,)
+end
 
 namedtuple(namesforvalues::Vector{S}, valuesfornames) where {N,S<:AbstractString} =
     namedtuple(Symbol.(namesforvalues), valuesfornames)
