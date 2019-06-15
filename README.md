@@ -14,7 +14,7 @@
 `NamedTuples` are built from fieldnames, given as `Symbols` and field values, as they may be given.
 These utilities make some uses of `NamedTuples` a little more straightforward.  
 
-## Construction from names and values
+## Construction from names and values (Kristoffer Carlsson)
 ```julia
 julia> using NamedTupleTools
 julia> namesofvalues  = (:instrument, :madeby)
