@@ -122,7 +122,7 @@ julia> merge(ntproto1,ntproto2)
 NamedTuple{(:a, :b, :c),T} where T<:Tuple
 ```
 
-## struct construction, conversion
+## Struct construction, conversion
 ```
 using NamedTupleTools
 
