@@ -23,7 +23,9 @@ julia> matchingvalues = ("violin", "Stradivarius")
 julia> nt = namedtuple(namesofvalues, matchingvalues)
 (instrument = "violin", madeby = "Stradivarius")
 ```
+The names may be given as `Symbols` or `Strings`.
 Also works using vectors for either/both args.
+
 
 ## Selecting Elements
 ```julia
