@@ -153,6 +153,13 @@ end
 namedtuple(namesforvalues::Vector{Symbol}, valuesfornames) where {N} =
     namedtuple((namesforvalues...,), valuesfornames)
 
+namedtuple(namesforvalues::Vector{S}, valuesfornames) where {N,S<:AbstractString} =
+    namedtuple(Symbol.(namesforvalues), valuesfornames)
+
+namedtuple(namesforvalues::NTuple{N,S}, valuesfornames) where {N,S<:AbstractString} =
+    namedtuple(Symbol.(namesforvalues), valuesfornames)
+
+
 """
     namedtuple(  name1, name2, ..  )
     namedtuple( (name1, name2, ..) )
