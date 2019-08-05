@@ -244,6 +244,19 @@ delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple
 delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
 
 """
+   select(namedtuple, symbol(s)|Tuple)
+   select(ntprototype, symbol(s)|Tuple)
+   
+Generate a namedtuple [ntprototype] from the first arg, including only fields present in the second arg.
+
+see: [`merge`](@ref)
+"""
+select(nt::NamedTuple, k::Symbol) = nt[k]
+select(nt::NamedTuple, k::NamedTuple) = select(nt, keys(k))
+select(nt::NamedTuple, ks) = namedtuple(ks)((nt[k] for k in ks)...)
+
+
+"""
     merge(namedtuple1, namedtuple2)
     merge(nt1, nt2, nt3, ..)
 
