@@ -13,6 +13,7 @@ export @namedtuple,
        namedtuple, isprototype,
        fieldvalues,
        delete,
+       select,
        ntfromstruct, structfromnt,
        @structfromnt
 
