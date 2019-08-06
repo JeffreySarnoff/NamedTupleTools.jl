@@ -83,6 +83,16 @@ true
 julia> isprototype((a = 1, b = 2, c = 3))
 false
 ```
+## Select (Chad Scherrer)
+```julia
+using NamedTupleTools
+
+julia> nt = (a = 1, b = 2, y = 25, z = 26)
+(a = 1, b = 2, y = 25, z = 26)
+
+julia> ay = select(nt, (:a, :y))
+(a = 1, y = 25)
+```
 
 ## Delete
 ```julia
