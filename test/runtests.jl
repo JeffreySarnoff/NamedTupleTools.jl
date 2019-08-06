@@ -56,6 +56,10 @@ nt2 = ntproto2("one", "two")
 
 @test merge(nt1, nt2) === (a = "one", b  = "two", c = 3, d = 4)
 
+@test select(nt1, :a) == nt1[:a]
+@test select(nt1, nt2) == (a=1,b=2)
+@test select(nt1, nt2) == select(nt1, keys(nt2))
+
 struct MyStruct
     tally::Int
     team::String
