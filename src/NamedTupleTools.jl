@@ -11,7 +11,7 @@ module NamedTupleTools
 
 export @namedtuple,
        namedtuple, isprototype,
-       fieldvalues,
+       fieldnames, fieldvalues, fieldtypes,
        merge,
        delete,
        select,
