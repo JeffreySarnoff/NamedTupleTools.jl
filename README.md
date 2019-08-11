@@ -128,8 +128,22 @@ julia> delete(nt, :a, :c)
 julia> ntproto1 = namedtuple(:a, :b);
 julia> ntproto2 = namedtuple(:b, :c);
 
-julia> merge(ntproto1,ntproto2)
+julia> merge(ntproto1, ntproto2)
 NamedTuple{(:a, :b, :c),T} where T<:Tuple
+```
+
+```julia
+julia> nt1 = (a = 3, b = 5);
+julia> nt2 = (c = 8,);
+
+julia> merge(nt1, nt2)
+(a = 3, b = 5, c = 8)
+
+julia> nt1 = (a = 3, b = 5);
+julia> nt2 = (b = 6, c = 8);
+
+julia> merge(nt1, nt2)
+(a = 3, b = 6, c = 8)
 ```
 
 ## Struct construction, conversion
