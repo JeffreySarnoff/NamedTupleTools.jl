@@ -26,7 +26,7 @@ julia> nt = namedtuple(namesofvalues, matchingvalues)
 - The names may be given as `Symbols` or `Strings`
 - The names, values may be `Tuples` or `Vectors`
 
-## Selecting Elements
+## Selecting Aspects of Elements
 ```julia
 julia> using NamedTupleTools
 
