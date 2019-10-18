@@ -87,9 +87,9 @@ v = ["b" => 2, "a" => 1]
 
 
 dict = Dict(:a=>1, :b=>2//11, :c=>"three")
-nt = namedtuple(dict)
+nt = (a = 1, b = 2//11, c = "three")
 
-@test NamedTupleTools.dictionary(nt) == dict
+@test convert(Dict, nt) == dict
 @test namedtuple(dict) == nt
 
 nt = (a = 1, b = 2)
