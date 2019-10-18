@@ -187,7 +187,7 @@ Dict{Symbol,Any} with 3 entries:
 julia> nt = namedtuple(adict)
 (a = 1, b = 2//11, c = "three")
 
-julia> dict(nt) == adict
+julia> convert(Dict, nt) == adict
 true
 ```
 
