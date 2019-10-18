@@ -85,12 +85,15 @@ v = [:b => 2, :a => 1]
 v = ["b" => 2, "a" => 1]
 @test namedtuple(v) == NamedTuple{(:b, :a)}(2, 1)
 
+dict1 = Dict(:a=>1)
+nt1 = (a = 1,)
+dict3 = Dict(:a=>1, :b=>2//11, :c=>"three")
+nt3 = (a = 1, b = 2//11, c = "three")
 
-dict = Dict(:a=>1, :b=>2//11, :c=>"three")
-nt = namedtuple(dict)
-
-@test NamedTupleTools.dictionary(nt) == dict
-@test namedtuple(dict) == nt
+@test convert(Dict, nt1) == dict1
+@test namedtuple(dict1) == nt1
+@test convert(Dict, nt3) == dict3
+@test namedtuple(dict3) == nt3
 
 nt = (a = 1, b = 2)
 a = 1; b = 2;
