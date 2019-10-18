@@ -312,11 +312,13 @@ namedtuple(d::T) where {T<:Dict{S,V}} where {S<:AbstractString, V} =
     NamedTuple{Symbol.(gather_(keys(d))), NTuple{length(d), V}}(gather_(values(d)))
 
 # use: dict = convert(Dict, nt)
-Base.convert(::Type{Dict{Symbol,T}} where T, x::NT) where {NT<:NamedTuple{N}} where {N} = 
+#=
+   for Dict{Symbol,Any}: 
+   Base.convert(::Type{Dict}, x::NT) where {N, NT<:NamedTuple{N}} = 
+       Dict([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
+=#
+Base.convert(::Type{Dict}, x::NT) where {N, NT<:NamedTuple{N}} = 
     Dict{Symbol, uniontype(x)}([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
-# for Dict{Symbol,Any}: 
-# Base.Dict(x::NT) where {N, NT<:NamedTuple{N}} = Dict([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
-
 
 # from PR by pdeffebach
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
