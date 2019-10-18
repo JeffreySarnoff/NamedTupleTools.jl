@@ -295,7 +295,21 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
     reduce(merge,(a, b, c, d, e, f, g))
 
 
-# conversions
+#= conversions =#
+
+#  interconvert: NamedTuple <--> Dict
+
+"""
+    gather(x::Iterable)
+
+Collect the elements of x into a Tuple, in their iterated order. 
+"""
+@inline gather_(x::T) where {T} = (collect(x)...,)
+
+keytype(d::Dict{K,V}) where {K,V} = K
+valtype(d::Dict{K,V}) where {K,V} = V
+# dict2nt(d::T) where {T<:Dict} = NamedTuple{(keys(d)...,), NTuple{length(d), valtype(d)}}(collect(values(d)))
+dict2nt(d::T) where {T<:Dict{K,V}} where {K,V} = NamedTuple{(keys(d)...,), NTuple{length(d), V}}(gather_(values(d)))
 
 dictionary(nt::NT) where {N,T,NT<:NamedTuple{N,T}} = Dict(pairs(nt))
 # from Ibilli https://discourse.julialang.org/t/how-to-make-a-named-tuple-from-a-dictionary/10899/16
