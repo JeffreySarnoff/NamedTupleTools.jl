@@ -330,10 +330,14 @@ namedtuple(v::Vector{<:Pair{<:String}}) = namedtuple([p[1] for p in v]...)([p[2]
 # from Sebastian Pfitzner (on Slack)
 macro namedtuple(vars...)
    args = Any[]
-   for i in 1:length(vars)
-       push!(args, Expr(:(=), esc(vars[i]), :($(esc(vars[i])))))
+   for v in vars
+       if Meta.isexpr(v, :(=)) || Meta.isexpr(v, :...)
+           push!(args, esc(v))
+       else
+           push!(args, Expr(:(=), esc(v), esc(v)))
+       end
    end
-   expr = Expr(:tuple, args...)
+   expr = Expr(:tuple, Expr(:parameters, args...))
    return expr
 end
 
