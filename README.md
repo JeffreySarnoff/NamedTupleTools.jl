@@ -202,7 +202,7 @@ julia> nt = namedtuple(vec)
 (a = 1, b = 2)
 ```
 
-##  Defined Variables (Sebastian Pfitzner)
+##  Defined variables mixed with standard syntax (Sebastian Pfitzner, Takafumi Arakaki)
 ```julia
 julia> a, b, c, d, f = 1, 1.0, 1//1, "one", (g=1,)
 (1, 1.0, 1//1, "one", (g = 1,))
