@@ -99,3 +99,11 @@ nt = (a = 1, b = 2)
 a = 1; b = 2;
 nt_ab = @namedtuple(a, b)
 @test nt_ab == nt
+
+nt = (a = 1, b = 2, c = 3)
+@test @namedtuple(a, b, c = 3) == nt
+
+nt1 = (a = 1, b = 2)
+c = 3
+nt = (a = 1, b = 2, c = 3)
+@test @namedtuple(nt1..., c) == nt
