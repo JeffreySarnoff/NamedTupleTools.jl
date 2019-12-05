@@ -26,23 +26,23 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 - [obtaining `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
 - [obtaining a `Dict{Symbol, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [obtaining a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
-- complements [Construction](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
+- complements [_Construction_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
 
 ### [Selection](https://github.com/JeffreySarnoff/NamedTupleTools.jl#select-chad-scherrer)
 - select one or more named constituents
-- complements [Deletion](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#deletion)
+- complements [_Deletion_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#deletion)
 
 ### [Deletion](https://github.com/JeffreySarnoff/NamedTupleTools.jl#delete)
 - delete one or more named constituents
-- complements [Selection](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
+- complements [_Selection_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
 
 ### [Merging](https://github.com/JeffreySarnoff/NamedTupleTools.jl#merge)
 - merge one or more NamedTuples
-- complements [Splitting](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#splitting)
+- complements [_Splitting_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#splitting)
 
 ### [Splitting](https://github.com/JeffreySarnoff/NamedTupleTools.jl#split)
 - split a NamedTuple into one or more NamedTuples formed of its consituents
-- complements [Merging](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#merging)
+- complements [_Merging_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#merging)
 
 
 
