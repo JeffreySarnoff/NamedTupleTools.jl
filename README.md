@@ -27,7 +27,7 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 - [obtaining `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
 - [obtaining a `Dict{Symbol, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [obtaining a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
-- [obtaining `Vector{Pair}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#convert-to-vector-of-pairs)
+- [obtaining a `Vector{Pair}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#convert-to-vector-of-pairs)
 - inversive [_Construction_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
 
 ### Selection
