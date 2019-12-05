@@ -333,10 +333,13 @@ Base.convert(::Type{Dict}, x::NT) where {N, NT<:NamedTuple{N}} =
 
 dictionary(nt::NamedTuple) = convert(Dict, nt) # deprecated
 
-# from PR by pdeffebach
+# from PR by pdeffebach (Vector of Pairs becomes NamedTuple)
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
 # with names as strings
 namedtuple(v::Vector{<:Pair{<:String}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
+
+# NamedTuple becomes a Vector of Pairs 
+Base.convert(::Type{Vector{Pair}}, nt::NamedTuple) =  map(kv->Pair(first(kv), last(kv)), zip(keys(nt), values(nt)))
 
 # from Sebastian Pfitzner (on Slack)
 macro namedtuple(vars...)
