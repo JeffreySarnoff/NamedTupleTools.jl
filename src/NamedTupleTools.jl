@@ -256,7 +256,7 @@ see: [`merge`](@ref)
 """
 select(nt::NamedTuple, k::Symbol) = nt[k]
 select(nt::NamedTuple, k::NamedTuple) = select(nt, keys(k))
-select(nt::NamedTuple, ks) = namedtuple(ks)((nt[k] for k in ks)...)
+select(nt::NamedTuple, ks) = namedtuple(ks)(((nt[k] for k in ks)...,))
 
 
 """

@@ -59,6 +59,7 @@ nt2 = ntproto2("one", "two")
 @test select(nt1, :a) == nt1[:a]
 @test select(nt1, nt2) == (a=1,b=2)
 @test select(nt1, nt2) == select(nt1, keys(nt2))
+@test select((a = 1, b = [1, 2]), (:b,)) == (b = [1, 2],)
 
 @test split(nt1, :a)[1] == (a = 1,)
 @test split(nt1, :a)[2] == (b = 2, c = 3, d = 4)
