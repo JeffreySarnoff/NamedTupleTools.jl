@@ -24,7 +24,7 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 
 ### Reconstruction
 - [obtaining `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
-- [obtaining a `Dict{Symbol, Any}`]((https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
+- [obtaining a `Dict{Symbol, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [obtaining a `struct`]((https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
 - complements `Construction`
 
