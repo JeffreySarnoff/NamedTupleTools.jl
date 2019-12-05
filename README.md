@@ -36,7 +36,7 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 
 ### Deletion
 - [delete one or more named constituents](https://github.com/JeffreySarnoff/NamedTupleTools.jl#delete)
-- complements [_Selection_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
+- complements [_Selection_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#selection)
 
 ### Merging
 - [merge one or more NamedTuples](https://github.com/JeffreySarnoff/NamedTupleTools.jl#merge)
