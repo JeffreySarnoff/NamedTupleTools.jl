@@ -250,6 +250,22 @@ julia> nt = namedtuple(vec)
 (a = 1, b = 2)
 ```
 
+## convert to Vector Of Pairs
+```julia
+julia> nt = (a=1, b=2);
+julia> convert(Vector{Pair}, nt)
+2-element Array{Pair{Symbol,Int64},1}:
+ :a => 1
+ :b => 2
+ 
+nt = (a = 1, b = "two", c = 3.0);
+vec = convert(Vector{Pair}, nt)
+3-element Array{Pair{Symbol,B} where B,1}:
+ :a => 1
+ :b => "two"
+ :c => 3.0
+```
+
 ## Variables mixed with standard syntax (Sebastian Pfitzner, Takafumi Arakaki)
 ```julia
 julia> a, b, c, d, f = 1, 1.0, 1//1, "one", (g=1,)
