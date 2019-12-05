@@ -16,12 +16,14 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 
 ## Functional Features
 
-### [Construction](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
+### Construction
+- [given `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
 - [given a `Vector` of `Pairs`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#vector-of-pairs-peter-deffebach)
 - [given a `Dict{Symbpl, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [given a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
 
 ### Reconstruction
+- [obtaining 
 - [obtaining a `Dict{Symbol, Any}`]((https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [obtaining a `struct`]((https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
 - complements `Construction`
@@ -176,7 +178,7 @@ julia> merge(nt1, nt2)
 (a = 3, b = 6, c = 8)
 ```
 
-## Split (Seth Haxen)
+## Split (Seth Axen)
 ```julia
 julia> using NamedTupleTools
 
