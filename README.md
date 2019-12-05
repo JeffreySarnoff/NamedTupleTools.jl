@@ -21,6 +21,11 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 - [given a `Dict{Symbpl, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [given a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
 
+### Reconstruction
+- [obtaining a `Dict{Symbol, Any}`]((https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
+- [obtaining a `struct`]((https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
+- complements `Construction`
+
 ### [Selection](https://github.com/JeffreySarnoff/NamedTupleTools.jl#select-chad-scherrer)
 - select one or more named constituents
 - complements `Deletion`
