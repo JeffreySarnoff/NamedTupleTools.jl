@@ -12,7 +12,32 @@
 ## Overview
 
 `NamedTuples` are built from fieldnames, given as `Symbols` and field values, as they may be given.
-These utilities make some uses of `NamedTuples` a little more straightforward.  
+These utilities make some uses of `NamedTuples` a little more straightforward.
+
+## Functional Features
+
+### [Construction](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
+- [given a `Vector` of `Pairs`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#vector-of-pairs-peter-deffebach)
+- [given a `Dict{Symbpl, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
+- [given a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
+
+### [Selection](https://github.com/JeffreySarnoff/NamedTupleTools.jl#select-chad-scherrer)
+- select one or more named constituents
+- complements `Deletion`
+
+### [Deletion](https://github.com/JeffreySarnoff/NamedTupleTools.jl#delete)
+- delete one or more named constituents
+- complements `Selection`
+
+### [Merging](https://github.com/JeffreySarnoff/NamedTupleTools.jl#merge)
+- merge one or more NamedTuples
+- complements `Splitting`
+
+### [Splitting](https://github.com/JeffreySarnoff/NamedTupleTools.jl#split)
+- split a NamedTuple into one or more NamedTuples formed of its consituents
+- complements `Merging`
+
+
 
 ## Construction from names and values (Kristoffer Carlsson)
 ```julia
