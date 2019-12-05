@@ -21,7 +21,7 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 - [given a `Dict{Symbpl, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [given a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
 - [given a `Vector` of `Pairs`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#vector-of-pairs-peter-deffebach)
-- inversive [_Reconstruction_]((https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#reconstruction)
+- inversive [_Reconstruction_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#reconstruction)
 
 ### Reconstruction
 - [obtaining `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
