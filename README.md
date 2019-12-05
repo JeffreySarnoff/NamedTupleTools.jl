@@ -26,7 +26,7 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 - [obtaining `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
 - [obtaining a `Dict{Symbol, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [obtaining a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
-- complements [_Construction_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
+- undoes [_Construction_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
 
 ### Selection
 - [select one or more named constituents](https://github.com/JeffreySarnoff/NamedTupleTools.jl#select-chad-scherrer)
@@ -38,11 +38,11 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 
 ### Merging
 - [merge one or more NamedTuples](https://github.com/JeffreySarnoff/NamedTupleTools.jl#merge)
-- complements [_Splitting_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#splitting)
+- undoes [_Splitting_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#splitting)
 
 ### Splitting
 - [split a NamedTuple into one or more NamedTuples formed of its consituents](https://github.com/JeffreySarnoff/NamedTupleTools.jl#split)
-- complements [_Merging_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#merging)
+- undoes [_Merging_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#merging)
 
 
 
