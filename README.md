@@ -146,6 +146,22 @@ julia> merge(nt1, nt2)
 (a = 3, b = 6, c = 8)
 ```
 
+## Split (Seth Haxen)
+```julia
+julia> using NamedTupleTools
+
+julia> nt = (a = 1, b = 2, c = 3, d = 4);
+
+julia> split(nt, :a)
+((a = 1,), (b = 2, c = 3, d = 4))
+
+julia> split(nt, (:a, :b))
+((a = 1, b = 2), (c = 3, d = 4))
+
+julia> merge(split(nt, (:a, :b))...) == nt
+true
+```
+
 ## Struct construction, conversion
 ```
 using NamedTupleTools
