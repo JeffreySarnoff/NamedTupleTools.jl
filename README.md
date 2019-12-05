@@ -28,20 +28,20 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 - [obtaining a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
 - complements [_Construction_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
 
-### [Selection](https://github.com/JeffreySarnoff/NamedTupleTools.jl#select-chad-scherrer)
-- select one or more named constituents
+### Selection
+- [select one or more named constituents](https://github.com/JeffreySarnoff/NamedTupleTools.jl#select-chad-scherrer)
 - complements [_Deletion_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#deletion)
 
-### [Deletion](https://github.com/JeffreySarnoff/NamedTupleTools.jl#delete)
-- delete one or more named constituents
+### Deletion
+- [delete one or more named constituents](https://github.com/JeffreySarnoff/NamedTupleTools.jl#delete)
 - complements [_Selection_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
 
-### [Merging](https://github.com/JeffreySarnoff/NamedTupleTools.jl#merge)
-- merge one or more NamedTuples
+### Merging
+- [merge one or more NamedTuples](https://github.com/JeffreySarnoff/NamedTupleTools.jl#merge)
 - complements [_Splitting_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#splitting)
 
-### [Splitting](https://github.com/JeffreySarnoff/NamedTupleTools.jl#split)
-- split a NamedTuple into one or more NamedTuples formed of its consituents
+### Splitting
+- [split a NamedTuple into one or more NamedTuples formed of its consituents](https://github.com/JeffreySarnoff/NamedTupleTools.jl#split)
 - complements [_Merging_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#merging)
 
 
