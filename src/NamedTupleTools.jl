@@ -13,12 +13,13 @@ export @namedtuple,
        namedtuple, isprototype,
        propertynames, fieldnames, fieldvalues, fieldtypes,
        merge,
+       split,
        delete,
        select,
        ntfromstruct, structfromnt,
        @structfromnt
 
-import Base: propertynames, fieldnames, valtype, values, merge
+import Base: propertynames, fieldnames, valtype, values, merge, split
 
 if isdefined(Base, :fieldtypes)
      import Base: fieldtypes
@@ -255,7 +256,7 @@ see: [`merge`](@ref)
 """
 select(nt::NamedTuple, k::Symbol) = nt[k]
 select(nt::NamedTuple, k::NamedTuple) = select(nt, keys(k))
-select(nt::NamedTuple, ks) = namedtuple(ks)((nt[k] for k in ks)...)
+select(nt::NamedTuple, ks) = namedtuple(ks)(((nt[k] for k in ks)...,))
 
 
 """
@@ -293,6 +294,16 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
     reduce(merge,(a, b, c, d, e, f))
 merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}, g::NamedTuple{gn}) where {an, bn, cn, dn, en, fn, gn} =
     reduce(merge,(a, b, c, d, e, f, g))
+
+"""
+    split(namedtuple, symbol(s)|Tuple)
+
+Generate two namedtuples, the first with only the fields in the second arg, the
+second with all but the fields in the second arg, such that
+`merge(split(nt, ks)...) == nt` when `ks` contains the first fields of `nt`.
+"""
+split(nt::NamedTuple, ks::Symbol) = split(nt, (ks,))
+split(nt::NamedTuple, ks) = select(nt, ks), delete(nt, ks)
 
 
 #=  interconvert: NamedTuple <--> Dict =#
