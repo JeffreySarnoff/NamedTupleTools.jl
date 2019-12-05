@@ -18,15 +18,17 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 
 ### Construction
 - [given `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
-- [given a `Vector` of `Pairs`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#vector-of-pairs-peter-deffebach)
 - [given a `Dict{Symbpl, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [given a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
+- [given a `Vector` of `Pairs`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#vector-of-pairs-peter-deffebach)
+- inversive [_Reconstruction_]((https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#reconstruction)
 
 ### Reconstruction
 - [obtaining `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
 - [obtaining a `Dict{Symbol, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [obtaining a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
-- undoes [_Construction_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
+- [obtaining `Vector{Pair}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#convert-to-vector-of-pairs)
+- inversive [_Construction_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#construction)
 
 ### Selection
 - [select one or more named constituents](https://github.com/JeffreySarnoff/NamedTupleTools.jl#select-chad-scherrer)
