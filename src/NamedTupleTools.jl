@@ -321,6 +321,10 @@ namedtuple(d::T) where {T<:AbstractDict{Symbol,V}} where {V} =
     NamedTuple{gather_(keys(d)), NTuple{length(d), V}}(gather_(values(d)))
 namedtuple(d::T) where {T<:AbstractDict{S,V}} where {S<:AbstractString, V} =
     NamedTuple{Symbol.(gather_(keys(d))), NTuple{length(d), V}}(gather_(values(d)))
+namedtuple(d::T) where {T<:AbstractDict{Symbol,Any}} =
+    NamedTuple{gather_(keys(d)), Tuple{typeof.(values(d))...}}(gather_(values(d)))
+namedtuple(d::T) where {T<:AbstractDict{S,Any}} where {S<:AbstractString} =
+    NamedTuple{Symbol.(gather_(keys(d))), Tuple{typeof.(values(d))...}}(gather_(values(d)))
 
 # use: dict = convert(Dict, nt)
 #=

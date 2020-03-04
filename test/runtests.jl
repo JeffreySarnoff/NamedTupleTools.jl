@@ -112,6 +112,16 @@ for DictType in [Dict, OrderedDict, LittleDict]
     end
 end
 
+# Note: checking the types below requires an ordered dictionary
+dict1 = LittleDict(:a=>1, :b=>2//11, :c=>"three")
+nt1 = namedtuple(dict1)
+@test nt1 isa NamedTuple{(:a, :b, :c),Tuple{Int64,Rational{Int64},String}}
+
+dict2 = LittleDict("a"=>1, "b"=>2//11, "c"=>"three")
+nt2 = namedtuple(dict2)
+@test nt2 isa NamedTuple{(:a, :b, :c),Tuple{Int64,Rational{Int64},String}}
+
+
 nt = (a = 1, b = 2)
 a = 1; b = 2;
 nt_ab = @namedtuple(a, b)
