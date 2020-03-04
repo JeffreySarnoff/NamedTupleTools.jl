@@ -317,10 +317,14 @@ Collect the elements of x into a Tuple, in their iterated order.
 """
 @inline gather_(x::T) where {T} = (collect(x)...,)
 
-namedtuple(d::T) where {T<:Dict{Symbol,V}} where {V} =
+namedtuple(d::T) where {T<:AbstractDict{Symbol,V}} where {V} =
     NamedTuple{gather_(keys(d)), NTuple{length(d), V}}(gather_(values(d)))
-namedtuple(d::T) where {T<:Dict{S,V}} where {S<:AbstractString, V} =
+namedtuple(d::T) where {T<:AbstractDict{S,V}} where {S<:AbstractString, V} =
     NamedTuple{Symbol.(gather_(keys(d))), NTuple{length(d), V}}(gather_(values(d)))
+namedtuple(d::T) where {T<:AbstractDict{Symbol,Any}} =
+    NamedTuple{gather_(keys(d)), Tuple{typeof.(values(d))...}}(gather_(values(d)))
+namedtuple(d::T) where {T<:AbstractDict{S,Any}} where {S<:AbstractString} =
+    NamedTuple{Symbol.(gather_(keys(d))), Tuple{typeof.(values(d))...}}(gather_(values(d)))
 
 # use: dict = convert(Dict, nt)
 #=
@@ -328,8 +332,8 @@ namedtuple(d::T) where {T<:Dict{S,V}} where {S<:AbstractString, V} =
    Base.convert(::Type{Dict}, x::NT) where {N, NT<:NamedTuple{N}} = 
        Dict([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
 =#
-Base.convert(::Type{Dict}, x::NT) where {N, NT<:NamedTuple{N}} = 
-    Dict{Symbol, uniontype(x)}([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
+Base.convert(::Type{D}, x::NT) where {D<:AbstractDict, N, NT<:NamedTuple{N}} = 
+    D{Symbol, uniontype(x)}([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
 
 dictionary(nt::NamedTuple) = convert(Dict, nt) # deprecated
 

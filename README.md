@@ -220,12 +220,12 @@ julia> mystruct == ntstruct
 true
 ```
 
-## Dict construction, reconstruction 
+## AbstractDict construction, reconstruction 
 ```julia
 julia> adict = Dict(:a => 1, :b => "two")
 Dict{String,Int} with 3 entries:
   :a => 1
-  :b => 2
+  :b => "two"
 
 julia> nt = namedtuple(adict)
 (a = 1, b = "two")
@@ -241,6 +241,21 @@ julia> nt = namedtuple(adict)
 
 julia> convert(Dict, nt) == adict
 true
+
+julia> using OrderedCollections: OrderedDict, LittleDict
+
+julia> ldict = OrderedDict(:a => 1, :b => "two")
+OrderedDict{Symbol,Any} with 2 entries:
+  :a => 1
+  :b => "two"
+
+julia> nt = namedtuple(ldict)
+(a = 1, b = "two")
+
+julia> convert(LittleDict, nt)
+LittleDict{Symbol,Union{Int64, String},Array{Symbol,1},Array{Union{Int64, String},1}} with 2 entries:
+  :a => 1
+  :b => "two"
 ```
 
 ## Vector of Pairs (Peter Deffebach)

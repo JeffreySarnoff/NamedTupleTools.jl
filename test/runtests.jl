@@ -1,5 +1,6 @@
 using NamedTupleTools
 using Test
+using OrderedCollections: OrderedDict, LittleDict
 
 namesofvalues  = (:instrument, :madeby)
 matchingvalues = ("violin", "Stradivarius")
@@ -92,15 +93,34 @@ v = [:b => 2, :a => 1]
 v = ["b" => 2, "a" => 1]
 @test namedtuple(v) == NamedTuple{(:b, :a)}(2, 1)
 
-dict1 = Dict(:a=>1)
-nt1 = (a = 1,)
-dict3 = Dict(:a=>1, :b=>2//11, :c=>"three")
-nt3 = (a = 1, b = 2//11, c = "three")
+for DictType in [Dict, OrderedDict, LittleDict]
+    let DT=DictType
+        dict1 = DT(:a=>1)
+        nt1 = (a = 1,)
+        dict2 = DT(:a=>1, :b=>2//11, :c=>"three")
+        nt2 = (a = 1, b = 2//11, c = "three")
 
-@test convert(Dict, nt1) == dict1
-@test namedtuple(dict1) == nt1
-@test convert(Dict, nt3) == dict3
-@test namedtuple(dict3) == nt3
+        nt1_to_dict = convert(DT, nt1)
+        @test nt1_to_dict == dict1
+        @test nt1_to_dict isa DT
+        @test namedtuple(dict1) == nt1
+    
+        nt2_to_dict = convert(DT, nt2)
+        @test nt2_to_dict == dict2
+        @test nt2_to_dict isa DT
+        @test namedtuple(dict2) == nt2
+    end
+end
+
+# Note: checking the types below requires an ordered dictionary
+dict1 = LittleDict(:a=>1, :b=>2//11, :c=>"three")
+nt1 = namedtuple(dict1)
+@test nt1 isa NamedTuple{(:a, :b, :c),Tuple{Int64,Rational{Int64},String}}
+
+dict2 = LittleDict("a"=>1, "b"=>2//11, "c"=>"three")
+nt2 = namedtuple(dict2)
+@test nt2 isa NamedTuple{(:a, :b, :c),Tuple{Int64,Rational{Int64},String}}
+
 
 nt = (a = 1, b = 2)
 a = 1; b = 2;
