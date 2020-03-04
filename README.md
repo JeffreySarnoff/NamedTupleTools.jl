@@ -220,7 +220,7 @@ julia> mystruct == ntstruct
 true
 ```
 
-## AbstractDict construction, reconstruction 
+## AbstractDict construction, reconstruction (Kevin Squire)
 ```julia
 julia> adict = Dict(:a => 1, :b => "two")
 Dict{String,Int} with 3 entries:
