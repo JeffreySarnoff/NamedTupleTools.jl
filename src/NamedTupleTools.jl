@@ -187,6 +187,14 @@ prototype(names::Vararg{String}) = prototype(Symbol.(names))
 prototype(names::T) where {T<:AbstractVector{Symbol}} = prototype(names...,)
 prototype(names::T) where {T<:AbstractVector{String}} = prototype(Symbol.(names))
 
+useprototype() = throw(DomainError("Use `prototype(names)`"))
+namedtuple(names::NTuple{N,Symbol}) where {N} = useprototype()
+namedtuple(names::Vararg{Symbol}) = useprototype()
+namedtuple(names::NTuple{N,String}) where {N}  = useprototype()
+namedtuple(names::Vararg{String}) = useprototype()
+namedtuple(names::T) where {T<:AbstractVector{Symbol}} = useprototype()
+namedtuple(names::T) where {T<:AbstractVector{String}} = useprototype()
+
 """
     isprototype( ntprototype )
     isprototype( namedtuple  )
