@@ -30,8 +30,6 @@ nt = NamedTuple{(:a, :b)}(1.0, "two")
 @test valtype(nt) == Tuple{Float64, String}
 @test fieldtypes(nt) == (Float64, String)
 
-namedtuple(:a, :b) == NamedTuple{(:a, :b),T} where T<:Tuple
-
 ntproto1 = prototype(:a, :b, :c, :d)
 ntproto2 = prototype(:a, :b)
 
