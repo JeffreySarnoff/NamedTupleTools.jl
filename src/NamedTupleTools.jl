@@ -68,7 +68,7 @@ Retrieve the values' types as a typeof(tuple).
 see: [`fieldtypes`](@ref)
 """
 eltype(x::NamedTuple{N,S}) where {N,S} = S
-eltype(::Type{NamedTuple{N,S}) where {N,S} = S
+eltype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
 """
     untuple( Tuple{_} )
