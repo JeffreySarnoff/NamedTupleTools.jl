@@ -85,7 +85,7 @@ true
 julia> fieldtypes(nt) == (Float64, String)
 true
 
-julia> valtype(nt) == Tuple{Float64, String}
+julia> eltype(nt) == Tuple{Float64, String}
 true
 
 julia> fieldvalues(nt) == (1.0, "two")
