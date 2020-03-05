@@ -64,6 +64,7 @@ fieldtypes(::Type{NamedTuple{N,S}}) where {N,S<:Tuple} = (S.parameters...,)
 
 """
     valtype( namedtuple )
+
 valtype(::Type{NamedTuple{N,S}}) where {N,S} = S
 Retrieve the values' types as a typeof(tuple).
 
