@@ -10,7 +10,7 @@ see [`namedtuple`](@ref), [`isprototype`](@ref),
 module NamedTupleTools
 
 export @namedtuple,
-       namedtuple, isprototype,
+       namedtuple, isprototype, prototype,
        propertynames, fieldnames, fieldvalues, fieldtypes,
        merge,
        split,
@@ -26,7 +26,7 @@ if isdefined(Base, :fieldtypes)
 else
      export fieldtypes
 end
-          
+
 # length(T), length(x::T) without type piracy
 lengthof(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
 lengthof(::Type{T}) where {N,T<:NamedTuple{N}} = length(N)
@@ -217,6 +217,15 @@ namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T, nm8::T, nm9::
 namedtuple(nm1::T, nm2::T, nm3::T, nm4::T, nm5::T, nm6::T, nm7::T, nm8::T, nm9::T, nm10::T) where T<:Symbol =
     NamedTuple{(nm1,nm2,nm3,nm4,nm5,nm6,nm7,nm8,nm9,nm10)}
 
+"""
+    prototype(namedtuple)
+    prototype(typeof(namedtuple))
+
+provides the prototype `NamedTuple{names, T} where T<:Tuple`
+    - `names` is a tuple of symbols
+"""
+prototype(::NamedTuple{A,B}) where {A,B} = NamedTuple{A}
+prototype(::Type{NamedTuple{A,B}}) where {A,B} = NamedTuple{A}
 
 """
     isprototype( ntprototype )
