@@ -59,15 +59,16 @@ fieldtypes(x::NamedTuple{N,S}) where {N,S} = (S.parameters...,)
 fieldtypes(::Type{NamedTuple{N,S}}) where {N,S<:Tuple} = (S.parameters...,)
 
 """
-    valtype( namedtuple )
+    eltype( namedtuple )
+    eltype( typeof(namedtuple) )
 
-valtype(::Type{NamedTuple{N,S}}) where {N,S} = S
+eltype(::Type{NamedTuple{N,S}}) where {N,S} = S
 Retrieve the values' types as a typeof(tuple).
 
 see: [`fieldtypes`](@ref)
 """
-valtype(x::NamedTuple{N,S}}) where {N,S} = S
-valtype(::Type{NamedTuple{N,S}}) where {N,S} = S
+eltype(x::NamedTuple{N,S}}) where {N,S} = S
+eltype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
 """
     untuple( Tuple{_} )
