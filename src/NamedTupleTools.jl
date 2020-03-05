@@ -314,6 +314,41 @@ macro namedtuple(vars...)
    return expr
 end
 
+if VERSION < v"1.5"
+    """
+        @NamedTuple{key1::Type1, key2::Type2, ...}
+        @NamedTuple begin key1::Type1; key2::Type2; ...; end
+    This macro gives a more convenient syntax for declaring `NamedTuple` types. It returns a `NamedTuple`
+    type with the given keys and types, equivalent to `NamedTuple{(:key1, :key2, ...), Tuple{Type1,Type2,...}}`.
+    If the `::Type` declaration is omitted, it is taken to be `Any`.   The `begin ... end` form allows the
+    declarations to be split across multiple lines (similar to a `struct` declaration), but is otherwise
+    equivalent.
+    For example, the tuple `(a=3.1, b="hello")` has a type `NamedTuple{(:a, :b),Tuple{Float64,String}}`, which
+    can also be declared via `@NamedTuple` as:
+    ```jldoctest
+    julia> @NamedTuple{a::Float64, b::String}
+    NamedTuple{(:a, :b),Tuple{Float64,String}}
+    julia> @NamedTuple begin
+               a::Float64
+               b::String
+           end
+    NamedTuple{(:a, :b),Tuple{Float64,String}}
+    ```
+    """
+    macro NamedTuple(ex)
+        Meta.isexpr(ex, :braces) || Meta.isexpr(ex, :block) ||
+            throw(ArgumentError("@NamedTuple expects {...} or begin...end"))
+        decls = filter(e -> !(e isa LineNumberNode), ex.args)
+        all(e -> e isa Symbol || Meta.isexpr(e, :(::)), decls) ||
+            throw(ArgumentError("@NamedTuple must contain a sequence of name or name::type expressions"))
+        vars = [QuoteNode(e isa Symbol ? e : e.args[1]) for e in decls]
+        types = [esc(e isa Symbol ? :Any : e.args[2]) for e in decls]
+        return :(NamedTuple{($(vars...),), Tuple{$(types...)}})
+    end
+
+    export @NamedTuple
+end
+
 # low level utility functions for internal use only
 
 uniontype(nt::NamedTuple{N,S}) where {N,S} = Union{S.parameters...}	
