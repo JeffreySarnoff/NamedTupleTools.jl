@@ -10,16 +10,15 @@ see [`namedtuple`](@ref), [`isprototype`](@ref),
 module NamedTupleTools
 
 export @namedtuple,
-       namedtuple, isprototype, prototype,
-       propertynames, fieldnames, fieldvalues, fieldtypes,
-       merge,
-       split,
+       namedtuple,
+       prototype, isprototype,
+       fieldvalues,
        delete,
        select,
        ntfromstruct, structfromnt,
        @structfromnt
 
-import Base: propertynames, fieldnames, eltype, values, merge, split
+import Base: propertynames, fieldnames, eltype, merge, split
 
 if isdefined(Base, :fieldtypes)
      import Base: fieldtypes
