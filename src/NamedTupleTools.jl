@@ -71,19 +71,19 @@ eltype(x::NamedTuple{N,S}) where {N,S} = S
 eltype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
 """
-    untuple( Tuple{_} )
+    internal_untuple( Tuple{_} )
 
 Retrieve the types that are internal to the `Tuple` as a (_).
 """
-untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
+internal_untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
 
 
 """
-    retuple( (_) )
+    internal_retuple( (_) )
 
 Generate a `Tuple` with the given internal types as a `Tuple{_}`.
 """
-retuple(x::Tuple) = Tuple{x...,}
+internal_retuple(x::Tuple) = Tuple{x...,}
 
 
 namedtuple(x::NamedTuple) = x
@@ -110,7 +110,7 @@ end
 function structfromnt(structname::Union{Symbol, String}, nt::NamedTuple{N,T}) where {N,T}
     sname = Symbol(structname)
     names = N
-    types = untuple(T)
+    types = internal_untuple(T)
     tostruct = Meta.parse(NamedTupleTools.struct_from(sname, names, types))
     eval(tostruct) # generate Struct
     return nothing
