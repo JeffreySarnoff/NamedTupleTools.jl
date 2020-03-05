@@ -30,8 +30,8 @@ end
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
-propertynames(nt::NamedTuple{N,T}) where {N,T} = N   # correct
-fieldnames(nt::NamedTuple{N,T}) where {N,T} = N      # deprecate
+propertynames(nt::NamedTuple{N,T}) where {N,T} = N
+fieldnames(nt::NamedTuple{N,T}) where {N,T} = N
 
 """
     fieldvalues
