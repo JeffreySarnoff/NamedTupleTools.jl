@@ -13,8 +13,7 @@
 
 `NamedTuples` are built from fieldnames, given as `Symbols` and field values, as they may be given.
 These utilities make some uses of `NamedTuples` more straightforward.  This package benefits greatly
-from contributions by Seth Axen, Takafumi Arakaki, Kristoffer Carlsson, Peter Deffebach,
-Sebastian Pfitzner, Chad Scherrer, Kevin Squire (please see [Credits](#Credits)). 
+from contributions by others (please see [Credits](#Credits)). 
 
 
 ## Operations
