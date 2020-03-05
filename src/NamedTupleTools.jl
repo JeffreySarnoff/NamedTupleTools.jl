@@ -39,6 +39,8 @@ fieldnames(nt::NamedTuple{N,T}) where {N,T} = N      # deprecate
 obtain values assigned to fields of a struct type
 (in field order)
 """
+fieldvalues(x::NamedTuple{N,S}) where {N,S} = Tuple(x)
+
 function fieldvalues(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
      
