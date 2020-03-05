@@ -284,8 +284,6 @@ namedtuple(d::T) where {T<:AbstractDict{S,Any}} where {S<:AbstractString} =
 Base.convert(::Type{D}, x::NT) where {D<:AbstractDict, N, NT<:NamedTuple{N}} = 
     D{Symbol, uniontype(x)}([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
 
-dictionary(nt::NamedTuple) = convert(Dict, nt) # deprecated
-
 # from PR by pdeffebach (Vector of Pairs becomes NamedTuple)
 namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
 # with names as strings
