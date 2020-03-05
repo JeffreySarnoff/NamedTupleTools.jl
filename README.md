@@ -344,8 +344,8 @@ julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
 [docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
 [docs-stable-url]: http://JeffreySarnoff.github.io/NamedTupleTools.jl/stable/
 
-[travis-img]: https://travis-ci.org/JuliaGraphics/Luxor.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/JuliaGraphics/Luxor.jl
+[travis-img]: https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl.svg?branch=master
+[travis-url]: https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl
 
 [codecov-img]: https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl/branch/master/graph/badge.svg
 [codecov-url]: https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl
