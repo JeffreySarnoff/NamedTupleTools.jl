@@ -27,9 +27,6 @@ else
      export fieldtypes
 end
 
-@eval Base begin
-    @deprecate namedtuple(nt::$NamedTuple) $prototype(nt::$NamedTuple)
-end
 
 # length(T), length(x::T) without type piracy
 lengthof(::Type{T}) where {T<:NamedTuple} = length(T.parameters[1])
@@ -373,5 +370,8 @@ macro namedtuple(vars...)
 end
 
 
+@eval Base begin
+    @deprecate namedtuple(nt::$NamedTuple) $prototype(nt::$NamedTuple)
+end
 
 end # module NamedTupleTools
