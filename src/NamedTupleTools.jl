@@ -101,13 +101,6 @@ namedtuple(x::NamedTuple{N,S}) where {N,S} = x
 namedtuple(x::Type{NamedTuple{N,S}}) where {N,S} = x
 namedtuple(x::Type{T}) where {T<:NamedTuple} = x
 
-namedtuple(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
-namedtuple(names::Vararg{Symbol}) = NamedTuple{names}
-namedtuple(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
-namedtuple(names::Vararg{String}) = namedtuple(Symbol.(names))
-namedtuple(names::T) where {T<:AbstractVector{Symbol}} = namedtuple(names...,)
-namedtuple(names::T) where {T<:AbstractVector{String}} = namedtuple(Symbol.(names))
-
 namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
@@ -186,6 +179,13 @@ provides the prototype `NamedTuple{names, T} where T<:Tuple`
 """
 prototype(::NamedTuple{A,B}) where {A,B} = NamedTuple{A}
 prototype(::Type{NamedTuple{A,B}}) where {A,B} = NamedTuple{A}
+
+prototype(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
+prototype(names::Vararg{Symbol}) = NamedTuple{names}
+prototype(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
+prototype(names::Vararg{String}) = namedtuple(Symbol.(names))
+prototype(names::T) where {T<:AbstractVector{Symbol}} = namedtuple(names...,)
+prototype(names::T) where {T<:AbstractVector{String}} = namedtuple(Symbol.(names))
 
 """
     isprototype( ntprototype )
