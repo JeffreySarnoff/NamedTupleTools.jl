@@ -96,7 +96,7 @@ Generate a `Tuple` with the given internal types as a `Tuple{_}`.
 retuple(x::Tuple) = Tuple{x...,}
 
 
-
+namedtuple(x::NamedTuple) = x
 namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
@@ -198,7 +198,7 @@ namedtuple(names::Vararg{String}) = namedtuple(Symbol.(names))
 namedtuple(names::T) where {T<:AbstractVector{Symbol}} = namedtuple(names...,)
 namedtuple(names::T) where {T<:AbstractVector{String}} = namedtuple(Symbol.(names))
 
-namedtuple(nt::T) where {N,V,T<:NamedTuple{N,V}} = NamedTuple{N}
+# namedtuple(nt::T) where {N,V,T<:NamedTuple{N,V}} = NamedTuple{N}
 # for speed
 namedtuple(nm1::T) where T<:Symbol = NamedTuple{(nm1,)}
 namedtuple(nm1::T, nm2::T) where T<:Symbol = NamedTuple{(nm1,nm2)}
