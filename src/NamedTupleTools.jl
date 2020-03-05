@@ -59,24 +59,18 @@ Retrieve the values' types as a tuple.
 
 see: [`valtype`](@ref)
 """
-fieldtypes(x::T) where {N,S<:Tuple,T<:NamedTuple{N,S}} = (S.parameters...,)
+fieldtypes(x::NamedTuple{N,S}) where {N,S} = (S.parameters...,)
 fieldtypes(::Type{NamedTuple{N,S}}) where {N,S<:Tuple} = (S.parameters...,)
-
 
 """
     valtype( namedtuple )
-
+valtype(::Type{NamedTuple{N,S}}) where {N,S} = S
 Retrieve the values' types as a typeof(tuple).
 
 see: [`fieldtypes`](@ref)
 """
-valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
-
-valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-    typeof(T) === UnionAll ? NTuple{lengthof(N),Any} : T.parameters[2]
-
-
-
+valtype(x::NamedTuple{N,S}}) where {N,S} = S
+valtype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
 """
     untuple( Tuple{_} )
