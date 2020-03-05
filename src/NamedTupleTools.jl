@@ -19,7 +19,7 @@ export @namedtuple,
        ntfromstruct, structfromnt,
        @structfromnt
 
-import Base: propertynames, fieldnames, valtype, values, merge, split
+import Base: propertynames, fieldnames, eltype, values, merge, split
 
 if isdefined(Base, :fieldtypes)
      import Base: fieldtypes
