@@ -209,7 +209,7 @@ see: [`merge`](@ref)
 """
 delete(a::NamedTuple, b::Symbol) = Base.structdiff(a, prototype(b))
 delete(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, prototype(b))
-delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, prtotype(bs))
+delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, prototype(bs))
 
 delete(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = prototype((Base.setdiff(S,(b,))...,))
 delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = prototype((Base.setdiff(S,b)...,))
