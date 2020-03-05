@@ -18,7 +18,7 @@ export @namedtuple,
        ntfromstruct, structfromnt,
        @structfromnt
 
-import Base: propertynames, fieldnames, eltype, merge, split
+import Base: propertynames, fieldnames, valtype, merge, split
 
 if isdefined(Base, :fieldtypes)
      import Base: fieldtypes
@@ -58,16 +58,16 @@ fieldtypes(x::NamedTuple{N,S}) where {N,S} = (S.parameters...,)
 fieldtypes(::Type{NamedTuple{N,S}}) where {N,S<:Tuple} = (S.parameters...,)
 
 """
-    eltype( namedtuple )
-    eltype( typeof(namedtuple) )
+    valtype( namedtuple )
+    valtype( typeof(namedtuple) )
 
-eltype(::Type{NamedTuple{N,S}}) where {N,S} = S
+- valtype(::Type{NamedTuple{N,S}}) where {N,S} = S
 Retrieve the values' types as a typeof(tuple).
 
 see: [`fieldtypes`](@ref)
 """
-eltype(x::NamedTuple{N,S}) where {N,S} = S
-eltype(::Type{NamedTuple{N,S}}) where {N,S} = S
+valtype(x::NamedTuple{N,S}) where {N,S} = S
+valtype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
 # `namedtuple`
 
