@@ -285,9 +285,9 @@ Base.convert(::Type{D}, x::NT) where {D<:AbstractDict, N, NT<:NamedTuple{N}} =
     D{Symbol, uniontype(x)}([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
 
 # from PR by pdeffebach (Vector of Pairs becomes NamedTuple)
-namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
+namedtuple(v::Vector{<:Pair{<:Symbol}}) = prototype([p[1] for p in v]...)([p[2] for p in v]...)
 # with names as strings
-namedtuple(v::Vector{<:Pair{<:String}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
+namedtuple(v::Vector{<:Pair{<:String}}) = prototype([p[1] for p in v]...)([p[2] for p in v]...)
 
 # NamedTuple becomes a Vector of Pairs 
 Base.convert(::Type{Vector{Pair}}, nt::NamedTuple) =  map(kv->Pair(first(kv), last(kv)), zip(keys(nt), values(nt)))
