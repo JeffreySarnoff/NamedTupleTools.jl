@@ -182,10 +182,10 @@ prototype(::Type{NamedTuple{A,B}}) where {A,B} = NamedTuple{A}
 
 prototype(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
 prototype(names::Vararg{Symbol}) = NamedTuple{names}
-prototype(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
-prototype(names::Vararg{String}) = namedtuple(Symbol.(names))
-prototype(names::T) where {T<:AbstractVector{Symbol}} = namedtuple(names...,)
-prototype(names::T) where {T<:AbstractVector{String}} = namedtuple(Symbol.(names))
+prototype(names::NTuple{N,String}) where {N}  = prototype(Symbol.(names))
+prototype(names::Vararg{String}) = prototype(Symbol.(names))
+prototype(names::T) where {T<:AbstractVector{Symbol}} = prototype(names...,)
+prototype(names::T) where {T<:AbstractVector{String}} = prototype(Symbol.(names))
 
 """
     isprototype( ntprototype )
