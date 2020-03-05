@@ -7,6 +7,7 @@ makedocs(
     pages    = Any[
         "Overview"   => "index.md",
         "Concepts"   => "concepts.md",
+        "NamedTuples" => "namedtuples.md",
         "Operations" => "operations.md",
         "Functions" =>  "functions.md",
         "Index"  => "generalindex.md"
