@@ -32,8 +32,8 @@ nt = NamedTuple{(:a, :b)}(1.0, "two")
 
 namedtuple(:a, :b) == NamedTuple{(:a, :b),T} where T<:Tuple
 
-ntproto1 = namedtuple(:a, :b, :c, :d)
-ntproto2 = namedtuple(:a, :b)
+ntproto1 = prototype(:a, :b, :c, :d)
+ntproto2 = prototype(:a, :b)
 
 @test ntproto1 == NamedTuple{(:a, :b, :c, :d),T} where T<:Tuple
 
@@ -42,6 +42,13 @@ nt2 = ntproto2("one", "two")
 
 proto1 = prototype(nt1)
 proto2 = prototype(nt2)
+
+@test prototype((:a, :b)) == NamedTuple{(:a, :b),T} where T<:Tuple 
+@test prototype(:a, :b) == NamedTuple{(:a, :b),T} where T<:Tuple
+@test prototype(("a", "b")) == NamedTuple{(:a, :b),T} where T<:Tuple 
+@test prototype("a", "b") == NamedTuple{(:a, :b),T} where T<:Tuple
+@test prototype([:a, :b]) == NamedTuple{(:a, :b),T} where T<:Tuple 
+@test prototype(["a", "b"]) == NamedTuple{(:a, :b),T} where T<:Tuple 
 
 @test isprototype(ntproto1) === true
 @test isprototype(nt1) === false
