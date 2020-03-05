@@ -12,9 +12,11 @@
 ## Overview
 
 `NamedTuples` are built from fieldnames, given as `Symbols` and field values, as they may be given.
-These utilities make some uses of `NamedTuples` a little more straightforward.
+These utilities make some uses of `NamedTuples` more straightforward.  This package benefits greatly
+from other's contribution (please see (Credits)[#Credits]) 
 
-## Functional Features
+
+## Operations
 
 ### Construction
 - [given `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
@@ -48,10 +50,9 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 
 
 -----
+## Functions
 
-
-## Construction from names and values
-_submitted by Kristoffer Carlsson_
+### Construction from names and values
 ```julia
 julia> using NamedTupleTools
 julia> namesofvalues  = (:instrument, :madeby)
@@ -63,7 +64,7 @@ julia> nt = namedtuple(namesofvalues, matchingvalues)
 - The names may be given as `Symbols` or `Strings`
 - The names, values may be `Tuples` or `Vectors`
 
-## Selecting Aspects of Elements
+### Selecting Aspects of Elements
 ```julia
 julia> using NamedTupleTools
 
@@ -89,8 +90,7 @@ julia> fieldvalues(nt) == (1.0, "two")
 true
 ```
 
-## Use NamedTuple prototypes
-_improved by Chad Scherrer_
+### Use NamedTuple prototypes
 ```julia
 using NamedTupleTools
 
@@ -126,8 +126,7 @@ true
 julia> isprototype(nt)
 false
 ```
-## Select
-_submitted by Chad Scherrer_
+### Select
 ```julia
 using NamedTupleTools
 
@@ -138,7 +137,7 @@ julia> ay = select(nt, (:a, :y))
 (a = 1, y = 25)
 ```
 
-## Delete
+### Delete
 ```julia
 using NamedTupleTools
 
@@ -164,7 +163,7 @@ julia> delete(nt, :a, :c)
 (b = 2,)
 ```
 
-## Merge
+### Merge
 
 ```julia
 # merge from 2..7 NamedTuples
@@ -190,8 +189,7 @@ julia> merge(nt1, nt2)
 (a = 3, b = 6, c = 8)
 ```
 
-## Split
-_submitted by Seth Axen_
+### Split
 ```julia
 julia> using NamedTupleTools
 
@@ -207,7 +205,7 @@ julia> merge(split(nt, (:a, :b))...) == nt
 true
 ```
 
-## Struct construction, conversion
+### Struct construction, conversion
 ```
 using NamedTupleTools
 
@@ -229,8 +227,7 @@ julia> mystruct == ntstruct
 true
 ```
 
-## AbstractDict construction, reconstruction
-_improved by Kevin Squire_
+### AbstractDict construction, reconstruction
 ```julia
 julia> nt = (a = 1, b = 2)
 (a = 1, b = 2)
@@ -278,8 +275,7 @@ LittleDict{Symbol,Union{Int64, String},Array{Symbol,1},Array{Union{Int64, String
   :b => "two"
 ```
 
-## Vector of Pairs
-_submitted by Peter Deffebach_
+### Vector of Pairs
 ```julia
 julia> vec = [:a => 1, :b => 2]
 2-element Array{Pair{Symbol,Int64},1}:
@@ -290,7 +286,7 @@ julia> nt = namedtuple(vec)
 (a = 1, b = 2)
 ```
 
-## convert to Vector Of Pairs
+### convert to Vector Of Pairs
 ```julia
 julia> nt = (a=1, b=2);
 julia> convert(Vector{Pair}, nt)
@@ -306,8 +302,7 @@ vec = convert(Vector{Pair}, nt)
  :c => 3.0
 ```
 
-## Variables mixed with standard syntax 
-_submitted by Sebastian Pfitzner, Takafumi Arakaki_
+### Variables mixed with standard syntax 
 ```julia
 julia> a, b, c, d, f = 1, 1.0, 1//1, "one", (g=1,)
 (1, 1.0, 1//1, "one", (g = 1,))
@@ -315,3 +310,26 @@ julia> a, b, c, d, f = 1, 1.0, 1//1, "one", (g=1,)
 julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
 (a = 1, b = 1.0, c = 1//1, d = "one", e = 2.0, g = 1)
 ```
+
+## Credits
+
+- Construction from names and values
+    - _submitted by Kristoffer Carlsson_
+
+- Use NamedTuple prototypes
+    - _improved by Chad Scherrer_
+
+- Select
+    - _submitted by Chad Scherrer_
+
+- Split
+    - _submitted by Seth Axen_
+
+- AbstractDict construction, reconstruction
+    - _improved by Kevin Squire_
+
+- Vector of Pairs
+    - _submitted by Peter Deffebach_
+
+- Variables mixed with standard syntax 
+    - _submitted by Sebastian Pfitzner, Takafumi Arakaki_
