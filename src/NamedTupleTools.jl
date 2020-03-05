@@ -213,7 +213,7 @@ delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
 
 delete(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = prototype((Base.setdiff(S,(b,))...,))
 delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = prototype((Base.setdiff(S,b)...,))
-delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = prototype(((Base.setdiff(S,bs)...,))
+delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = prototype((Base.setdiff(S,bs)...,))
 
 """
    select(namedtuple, symbol(s)|Tuple)
