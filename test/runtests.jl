@@ -40,9 +40,14 @@ ntproto2 = namedtuple(:a, :b)
 nt1 = ntproto1(1, 2, 3, 4)
 nt2 = ntproto2("one", "two")
 
+proto1 = prototype(nt1)
+proto2 = prototype(nt2)
+
 @test isprototype(ntproto1) === true
 @test isprototype(nt1) === false
 @test isprototype(UnionAll) === false
+@test isprototype(proto1) === true
+@test isprototype(proto2) === true
 
 @test nt2 === (a = "one", b = "two")
 @test ntproto2(nt1) === (a = 1, b = 2)
