@@ -88,7 +88,7 @@ julia> fieldvalues(nt) == (1.0, "two")
 true
 ```
 
-## Use NamedTuple prototypes
+## Use NamedTuple prototypes (with Chad Scherrer)
 ```julia
 using NamedTupleTools
 
@@ -103,20 +103,25 @@ julia> namedtuple(:a, :b, :c)(1, 2.0, "three")
 Generate a NamedTuple prototype by specifying or obtaining the fieldnames.
 The prototype is applied to fieldvalues, giving a completed NamedTuple.
 =#
+julia> nt = (a = 1, b = "two")
+(a = 1, b = "two")
 
-julia> ntproto = namedtuple( :a, :b, :c )
-NamedTuple{(:a, :b, :c),T} where T<:Tuple
+julia> nt_prototype = prototype(nt)
+NamedTuple{(:a, :b),T} where T<:Tuple
 
-julia> ntproto(1, 2, 3)
-(a = 1, b = 2, c = 3)
+julia> nt_prototype = namedtuple(:a, :b)
+NamedTuple{(:a, :b),T} where T<:Tuple
 
-julia> ntproto("A", "b", 3)
-(a = "A", b = "b", c = 3)
+julia> nt = nt_prototype(1, 2)
+(a = 1, b = 2)
 
-julia> isprototype(ntproto)
+julia> nt = nt_prototype("A", 3)
+(a = "A", b = 3)
+
+julia> isprototype(nt_prototype)
 true
 
-julia> isprototype((a = 1, b = 2, c = 3))
+julia> isprototype(nt)
 false
 ```
 ## Select (Chad Scherrer)
@@ -220,7 +225,7 @@ julia> mystruct == ntstruct
 true
 ```
 
-## AbstractDict construction, reconstruction (Kevin Squire)
+## AbstractDict construction, reconstruction (with Kevin Squire)
 ```julia
 julia> nt = (a = 1, b = 2)
 (a = 1, b = 2)
