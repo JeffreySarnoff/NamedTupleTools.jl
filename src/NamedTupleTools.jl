@@ -131,7 +131,7 @@ end
 function structfromnt(structname::Union{Symbol, String}, nt::NamedTuple{N,T}) where {N,T}
     sname = Symbol(structname)
     names = N
-    types = internal_untuple(T)
+    types = type_untuple(T)
     tostruct = Meta.parse(NamedTupleTools.struct_from(sname, names, types))
     eval(tostruct) # generate Struct
     return nothing
@@ -318,19 +318,19 @@ Collect the elements of x into a Tuple, in their iterated order.
 @inline gather_(x::T) where {T} = (x...,)
 
 """
-    internal_untuple( Tuple{_} )
+    type_untuple( Tuple{_} )
 
 Retrieve the types that are internal to the `Tuple` as a (_).
 """
-internal_untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
+type_untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
 
 
 """
-    internal_retuple( (_) )
+    type_retuple( (_) )
 
 Generate a `Tuple` with the given internal types as a `Tuple{_}`.
 """
-internal_retuple(x::Tuple) = Tuple{x...}
+type_retuple(x::Tuple) = Tuple{x...}
 
 
 end # module NamedTupleTools
