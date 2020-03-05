@@ -8,8 +8,8 @@ makedocs(
         "Overview"   => "index.md",
         "Concepts"   => "concepts.md",
         "Operations" => "operations.md",
-        "Functions" => "tutorial.md",
-         "Index"  => "functionindex.md"
+        "Functions" =>  "functions.md",
+        "Index"  => "generalindex.md"
         ]
     )
 
