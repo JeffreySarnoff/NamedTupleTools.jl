@@ -150,6 +150,6 @@ c = 3
 nt = (a = 1, b = 2, c = 3)
 @test @namedtuple(nt1..., c) == nt
 
-@test type_untuple(Tuple{Int64, String}) == (Int64, String)
-@test type_retuple((Int64, String)) == Tuple{Int64, String}
+@test NamedTupleTools.type_untuple(Tuple{Int64, String}) == (Int64, String)
+@test NamedTupleTools.type_retuple((Int64, String)) == Tuple{Int64, String}
 
