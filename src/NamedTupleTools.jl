@@ -176,12 +176,6 @@ namedtuple(names::Vararg{String}) = namedtuple(Symbol.(names))
 namedtuple(names::T) where {T<:AbstractVector{Symbol}} = namedtuple(names...,)
 namedtuple(names::T) where {T<:AbstractVector{String}} = namedtuple(Symbol.(names))
 
-# namedtuple(nt::T) where {N,V,T<:NamedTuple{N,V}} = NamedTuple{N}
-namedtuple(nm1::T) where T<:Symbol = NamedTuple{(nm1,)}
-namedtuple(nm1::T, nm2::T) where T<:Symbol = NamedTuple{(nm1,nm2)}
-namedtuple(nm1::T, nm2::T, nm3::T) where T<:Symbol = NamedTuple{(nm1,nm2,nm3)}
-namedtuple(nm1::T, nm2::T, nm3::T, nms::T...) where T<:Symbol = NamedTuple{(nm1,nm2,nm3,nms...,)}
-
 """
     prototype(namedtuple)
     prototype(typeof(namedtuple))
