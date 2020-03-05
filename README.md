@@ -222,25 +222,35 @@ true
 
 ## AbstractDict construction, reconstruction (Kevin Squire)
 ```julia
+julia> nt = (a = 1, b = 2)
+(a = 1, b = 2)
+
+julia> convert(Dict, nt)
+Dict{Symbol,Int64} with 2 entries:
+  :a => 1
+  :b => 2
+  
 julia> adict = Dict(:a => 1, :b => "two")
-Dict{String,Int} with 3 entries:
+Dict{Symbol,Any} with 2 entries:
   :a => 1
   :b => "two"
 
 julia> nt = namedtuple(adict)
 (a = 1, b = "two")
 
-julia> adict = Dict(:a => 1, :b => 2//11, :c => "three")
-Dict{Symbol,Any} with 3 entries:
+julia> convert(Dict, nt)
+Dict{Symbol,Union{Int64, String}} with 2 entries:
   :a => 1
-  :b => 2//11
-  :c => "three"
+  :b => "two"
 
 julia> nt = namedtuple(adict)
 (a = 1, b = 2//11, c = "three")
 
-julia> convert(Dict, nt) == adict
-true
+julia> convert(Dict, nt)
+Dict{Symbol,Union{Rational{Int64}, Int64, String}} with 3 entries:
+  :a => 1
+  :b => 2//11
+  :c => "three"
 
 julia> using OrderedCollections: OrderedDict, LittleDict
 
