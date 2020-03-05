@@ -50,7 +50,8 @@ These utilities make some uses of `NamedTuples` a little more straightforward.
 -----
 
 
-## Construction from names and values (Kristoffer Carlsson)
+## Construction from names and values
+#### (Kristoffer Carlsson)
 ```julia
 julia> using NamedTupleTools
 julia> namesofvalues  = (:instrument, :madeby)
@@ -88,7 +89,8 @@ julia> fieldvalues(nt) == (1.0, "two")
 true
 ```
 
-## Use NamedTuple prototypes (with Chad Scherrer)
+## Use NamedTuple prototypes
+#### (with Chad Scherrer)
 ```julia
 using NamedTupleTools
 
@@ -124,7 +126,8 @@ true
 julia> isprototype(nt)
 false
 ```
-## Select (Chad Scherrer)
+## Select
+#### (Chad Scherrer)
 ```julia
 using NamedTupleTools
 
@@ -187,7 +190,8 @@ julia> merge(nt1, nt2)
 (a = 3, b = 6, c = 8)
 ```
 
-## Split (Seth Axen)
+## Split
+#### (Seth Axen)
 ```julia
 julia> using NamedTupleTools
 
@@ -225,7 +229,8 @@ julia> mystruct == ntstruct
 true
 ```
 
-## AbstractDict construction, reconstruction (with Kevin Squire)
+## AbstractDict construction, reconstruction
+#### (with Kevin Squire)
 ```julia
 julia> nt = (a = 1, b = 2)
 (a = 1, b = 2)
@@ -273,7 +278,8 @@ LittleDict{Symbol,Union{Int64, String},Array{Symbol,1},Array{Union{Int64, String
   :b => "two"
 ```
 
-## Vector of Pairs (Peter Deffebach)
+## Vector of Pairs
+#### (Peter Deffebach)
 ```julia
 julia> vec = [:a => 1, :b => 2]
 2-element Array{Pair{Symbol,Int64},1}:
@@ -300,7 +306,8 @@ vec = convert(Vector{Pair}, nt)
  :c => 3.0
 ```
 
-## Variables mixed with standard syntax (Sebastian Pfitzner, Takafumi Arakaki)
+## Variables mixed with standard syntax 
+#### (Sebastian Pfitzner, Takafumi Arakaki)
 ```julia
 julia> a, b, c, d, f = 1, 1.0, 1//1, "one", (g=1,)
 (1, 1.0, 1//1, "one", (g = 1,))
