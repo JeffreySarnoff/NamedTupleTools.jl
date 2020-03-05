@@ -238,6 +238,24 @@ Generate a namedtuple with all fieldnames and values of namedtuple2
 
 see: [`delete!`](@ref)
 """
+# merge(nt1::T1, nt2::T2) where {T1<:NamedTuple, T2<:NamedTuple} is already defined
+
+merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}) where {an, bn, cn} =
+    reduce(merge,(a, b, c))
+merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}) where {an, bn, cn, dn} =
+    reduce(merge,(a, b, c, d))
+merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}) where {an, bn, cn, dn, en} =
+    reduce(merge,(a, b, c, d, e))
+merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}) where {an, bn, cn, dn, en, fn} =
+    reduce(merge,(a, b, c, d, e, f))
+merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}, g::NamedTuple{gn}) where {an, bn, cn, dn, en, fn, gn} =
+    reduce(merge,(a, b, c, d, e, f, g))
+
+merge(a::Type{NamedTuple{()}}, b::Type{<:NamedTuple}) = b
+merge(a::Type{<:NamedTuple}, b::Iterators.Pairs{<:Any,<:Any,<:Any,::Type{<:NamedTuple}}) = merge(a, b.data)
+merge(a::Type{<:NamedTuple}, b::Type{<:NamedTuple}, cs::Type{<:NamedTuple}...) = merge(merge(a, b), cs...)
+merge(a::Type{<:NamedTuple}) = a
+
 merge(::Type{T1}, ::Type{T2}) where {N1,N2,T1<:NamedTuple{N1},T2<:NamedTuple{N2}} =
     namedtuple((unique((N1..., N2...,))...,))
 merge(::Type{T1}, ::Type{T2}, ::Type{T3}) where {N1,N2,N3,T1<:NamedTuple{N1},T2<:NamedTuple{N2},T3<:NamedTuple{N3}} =
@@ -251,18 +269,14 @@ merge(::Type{T1}, ::Type{T2}, ::Type{T3}, ::Type{T4}, ::Type{T5}, ::Type{T6}) wh
 merge(::Type{T1}, ::Type{T2}, ::Type{T3}, ::Type{T4}, ::Type{T5}, ::Type{T6}, ::Type{T7}) where {N1,N2,N3,N4,N5,N6,N7,T1<:NamedTuple{N1},T2<:NamedTuple{N2},T3<:NamedTuple{N3},T4<:NamedTuple{N4},T5<:NamedTuple{N5},T6<:NamedTuple{N6},T7<:NamedTuple{N7}} =
     namedtuple((unique((N1..., N2..., N3..., N4..., N5..., N6...,N7...))...,))
 
-# merge(nt1::T1, nt2::T2) where {T1<:NamedTuple, T2<:NamedTuple} is already defined
+# merge(nt1::T1, nt2::T2, ...) where {T1<:NamedTuple, T2<:NamedTuple} is already defined
 
-merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}) where {an, bn, cn} =
-    reduce(merge,(a, b, c))
-merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}) where {an, bn, cn, dn} =
-    reduce(merge,(a, b, c, d))
-merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}) where {an, bn, cn, dn, en} =
-    reduce(merge,(a, b, c, d, e))
-merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}) where {an, bn, cn, dn, en, fn} =
-    reduce(merge,(a, b, c, d, e, f))
-merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}, g::NamedTuple{gn}) where {an, bn, cn, dn, en, fn, gn} =
-    reduce(merge,(a, b, c, d, e, f, g))
+#=
+merge(a::NamedTuple{()}, b::NamedTuple) = b
+merge(a::NamedTuple, b::Iterators.Pairs{<:Any,<:Any,<:Any,<:NamedTuple}) = merge(a, b.data)
+merge(a::NamedTuple, b::NamedTuple, cs::NamedTuple...) = merge(merge(a, b), cs...)
+merge(a::NamedTuple) = a
+=#
 
 """
     split(namedtuple, symbol(s)|Tuple)
