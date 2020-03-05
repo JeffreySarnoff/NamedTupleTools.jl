@@ -336,3 +336,5 @@ julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
 - Variables mixed with standard syntax 
     - _submitted by Sebastian Pfitzner, Takafumi Arakaki_
     
+- internal `struct` construction
+    - _from Fredrik Ekre_
