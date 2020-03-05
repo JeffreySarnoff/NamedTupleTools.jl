@@ -69,7 +69,12 @@ see: [`fieldtypes`](@ref)
 eltype(x::NamedTuple{N,S}) where {N,S} = S
 eltype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
-namedtuple(x::NamedTuple) = x
+# `namedtuple`
+
+namedtuple(x::NamedTuple{N,S}) where {N,S} = x
+namedtuple(x::Type{NamedTuple{N,S}}) where {N,S} = x
+namedtuple(x::Type{T}) where {T<:NamedTuple} = x
+
 namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
