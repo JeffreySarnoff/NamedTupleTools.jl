@@ -71,9 +71,42 @@ eltype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
 # `namedtuple`
 
+
+"""
+    namedtuple(  name1, name2, ..  )
+    namedtuple( (name1, name2, ..) )
+    namedtuple(  namedtuple )
+
+Generate a NamedTuple prototype by specifying or obtaining the fieldnames.
+The prototype is applied to fieldvalues, giving a completed NamedTuple.
+
+# Example
+
+julia> ntprototype = namedtuple( :a, :b, :c )
+
+NamedTuple{(:a, :b, :c),T} where T<:Tuple
+
+julia> nt123 = ntprototype(1, 2, 3)
+
+(a = 1, b = 2, c = 3)
+
+julia> ntAb3 = ntprototype("A", "b", 3)
+
+(a = "A", b = "b", c = 3)
+
+see: [`isprototype`](@ref)
+""" namedtuple
+
 namedtuple(x::NamedTuple{N,S}) where {N,S} = x
 namedtuple(x::Type{NamedTuple{N,S}}) where {N,S} = x
 namedtuple(x::Type{T}) where {T<:NamedTuple} = x
+
+namedtuple(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
+namedtuple(names::Vararg{Symbol}) = NamedTuple{names}
+namedtuple(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
+namedtuple(names::Vararg{String}) = namedtuple(Symbol.(names))
+namedtuple(names::T) where {T<:AbstractVector{Symbol}} = namedtuple(names...,)
+namedtuple(names::T) where {T<:AbstractVector{String}} = namedtuple(Symbol.(names))
 
 namedtuple(x::DataType) = ntfromstruct(x)
 
@@ -143,38 +176,6 @@ namedtuple(namesforvalues::Vector{S}, valuesfornames) where {N,S<:AbstractString
 
 namedtuple(namesforvalues::NTuple{N,S}, valuesfornames) where {N,S<:AbstractString} =
     namedtuple(Symbol.(namesforvalues), valuesfornames)
-
-
-"""
-    namedtuple(  name1, name2, ..  )
-    namedtuple( (name1, name2, ..) )
-    namedtuple(  namedtuple )
-
-Generate a NamedTuple prototype by specifying or obtaining the fieldnames.
-The prototype is applied to fieldvalues, giving a completed NamedTuple.
-
-# Example
-
-julia> ntprototype = namedtuple( :a, :b, :c )
-
-NamedTuple{(:a, :b, :c),T} where T<:Tuple
-
-julia> nt123 = ntprototype(1, 2, 3)
-
-(a = 1, b = 2, c = 3)
-
-julia> ntAb3 = ntprototype("A", "b", 3)
-
-(a = "A", b = "b", c = 3)
-
-see: [`isprototype`](@ref)
-"""
-namedtuple(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
-namedtuple(names::Vararg{Symbol}) = NamedTuple{names}
-namedtuple(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
-namedtuple(names::Vararg{String}) = namedtuple(Symbol.(names))
-namedtuple(names::T) where {T<:AbstractVector{Symbol}} = namedtuple(names...,)
-namedtuple(names::T) where {T<:AbstractVector{String}} = namedtuple(Symbol.(names))
 
 """
     prototype(namedtuple)
