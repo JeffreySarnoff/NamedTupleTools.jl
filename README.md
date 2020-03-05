@@ -4,16 +4,12 @@
 
 #### Copyright © 2015-2020 by Jeffrey Sarnoff. This work is released under The MIT License.
 
------
+----
 
-[![Build Status](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl)[![codecov](https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl) 
-[![][docs-stable-img]][docs-stable-url]
+[![Build Status](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl.svg?branch=master)](https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl)&nbsp;&nbsp;&nbsp;[![Docs](https://img.shields.io/badge/docs-stable-blue.svg)](http://jeffreysarnoff.github.io/NamedTupleTools.jl/stable/)&nbsp;&nbsp;&nbsp;[![codecov](https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl)
 
+----
 
-| **Documentation**                       | **Build Status**                          | **Code Coverage**               |
-|:---------------------------------------:|:-----------------------------------------:|:-------------------------------:|
-| [![][docs-stable-img]][docs-stable-url] | [![Build Status][travis-img]][travis-url] | [![][codecov-img]][codecov-url] |
------
 
 ## Overview
 
@@ -340,12 +336,3 @@ julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
 - Variables mixed with standard syntax 
     - _submitted by Sebastian Pfitzner, Takafumi Arakaki_
     
-    
-[docs-stable-img]: https://img.shields.io/badge/docs-stable-blue.svg
-[docs-stable-url]: http://JeffreySarnoff.github.io/NamedTupleTools.jl/stable/
-
-[travis-img]: https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl.svg?branch=master
-[travis-url]: https://travis-ci.org/JeffreySarnoff/NamedTupleTools.jl
-
-[codecov-img]: https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl/branch/master/graph/badge.svg
-[codecov-url]: https://codecov.io/gh/JeffreySarnoff/NamedTupleTools.jl
