@@ -70,22 +70,6 @@ see: [`fieldtypes`](@ref)
 eltype(x::NamedTuple{N,S}) where {N,S} = S
 eltype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
-"""
-    internal_untuple( Tuple{_} )
-
-Retrieve the types that are internal to the `Tuple` as a (_).
-"""
-internal_untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
-
-
-"""
-    internal_retuple( (_) )
-
-Generate a `Tuple` with the given internal types as a `Tuple{_}`.
-"""
-internal_retuple(x::Tuple) = Tuple{x...,}
-
-
 namedtuple(x::NamedTuple) = x
 namedtuple(x::DataType) = ntfromstruct(x)
 
@@ -358,6 +342,22 @@ macro namedtuple(vars...)
    return expr
 end
 
+# low level utility functions for internal use only
+
+"""
+    internal_untuple( Tuple{_} )
+
+Retrieve the types that are internal to the `Tuple` as a (_).
+"""
+internal_untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
+
+
+"""
+    internal_retuple( (_) )
+
+Generate a `Tuple` with the given internal types as a `Tuple{_}`.
+"""
+internal_retuple(x::Tuple) = Tuple{x...}
 
 
 end # module NamedTupleTools
