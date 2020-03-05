@@ -98,6 +98,11 @@ v = [:b => 2, :a => 1]
 v = ["b" => 2, "a" => 1]
 @test namedtuple(v) == NamedTuple{(:b, :a)}(2, 1)
 
+@test namedtuple((:a, :b), (5, "five")) == (a = 5, b = "five")
+@test namedtuple([:a, :b], [5, "five"]) == (a = 5, b = "five")
+@test namedtuple([:a, :b], (5, "five")) == (a = 5, b = "five")
+@test namedtuple((:a, :b), [5, "five"]) == (a = 5, b = "five")
+
 for DictType in [Dict, OrderedDict, LittleDict]
     let DT=DictType
         dict1 = DT(:a=>1)
