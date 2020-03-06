@@ -311,9 +311,7 @@ macro namedtuple(vars...)
    return expr
 end
 
-if VERSION >= v"1.5.0-DEV"
-    export Base.@NamedTuple
-else
+if VERSION < v"1.5.0-DEV"
     """
         @NamedTuple{key1::Type1, key2::Type2, ...}
         @NamedTuple begin key1::Type1; key2::Type2; ...; end
