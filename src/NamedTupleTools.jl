@@ -63,13 +63,10 @@ see: [`fieldtypes`](@ref)
 valtype(x::NamedTuple{N,S}) where {N,S} = S
 valtype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
-# `namedtuple`
-
-
 """
     prototype( name1, name2, ..  )
     prototype( (name1, name2, ..) )
-    prototype(  namedtuple )
+    prototype( namedtuple )
 
 Generate a NamedTuple prototype by specifying or obtaining the fieldnames.
 The prototype is applied to fieldvalues, giving a completed NamedTuple.
@@ -79,14 +76,22 @@ The prototype is applied to fieldvalues, giving a completed NamedTuple.
 julia> proto_nt = prototype( :a, :b, :c )
 NamedTuple{(:a, :b, :c),T} where T<:Tuple
 
-julia> nt123 = proto_nt(1, 2, 3)
+julia> proto_nt(1, 2, 3)
 (a = 1, b = 2, c = 3)
 
-julia> ntAb3 = proto_nt("A", "b", 3)
-(a = "A", b = "b", c = 3)
+julia> proto_nt(1, 2.0, 3//1)
+(a = 1, b = 2.0, c = 3//1)
 
 see: [`isprototype`](@ref)
 """ prototype
+
+"""
+    namedtuple(names, values)
+    namedtuple(::AbstractDict{Symbol,Any})
+    namedtuple(struct_instance)
+
+Create a NamedTuple.
+""" namedtuple
 
 namedtuple(x::NamedTuple{N,S}) where {N,S} = x
 namedtuple(x::Type{NamedTuple{N,S}}) where {N,S} = x
