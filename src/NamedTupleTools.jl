@@ -179,7 +179,7 @@ provides the prototype `NamedTuple{names, T} where T<:Tuple`
     - `names` is a tuple of symbols
 """
 
-prototype(x::NamedTuple{N,S}; keeptypes::Bool=false) =
+prototype(x::NamedTuple{N,S}; keeptypes::Bool=false) where {N,S} =
     keeptypes ? NamedTuple{N,S} : NamedTuple{N}
 #=
 prototype(::NamedTuple{A,B}) where {A,B} = NamedTuple{A}
