@@ -49,7 +49,7 @@ Retrieve the values' types as a tuple.
 see: [`valtype`](@ref)
 """
 fieldtypes(x::NamedTuple{N,S}) where {N,S} = (S.parameters...,)
-fieldtypes(::Type{NamedTuple{N,S}}) where {N,S<:Tuple} = (S.parameters...,)
+fieldtypes(::Type{NamedTuple{N,S}}) where {N,S} = (S.parameters...,)
 
 """
     valtype( namedtuple )
@@ -64,12 +64,13 @@ valtype(x::NamedTuple{N,S}) where {N,S} = S
 valtype(::Type{NamedTuple{N,S}}) where {N,S} = S
 
 """
+    prototype( namedtuple; keeptypes::Bool=false )
     prototype( name1, name2, ..  )
     prototype( (name1, name2, ..) )
-    prototype( namedtuple )
 
 Generate a NamedTuple prototype by specifying or obtaining the fieldnames.
 The prototype is applied to fieldvalues, giving a completed NamedTuple.
+Optionally, obtain a NamedTuple prototype with field types as given in the source NamedTuple.
 
 # Example
 
@@ -79,7 +80,10 @@ NamedTuple{(:a, :b, :c),T} where T<:Tuple
 julia> proto_nt(1, 2, 3)
 (a = 1, b = 2, c = 3)
 
-julia> proto_nt(1, 2.0, 3//1)
+julia> vals = (1, 2, 3); proto_nt((vals)  # faster
+(a = 1, b = 2, c = 3)
+
+julia> vals = (1, 2.0, 3//1); proto_nt(vals)
 (a = 1, b = 2.0, c = 3//1)
 
 see: [`isprototype`](@ref)
@@ -166,6 +170,7 @@ namedtuple(namesforvalues::Vector{S}, valuesfornames) where {N,S<:AbstractString
 namedtuple(namesforvalues::NTuple{N,S}, valuesfornames) where {N,S<:AbstractString} =
     namedtuple(Symbol.(namesforvalues), valuesfornames)
 
+
 """
     prototype(namedtuple)
     prototype(typeof(namedtuple))
@@ -173,8 +178,13 @@ namedtuple(namesforvalues::NTuple{N,S}, valuesfornames) where {N,S<:AbstractStri
 provides the prototype `NamedTuple{names, T} where T<:Tuple`
     - `names` is a tuple of symbols
 """
+
+prototype(x::NamedTuple{N,S}; keeptypes::Bool=false) =
+    keeptypes ? NamedTuple{N,S} : NamedTuple{N}
+#=
 prototype(::NamedTuple{A,B}) where {A,B} = NamedTuple{A}
 prototype(::Type{NamedTuple{A,B}}) where {A,B} = NamedTuple{A}
+=#
 
 prototype(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
 prototype(names::Vararg{Symbol}) = NamedTuple{names}
