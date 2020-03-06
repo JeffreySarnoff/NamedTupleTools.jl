@@ -18,13 +18,7 @@ export @namedtuple,
        ntfromstruct, structfromnt,
        @structfromnt
 
-import Base: propertynames, fieldnames, valtype, merge, split
-
-if isdefined(Base, :fieldtypes)
-     import Base: fieldtypes
-else
-     export fieldtypes
-end
+import Base: propertynames, fieldnames, fieldtypes, valtype, merge, split
 
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
