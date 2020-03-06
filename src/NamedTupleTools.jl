@@ -73,7 +73,7 @@ The prototype is applied to a tuple fieldvalues, giving a completed NamedTuple.
 
 Obtain a NamedTuple prototype with field types as given in the source NamedTuple.
 The prototype is applied to a tuple of fieldvalues, giving a completed NamedTuple.
-This elaborated prototype constructs completed NamedTuples more quickly (~2x).
+This elaborated prototype constructs completed NamedTuples at least as quickly.
 
 # Example
 
