@@ -311,7 +311,9 @@ macro namedtuple(vars...)
    return expr
 end
 
-if VERSION < v"1.5"
+if VERSION >= v"1.5.0-DEV"
+    export Base.@NamedTuple
+else
     """
         @NamedTuple{key1::Type1, key2::Type2, ...}
         @NamedTuple begin key1::Type1; key2::Type2; ...; end
@@ -343,7 +345,7 @@ if VERSION < v"1.5"
         return :(NamedTuple{($(vars...),), Tuple{$(types...)}})
     end
 
-    export @NamedTuple
+    export @NamedTuple	
 end
 
 # low level utility functions for internal use only
