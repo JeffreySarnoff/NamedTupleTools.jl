@@ -15,6 +15,7 @@ export @namedtuple,
        fieldvalues,
        delete,
        select,
+       setproperty,
        ntfromstruct, structfromnt,
        @structfromnt
 
@@ -337,6 +338,36 @@ macro namedtuple(vars...)
    end
    expr = Expr(:tuple, Expr(:parameters, args...))
    return expr
+end
+
+"""
+    setproperty(NamedTuple, Symbol, value)
+
+Construct a copy of the NamedTuple using the new value for Symbol.
+- the type of `value` must match the type assigned in the `NamedTuple`.
+"""
+function setproperty(nt::NamedTuple{N,T}, property::Symbol, value) where {N,T}
+    values = fieldvalues(nt)
+    idx = findfirst(x->x===property, N)
+    isnothing(idx) && throw(ErrorException("There is no field named $property."))
+    if !isa(value, fieldtypes(nt)[idx])
+	throw(ErrorException("The typeof($value) must conform to $(fieldtypes(nt)[idx]). Use `resetproperty` to change the type of a value."))
+    values = (values[1:idx-1]..., value, values[idx+1:end]...)
+    return NamedTuple{N}(values)
+end
+
+"""
+    resetproperty(NamedTuple, Symbol, value)
+
+Construct a copy of the NamedTuple using the new value for Symbol.
+- the type of `value` need not match the type assigend in the `NamedTuple`
+"""
+function setproperty(nt::NamedTuple{N,T}, property::Symbol, value) where {N,T}
+    values = fieldvalues(nt)
+    idx = findfirst(x->x===property, N)
+    isnothing(idx) && throw(ErrorException("There is no field named $property."))
+    values = (values[1:idx-1]..., value, values[idx+1:end]...)
+    return NamedTuple{N}(values)
 end
 
 if VERSION < v"1.5.0-DEV"
