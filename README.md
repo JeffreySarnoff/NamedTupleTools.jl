@@ -243,6 +243,27 @@ MyStruct(5, "hometeam")
 
 julia> mystruct == ntstruct
 true
+
+
+julia> mutable struct MyStruct
+           tally::Int
+           team::String
+       end
+
+julia> mystruct = MyStruct(5, "hometeam")
+MyStruct(5, "hometeam")
+
+julia> mystruct.tally += 1
+MyStruct(6, "hometeam")
+
+julia> mynamedtuple = ntfromstruct(mystruct; remember=true)
+(Struct=MyStruct, tally = 6, team = "hometeam")
+
+julia> ntstruct = structfromnt(mynamedtuple)
+MyStruct(6, "hometeam")
+
+julia> mystruct == ntstruct
+true
 ```
 
 ### AbstractDict construction, reconstruction
