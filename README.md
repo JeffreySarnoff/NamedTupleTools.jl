@@ -50,6 +50,8 @@ from others (see [Credits](#Credits)).
 - [split a NamedTuple into one or more NamedTuples formed of its consituents](https://github.com/JeffreySarnoff/NamedTupleTools.jl#split-seth-axen)
 - undoes [_Merging_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#merging)
 
+### Editing 
+- [alter a value, constructing a new NamedTuple]((https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#edit)
 
 -----
 ## Functions
@@ -206,7 +208,21 @@ julia> split(nt, (:a, :b))
 julia> merge(split(nt, (:a, :b))...) == nt
 true
 ```
+### Edit
+```julia
+julia> using NamedTupleTools
 
+julia> nt = (a = 1, b = 2)
+
+julia> nt2 = setproperty(nt, :b, 3)
+(a = 1, b = 3)
+
+julia> nt2 = setproperty(nt, :b, "cat")
+ERROR
+
+julia> nt3 = resetproperty(nt, :b, "cat")
+(a = 1, b = "cat")
+```
 ### Struct construction, conversion
 ```
 using NamedTupleTools
@@ -312,6 +328,8 @@ julia> a, b, c, d, f = 1, 1.0, 1//1, "one", (g=1,)
 julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
 (a = 1, b = 1.0, c = 1//1, d = "one", e = 2.0, g = 1)
 ```
+
+### Editing
 
 ## Credits
 
