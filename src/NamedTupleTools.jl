@@ -113,14 +113,30 @@ function ntfromstruct(x::T) where {T}
      return NamedTuple{names}(values)
 end
 
+function ntfromstruct(x::T; remember::Bool=false) where {T}
+    !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
+    names = fieldnames(T)
+    values = fieldvalues(x)
+    if remember
+        typ = typeof(x).name.wrapper
+	names = (:Struct, names...,)
+	values = (typ, values...,)
+    end
+    return NamedTuple{names}(values)
+end
+
 # an instance of type S, a Struct
-function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
-     names = N
-     values = fieldvalues(x)
-     if fieldnames(S) != names
-          throw(ErrorException("fields in ($S) do not match ($x)"))
-     end
-     return S(values...,)
+function structfromnt(x::NamedTuple{N,T}) where {N,T}
+    names = N
+    if !(:Struct in names)
+	throw(ErrorException("use `structfromnt(StructName, NamedTuple)` or\n
+        create NamedTuple using `ntfromstruct(struct, keepstruct=true)`"))
+    end
+    values = fieldvalues(x)
+    ntindicies = [.!(:Struct .== names)...,]
+    names = names[ntindicies]
+    values = values[ntindicies]	
+    return x.Struct(values...)
 end
 
 # the Struct itself
