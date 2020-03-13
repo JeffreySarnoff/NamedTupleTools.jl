@@ -379,4 +379,4 @@ julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
     - _from Fredrik Ekre_
 
 - `NamedTuple` that remembers its source `struct`
-    - _from Sebastien Celles_
+    - _from Sébastien Celles_
