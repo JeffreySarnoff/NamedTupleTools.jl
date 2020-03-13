@@ -170,7 +170,7 @@ julia> delete(nt, :a, :c)
 ### Merge
 
 ```julia
-# merge from 2..7 NamedTuples
+# merge 2..n NamedTuples
 
 julia> ntproto1 = namedtuple(:a, :b);
 julia> ntproto2 = namedtuple(:b, :c);
