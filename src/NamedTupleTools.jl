@@ -352,6 +352,7 @@ function setproperty(nt::NamedTuple{N,T}, property::Symbol, value) where {N,T}
     isnothing(idx) && throw(ErrorException("There is no field named $property."))
     if !isa(value, fieldtypes(nt)[idx])
 	throw(ErrorException("The typeof($value) must conform to $(fieldtypes(nt)[idx]). Use `resetproperty` to change the type of a value."))
+    end
     values = (values[1:idx-1]..., value, values[idx+1:end]...)
     return NamedTuple{N}(values)
 end
