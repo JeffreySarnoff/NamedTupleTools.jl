@@ -105,7 +105,16 @@ namedtuple(x::NamedTuple{N,S}) where {N,S} = x
 namedtuple(x::Type{NamedTuple{N,S}}) where {N,S} = x
 namedtuple(x::Type{T}) where {T<:NamedTuple} = x
 
-namedtuple(x::DataType) = ntfromstruct(x)
+function namedtuple(x::T; remember::Union{Nothing,Bool}=nothing) where T
+    if isstructtype(T)
+	result = isnothing(remember) ? ntfromstruct(x) : ntfromstruct(x, remember)
+    elseif isa(x, AbstractDict)
+	result = ntfromdict(x)
+    else
+        throw(ErrorException("$T not supported"))
+    end
+    return result
+end
 
 function ntfromstruct(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
