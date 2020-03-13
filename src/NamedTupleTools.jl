@@ -15,7 +15,7 @@ export @namedtuple,
        fieldvalues,
        delete,
        select,
-       setproperty,
+       setproperty, resetproperty,
        ntfromstruct, structfromnt,
        @structfromnt
 
