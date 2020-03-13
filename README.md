@@ -51,7 +51,7 @@ from others (see [Credits](#Credits)).
 - undoes [_Merging_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#merging)
 
 ### Editing 
-- [alter a value, constructing a new NamedTuple]((https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#edit)
+- [alter a value, constructing a new NamedTuple](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#edit)
 
 -----
 ## Functions
