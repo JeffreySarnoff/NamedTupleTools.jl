@@ -363,8 +363,6 @@ macro namedtuple(vars...)
 end
 
 
-@eval Base begin
-    @deprecate namedtuple(nt::$NamedTuple) $prototype(nt::$NamedTuple)
-end
+Base.@deprecate namedtuple(nt::NamedTuple) prototype(nt::NamedTuple)
 
 end # module NamedTupleTools
