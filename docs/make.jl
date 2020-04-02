@@ -1,7 +1,7 @@
-using Documenter, NamedTupleTools
+using Documenter # , NamedTupleTools
 
 makedocs(
-    modules = [NamedTupleTools],
+    # modules = [NamedTupleTools],
     sitename = "NamedTupleTools",
     format = Documenter.HTML(prettyurls = get(ENV, "CI", nothing) == "true"),
     pages    = Any[
