@@ -1,5 +1,7 @@
 ## Using Julia's NamedTuples
 
+https://stackoverflow.com/questions/60883704/how-to-manipulate-named-tuples
+
 ### Creating a NamedTuple
 
 #### The Empty NamedTuple
