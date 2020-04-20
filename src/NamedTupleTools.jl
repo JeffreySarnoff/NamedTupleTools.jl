@@ -308,7 +308,7 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
 Recurssively merge namedtuples. Fieldnames and values in nt2 and its sub-namedtuples
     are all kept, with those only appear in nt1.
 
-see: [`delete!`](@ref)
+see: [`merge`](@ref)
 """
 rec_merge(nt::NamedTuple) = nt
 
