@@ -28,6 +28,11 @@ else
      export fieldtypes
 end
 
+"""
+    NotPresent
+
+To indicate certain entries do not exist in the namedtuple.
+"""
 struct NotPresent end
 
 # accept comma delimited values
