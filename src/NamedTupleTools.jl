@@ -13,6 +13,7 @@ export @namedtuple,
        namedtuple, isprototype, prototype,
        propertynames, fieldnames, fieldvalues, fieldtypes,
        merge,
+       rec_merge,
        split,
        delete,
        select,
@@ -26,6 +27,8 @@ if isdefined(Base, :fieldtypes)
 else
      export fieldtypes
 end
+
+struct NotPresent end
 
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -41,7 +44,7 @@ obtain values assigned to fields of a struct type
 """
 function fieldvalues(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
-     
+
      return ((getfield(x, name) for name in fieldnames(T))...,)
 end
 
@@ -124,8 +127,8 @@ macro structfromnt(sname, nt)
     :( eval(structfromnt($(esc(sname)), $(esc(nt)))) )
 end
 
-# Expr part from Fredrik Ekre   
-struct_from(structname, names, types) = 
+# Expr part from Fredrik Ekre
+struct_from(structname, names, types) =
 	"Expr(:struct,
 		false,
 		Expr(:curly,
@@ -135,7 +138,7 @@ struct_from(structname, names, types) =
 			map((x,y) -> Expr(:(::), x, y), $names, $types)...
 		)
 	)"
-	
+
 structfrom(structname, names, types) = eval(eval(Meta.parse(struct_from(structname, names, types))))
 
 """
@@ -236,7 +239,7 @@ isprototype(::Type{UnionAll}) = false
 """
    delete(namedtuple, symbol(s)|Tuple)
    delete(ntprototype, symbol(s)|Tuple)
-   
+
 Generate a namedtuple [ntprototype] from the first arg omitting fields present in the second arg.
 
 see: [`merge`](@ref)
@@ -252,7 +255,7 @@ delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple(
 """
    select(namedtuple, symbol(s)|Tuple)
    select(ntprototype, symbol(s)|Tuple)
-   
+
 Generate a namedtuple [ntprototype] from the first arg, including only fields present in the second arg.
 
 see: [`merge`](@ref)
@@ -299,6 +302,33 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
     reduce(merge,(a, b, c, d, e, f, g))
 
 """
+    rec_merge(nt1, nt2)
+    rec_merge(nt1, nt2, nt3, ..)
+
+Recurssively merge namedtuples. Fieldnames and values in nt2 and its sub-namedtuples
+    are all kept, with those only appear in nt1.
+
+see: [`delete!`](@ref)
+"""
+rec_merge(nt::NamedTuple) = nt
+
+rec_merge(::NotPresent, ::NotPresent) = NotPresent()
+rec_merge(x, ::NotPresent) = x
+rec_merge(np::NotPresent, x) = rec_merge(x, np)
+rec_merge(x, y) = y
+function rec_merge(nt1::NamedTuple, nt2::NamedTuple)
+    all_keys = union(keys(nt1), keys(nt2))
+    gen = Base.Generator(all_keys) do key
+        v1 = get(nt1, key, NotPresent())
+        v2 = get(nt2, key, NotPresent())
+        key => rec_merge(v1, v2)
+    end
+    return (; gen...)
+end
+
+rec_merge(nt1::NamedTuple, nt2::NamedTuple, nts...) = rec_merge(rec_merge(nt1, nt2), nts...)
+
+"""
     split(namedtuple, symbol(s)|Tuple)
 
 Generate two namedtuples, the first with only the fields in the second arg, the
@@ -311,12 +341,12 @@ split(nt::NamedTuple, ks) = select(nt, ks), delete(nt, ks)
 
 #=  interconvert: NamedTuple <--> Dict =#
 
-uniontype(nt::NamedTuple) = Union{typeof.(values(nt))...,}	
+uniontype(nt::NamedTuple) = Union{typeof.(values(nt))...,}
 
 """
     gather_(x::Iterable)
 
-Collect the elements of x into a Tuple, in their iterated order. 
+Collect the elements of x into a Tuple, in their iterated order.
 """
 @inline gather_(x::T) where {T} = (collect(x)...,)
 
@@ -331,11 +361,11 @@ namedtuple(d::T) where {T<:AbstractDict{S,Any}} where {S<:AbstractString} =
 
 # use: dict = convert(Dict, nt)
 #=
-   for Dict{Symbol,Any}: 
-   Base.convert(::Type{Dict}, x::NT) where {N, NT<:NamedTuple{N}} = 
+   for Dict{Symbol,Any}:
+   Base.convert(::Type{Dict}, x::NT) where {N, NT<:NamedTuple{N}} =
        Dict([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
 =#
-Base.convert(::Type{D}, x::NT) where {D<:AbstractDict, N, NT<:NamedTuple{N}} = 
+Base.convert(::Type{D}, x::NT) where {D<:AbstractDict, N, NT<:NamedTuple{N}} =
     D{Symbol, uniontype(x)}([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
 
 dictionary(nt::NamedTuple) = convert(Dict, nt) # deprecated
@@ -345,7 +375,7 @@ namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2]
 # with names as strings
 namedtuple(v::Vector{<:Pair{<:String}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
 
-# NamedTuple becomes a Vector of Pairs 
+# NamedTuple becomes a Vector of Pairs
 Base.convert(::Type{Vector{Pair}}, nt::NamedTuple) =  map(kv->Pair(first(kv), last(kv)), zip(keys(nt), values(nt)))
 
 # from Sebastian Pfitzner (on Slack)

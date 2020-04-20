@@ -40,6 +40,9 @@ ntproto2 = namedtuple(:a, :b)
 nt1 = ntproto1(1, 2, 3, 4)
 nt2 = ntproto2("one", "two")
 
+ntnt1 = (; x=nt1, y=nt2)
+ntnt2 = (; y=nt)
+
 proto1 = prototype(nt1)
 proto2 = prototype(nt2)
 
@@ -61,6 +64,19 @@ proto2 = prototype(nt2)
 @test delete(nt1, (:a, :b, :c)) === (d = 4,)
 
 @test merge(nt1, nt2) === (a = "one", b  = "two", c = 3, d = 4)
+
+@test rec_merge(nt1) == nt1
+@test rec_merge(nt1, nt2) === (a = "one", b  = "two", c = 3, d = 4)
+@test rec_merge(nt1, nt2, nt1) == (a = 1, b  = 2, c = 3, d = 4)
+@test rec_merge(ntnt1) == ntnt1
+@test rec_merge(ntnt1, ntnt2) == (
+    x = (a = 1, b = 2, c = 3, d = 4),
+    y = (a = 1.0, b = "two")
+)
+@test rec_merge(ntnt1, ntnt2, ntnt1) == (
+    x = (a = 1, b = 2, c = 3, d = 4),
+    y = (a = "one", b = "two")
+)
 
 @test select(nt1, :a) == nt1[:a]
 @test select(nt1, nt2) == (a=1,b=2)
@@ -109,7 +125,7 @@ for DictType in [Dict, OrderedDict, LittleDict]
         @test nt1_to_dict == dict1
         @test nt1_to_dict isa DT
         @test namedtuple(dict1) == nt1
-    
+
         nt2_to_dict = convert(DT, nt2)
         @test nt2_to_dict == dict2
         @test nt2_to_dict isa DT
