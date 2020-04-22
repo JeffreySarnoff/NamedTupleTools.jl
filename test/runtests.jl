@@ -74,7 +74,7 @@ proto2 = prototype(nt2)
     y = (a = 1.0, b = "two")
 )
 
-@test rec_merge(nt1) == merge(nt1)
+@test rec_merge(nt1) == nt1
 @test rec_merge(nt1, nt2) === merge(nt1, nt2)
 @test rec_merge(nt1, nt2, nt1) == merge(nt1, nt2, nt1)
 @test rec_merge(ntnt1) == ntnt1
