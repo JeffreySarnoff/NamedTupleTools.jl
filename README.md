@@ -22,14 +22,14 @@ from others (see [Credits](#Credits)).
 ## Operations
 
 ### Construction
-- [given `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
+- [given `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values)
 - [given a `Dict{Symbol, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [given a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
 - [given a `Vector` of `Pairs`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#vector-of-pairs-peter-deffebach)
 - inversive [_Reconstruction_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#reconstruction)
 
 ### Reconstruction
-- [obtaining `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values-kristoffer-carlsson)
+- [obtaining `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values)
 - [obtaining a `Dict{Symbol, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
 - [obtaining a `struct`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#struct-construction-conversion)
 - [obtaining a `Vector{Pair}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#convert-to-vector-of-pairs)
