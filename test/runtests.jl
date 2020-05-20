@@ -111,7 +111,7 @@ for DictType in [Dict, OrderedDict, LittleDict]
         @test nt1_to_dict == dict1
         @test nt1_to_dict isa DT
         @test namedtuple(dict1) == nt1
-    
+
         nt2_to_dict = convert(DT, nt2)
         @test nt2_to_dict == dict2
         @test nt2_to_dict isa DT

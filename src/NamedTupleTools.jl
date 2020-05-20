@@ -41,7 +41,7 @@ obtain values assigned to fields of a struct type
 """
 function fieldvalues(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
-     
+
      return ((getfield(x, name) for name in fieldnames(T))...,)
 end
 
@@ -124,8 +124,8 @@ macro structfromnt(sname, nt)
     :( eval(structfromnt($(esc(sname)), $(esc(nt)))) )
 end
 
-# Expr part from Fredrik Ekre   
-struct_from(structname, names, types) = 
+# Expr part from Fredrik Ekre
+struct_from(structname, names, types) =
 	"Expr(:struct,
 		false,
 		Expr(:curly,
@@ -135,7 +135,7 @@ struct_from(structname, names, types) =
 			map((x,y) -> Expr(:(::), x, y), $names, $types)...
 		)
 	)"
-	
+
 structfrom(structname, names, types) = eval(eval(Meta.parse(struct_from(structname, names, types))))
 
 """
@@ -236,7 +236,7 @@ isprototype(::Type{UnionAll}) = false
 """
    delete(namedtuple, symbol(s)|Tuple)
    delete(ntprototype, symbol(s)|Tuple)
-   
+
 Generate a namedtuple [ntprototype] from the first arg omitting fields present in the second arg.
 
 see: [`merge`](@ref)
@@ -311,12 +311,12 @@ split(nt::NamedTuple, ks) = select(nt, ks), delete(nt, ks)
 
 #=  interconvert: NamedTuple <--> Dict =#
 
-uniontype(nt::NamedTuple) = Union{typeof.(values(nt))...,}	
+uniontype(nt::NamedTuple) = Union{typeof.(values(nt))...,}
 
 """
     gather_(x::Iterable)
 
-Collect the elements of x into a Tuple, in their iterated order. 
+Collect the elements of x into a Tuple, in their iterated order.
 """
 @inline gather_(x::T) where {T} = (collect(x)...,)
 
@@ -331,11 +331,11 @@ namedtuple(d::T) where {T<:AbstractDict{S,Any}} where {S<:AbstractString} =
 
 # use: dict = convert(Dict, nt)
 #=
-   for Dict{Symbol,Any}: 
-   Base.convert(::Type{Dict}, x::NT) where {N, NT<:NamedTuple{N}} = 
+   for Dict{Symbol,Any}:
+   Base.convert(::Type{Dict}, x::NT) where {N, NT<:NamedTuple{N}} =
        Dict([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
 =#
-Base.convert(::Type{D}, x::NT) where {D<:AbstractDict, N, NT<:NamedTuple{N}} = 
+Base.convert(::Type{D}, x::NT) where {D<:AbstractDict, N, NT<:NamedTuple{N}} =
     D{Symbol, uniontype(x)}([sym=>val for (sym,val) in zip(fieldnames(x), fieldvalues(x))])
 
 dictionary(nt::NamedTuple) = convert(Dict, nt) # deprecated
@@ -345,7 +345,7 @@ namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2]
 # with names as strings
 namedtuple(v::Vector{<:Pair{<:String}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
 
-# NamedTuple becomes a Vector of Pairs 
+# NamedTuple becomes a Vector of Pairs
 Base.convert(::Type{Vector{Pair}}, nt::NamedTuple) =  map(kv->Pair(first(kv), last(kv)), zip(keys(nt), values(nt)))
 
 # from Sebastian Pfitzner (on Slack)
