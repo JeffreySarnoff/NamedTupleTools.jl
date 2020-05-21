@@ -185,6 +185,8 @@ julia> ntAb3 = ntprototype("A", "b", 3)
 
 see: [`isprototype`](@ref)
 """
+namedtuple(::Tuple{}) = NamedTuple{()}	# avoid ambiguity
+namedtuple() = NamedTuple{()}	# avoid ambiguity
 namedtuple(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
 namedtuple(names::Vararg{Symbol}) = NamedTuple{names}
 namedtuple(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
