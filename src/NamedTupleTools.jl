@@ -241,9 +241,9 @@ Generate a namedtuple [ntprototype] from the first arg omitting fields present i
 
 see: [`merge`](@ref)
 """
-delete(a::NamedTuple, b::Symbol) = Base.structdiff(a, namedtuple(b))
-delete(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, namedtuple(b))
-delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
+@inline delete(a::NamedTuple, b::Symbol) = Base.structdiff(a, namedtuple(b))
+@inline delete(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, namedtuple(b))
+@inline delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
 
 delete(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,(b,))...,))
 delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,b)...,))

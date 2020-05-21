@@ -59,6 +59,8 @@ proto2 = prototype(nt2)
 @test delete(nt1, :a) == (b = 2, c = 3, d = 4)
 @test delete(nt1, :a, :c) == (b = 2, d = 4)
 @test delete(nt1, (:a, :b, :c)) === (d = 4,)
+test_delete_infer(nt) = delete(nt, (:a,))
+@inferred test_delete_infer(nt1)
 
 @test merge(nt1, nt2) === (a = "one", b  = "two", c = 3, d = 4)
 
