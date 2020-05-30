@@ -56,6 +56,7 @@ proto2 = prototype(nt2)
 @test delete(ntproto1, :a, :c) === NamedTuple{(:b, :d),T} where T<:Tuple
 @test delete(ntproto1, (:b, :c)) === NamedTuple{(:a, :d),T} where T<:Tuple
 
+@test delete(nt1, ()) == nt1
 @test delete(nt1, :a) == (b = 2, c = 3, d = 4)
 @test delete(nt1, :a, :c) == (b = 2, d = 4)
 @test delete(nt1, (:a, :b, :c)) === (d = 4,)
@@ -64,6 +65,7 @@ test_delete_infer(nt) = delete(nt, (:a,))
 
 @test merge(nt1, nt2) === (a = "one", b  = "two", c = 3, d = 4)
 
+@test select(nt1, ()) == NamedTuple()
 @test select(nt1, :a) == nt1[:a]
 @test select(nt1, nt2) == (a=1,b=2)
 @test select(nt1, nt2) == select(nt1, keys(nt2))
