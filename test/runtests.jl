@@ -59,6 +59,8 @@ proto2 = prototype(nt2)
 @test delete(nt1, :a) == (b = 2, c = 3, d = 4)
 @test delete(nt1, :a, :c) == (b = 2, d = 4)
 @test delete(nt1, (:a, :b, :c)) === (d = 4,)
+test_delete_infer(nt) = delete(nt, (:a,))
+@inferred test_delete_infer(nt1)
 
 @test merge(nt1, nt2) === (a = "one", b  = "two", c = 3, d = 4)
 
@@ -66,6 +68,8 @@ proto2 = prototype(nt2)
 @test select(nt1, nt2) == (a=1,b=2)
 @test select(nt1, nt2) == select(nt1, keys(nt2))
 @test select((a = 1, b = [1, 2]), (:b,)) == (b = [1, 2],)
+test_select_infer(nt) = select(nt, (:b, :a))
+@inferred test_select_infer(nt1)
 
 @test split(nt1, :a)[1] == (a = 1,)
 @test split(nt1, :a)[2] == (b = 2, c = 3, d = 4)
@@ -109,7 +113,7 @@ for DictType in [Dict, OrderedDict, LittleDict]
         @test nt1_to_dict == dict1
         @test nt1_to_dict isa DT
         @test namedtuple(dict1) == nt1
-    
+
         nt2_to_dict = convert(DT, nt2)
         @test nt2_to_dict == dict2
         @test nt2_to_dict isa DT
