@@ -13,6 +13,7 @@ export @namedtuple,
        namedtuple, isprototype, prototype,
        propertynames, fieldnames, fieldvalues, fieldtypes,
        merge,
+       rec_merge,
        split,
        delete,
        select,
@@ -26,6 +27,13 @@ if isdefined(Base, :fieldtypes)
 else
      export fieldtypes
 end
+
+"""
+    NotPresent
+
+To indicate certain entries do not exist in the namedtuple.
+"""
+struct NotPresent end
 
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
@@ -185,8 +193,6 @@ julia> ntAb3 = ntprototype("A", "b", 3)
 
 see: [`isprototype`](@ref)
 """
-namedtuple(::Tuple{}) = NamedTuple{()}	# avoid ambiguity
-namedtuple() = NamedTuple{()}	# avoid ambiguity
 namedtuple(names::NTuple{N,Symbol}) where {N} = NamedTuple{names}
 namedtuple(names::Vararg{Symbol}) = NamedTuple{names}
 namedtuple(names::NTuple{N,String}) where {N}  = namedtuple(Symbol.(names))
@@ -243,9 +249,9 @@ Generate a namedtuple [ntprototype] from the first arg omitting fields present i
 
 see: [`merge`](@ref)
 """
-@inline delete(a::NamedTuple, b::Symbol) = Base.structdiff(a, namedtuple(b))
-@inline delete(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, namedtuple(b))
-@inline delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
+delete(a::NamedTuple, b::Symbol) = Base.structdiff(a, namedtuple(b))
+delete(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, namedtuple(b))
+delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
 
 delete(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,(b,))...,))
 delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,b)...,))
@@ -261,7 +267,7 @@ see: [`merge`](@ref)
 """
 select(nt::NamedTuple, k::Symbol) = nt[k]
 select(nt::NamedTuple, k::NamedTuple) = select(nt, keys(k))
-@inline select(nt::NamedTuple, ks) = namedtuple(ks)(map(k->nt[k], ks))
+select(nt::NamedTuple, ks) = namedtuple(ks)(((nt[k] for k in ks)...,))
 
 
 """
@@ -299,6 +305,33 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
     reduce(merge,(a, b, c, d, e, f))
 merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}, g::NamedTuple{gn}) where {an, bn, cn, dn, en, fn, gn} =
     reduce(merge,(a, b, c, d, e, f, g))
+
+"""
+    rec_merge(nt1, nt2)
+    rec_merge(nt1, nt2, nt3, ..)
+
+Recurssively merge namedtuples. Fieldnames and values in nt2 and its sub-namedtuples
+    are all kept, with those only appear in nt1.
+
+see: [`merge`](@ref)
+"""
+rec_merge(nt::NamedTuple) = nt
+
+rec_merge(::NotPresent, ::NotPresent) = NotPresent()
+rec_merge(x, ::NotPresent) = x
+rec_merge(np::NotPresent, x) = rec_merge(x, np)
+rec_merge(x, y) = y
+function rec_merge(nt1::NamedTuple, nt2::NamedTuple)
+    all_keys = union(keys(nt1), keys(nt2))
+    gen = Base.Generator(all_keys) do key
+        v1 = get(nt1, key, NotPresent())
+        v2 = get(nt2, key, NotPresent())
+        key => rec_merge(v1, v2)
+    end
+    return (; gen...)
+end
+
+rec_merge(nt1::NamedTuple, nt2::NamedTuple, nts...) = rec_merge(rec_merge(nt1, nt2), nts...)
 
 """
     split(namedtuple, symbol(s)|Tuple)
