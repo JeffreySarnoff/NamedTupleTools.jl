@@ -339,4 +339,6 @@ julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
 
 - Delete, Select: inferencing, coverage 
     - _improved by Gustavo Goretkin_
-
+    
+- Merge: support recursive merging
+    - _submitted by @wytbella_
