@@ -5,7 +5,7 @@ This module provides some useful NamedTuple tooling.
 
 see [`namedtuple`](@ref), [`isprototype`](@ref),
     [`fieldnames`](@ref), [`fieldtypes`](@ref), [`fieldvalues`](@ref)
-    [`delete`](@ref), [`merge`](@ref)
+    [`delete`](@ref), [`merge`](@ref), [`merger`](@ref)
 """
 module NamedTupleTools
 
@@ -13,7 +13,7 @@ export @namedtuple,
        namedtuple, isprototype, prototype,
        propertynames, fieldnames, fieldvalues, fieldtypes,
        merge,
-       rec_merge,
+       merge_recursive,
        split,
        delete,
        select,
@@ -306,11 +306,69 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
 merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}, g::NamedTuple{gn}) where {an, bn, cn, dn, en, fn, gn} =
     reduce(merge,(a, b, c, d, e, f, g))
 
-"""
-    rec_merge(nt1, nt2)
-    rec_merge(nt1, nt2, nt3, ..)
 
-Recurssively merge namedtuples. Fieldnames and values in nt2 and its sub-namedtuples
+"""
+    merge_recursive(nt1, nt2)
+    merge_recursive(nt1, nt2, nt3, ..)
+
+Recursively merge namedtuples. Where more than one of the namedtuple args share the same fieldname (same key),
+    the leftmost argument's key's value will be propogated. Where each namedtuple has distinct fieldnames (keys),
+    all of named fields will be gathered with their respective values. The named fields will appear in the same
+    order they are encountered (leftmost arg, second leftmost arg, .., second rightmost arg, rightmost arg).
+
+If there are no nested namedtuples, `merge(nt1, nts..., recursive=true)` is the same as `merge(nt1, nts...)`.
+```
+a = (food = (fruits = (orange = "mango", white = "pear"),
+             liquids = (water = "still", wine = "burgandy")))
+
+b = (food = (fruits = (yellow = "banana", orange = "papaya"),
+             liquids = (water = "sparkling", wine = "champagne"), 
+             bread = "multigrain"))
+
+merge(b,a)  == (fruits  = (orange = "mango", white = "pear"), 
+                liquids = (water = "still", wine = "burgandy"),
+                bread   = "multigrain")
+
+merge_recursive(b,a) == 
+               (fruits  = (yellow = "banana", orange = "mango", white = "pear"), 
+                liquids = (water = "still", wine = "burgandy"),
+                bread   = "multigrain")
+
+merge(a,b)  == (fruits  = (yellow = "banana", orange = "papaya"),
+                liquids = (water = "sparkling", wine = "champagne"),
+                bread   = "multigrain")
+
+merge_recursive(a,b) == 
+               (fruits  = (orange = "papaya", white = "pear", yellow = "banana"),
+                liquids = (water = "sparkling", wine = "champagne"),
+                bread   = "multigrain")
+```
+see: [`merge`](@ref)
+""" merge_recursive
+
+merge_recursive(nt::NamedTuple) = nt
+
+merge_recursive(::Missing, ::Missing) = missing
+merge_recursive(x, ::Missing) = x
+merge_recursive(m::Missing, x) = merge_recursive(x, m)
+merge_recursive(x, y) = y
+function merge_recursive(nt1::NamedTuple, nt2::NamedTuple)
+    all_keys = union(keys(nt1), keys(nt2))
+    gen = Base.Generator(all_keys) do key
+        v1 = get(nt1, key, missing)
+        v2 = get(nt2, key, missing)
+        key => merge_recursive(v1, v2)
+    end
+    return (; gen...)
+end
+
+merge_recursive(nt1::NamedTuple, nt2::NamedTuple, nts...) = merge_recursive(merge_recursive(nt1, nt2), nts...)
+
+"""
+    merger(nt1, nt2)
+    merger(nt1, nt2, nt3, ..)
+
+Recursively merge namedtuples. Fieldnames and values in nt2 and its sub-namedtuples
     are all kept, with those only appear in nt1.
 
 see: [`merge`](@ref)
