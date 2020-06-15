@@ -40,6 +40,10 @@ ntproto2 = namedtuple(:a, :b)
 nt1 = ntproto1(1, 2, 3, 4)
 nt2 = ntproto2("one", "two")
 
+ntnt1 = (x = (a = 1, b = 2, c = 3, d = 4), y = (a = "one", b = "two", c = "three"))
+ntnt2 = (; y = (a = 1.0, b = "two"))
+ntnt3 = (; x = (; a = :one))
+
 proto1 = prototype(nt1)
 proto2 = prototype(nt2)
 
@@ -56,22 +60,37 @@ proto2 = prototype(nt2)
 @test delete(ntproto1, :a, :c) === NamedTuple{(:b, :d),T} where T<:Tuple
 @test delete(ntproto1, (:b, :c)) === NamedTuple{(:a, :d),T} where T<:Tuple
 
-@test delete(nt1, ()) == nt1
 @test delete(nt1, :a) == (b = 2, c = 3, d = 4)
 @test delete(nt1, :a, :c) == (b = 2, d = 4)
 @test delete(nt1, (:a, :b, :c)) === (d = 4,)
-test_delete_infer(nt) = delete(nt, (:a,))
-@inferred test_delete_infer(nt1)
 
 @test merge(nt1, nt2) === (a = "one", b  = "two", c = 3, d = 4)
+@test merge(ntnt1, ntnt2) == (
+    x = (a = 1, b = 2, c = 3, d = 4),
+    y = (a = 1.0, b = "two")
+)
+@test merge(ntnt1, ntnt2, ntnt3) == (
+    x = (a = :one,),
+    y = (a = 1.0, b = "two")
+)
 
-@test select(nt1, ()) == NamedTuple()
+@test merge_recursive(nt1) == nt1
+@test merge_recursive(nt1, nt2) === merge(nt1, nt2)
+@test merge_recursive(nt1, nt2, nt1) == merge(nt1, nt2, nt1)
+@test merge_recursive(ntnt1) == ntnt1
+@test merge_recursive(ntnt1, ntnt2) == (
+    x = (a = 1, b = 2, c = 3, d = 4),
+    y = (a = 1.0, b = "two", c = "three")
+)
+@test merge_recursive(ntnt1, ntnt2, ntnt3) == (
+    x = (a = :one, b = 2, c = 3, d = 4),
+    y = (a = 1.0, b = "two", c = "three")
+)
+
 @test select(nt1, :a) == nt1[:a]
 @test select(nt1, nt2) == (a=1,b=2)
 @test select(nt1, nt2) == select(nt1, keys(nt2))
 @test select((a = 1, b = [1, 2]), (:b,)) == (b = [1, 2],)
-test_select_infer(nt) = select(nt, (:b, :a))
-@inferred test_select_infer(nt1)
 
 @test split(nt1, :a)[1] == (a = 1,)
 @test split(nt1, :a)[2] == (b = 2, c = 3, d = 4)
