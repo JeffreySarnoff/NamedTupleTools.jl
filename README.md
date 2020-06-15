@@ -44,8 +44,11 @@ from others (see [Credits](#Credits)).
 - complements [_Selection_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#selection)
 
 ### Merging
-- [merge one or more NamedTuples](https://github.com/JeffreySarnoff/NamedTupleTools.jl#merge)
+- [merge one or more NamedTuples]()
 - undoes [_Splitting_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#splitting)
+
+### Recursive Merging
+- [merge through one or more NamedTuples](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#recursive_merge)
 
 ### Splitting
 - [split a NamedTuple into one or more NamedTuples formed of its consituents](https://github.com/JeffreySarnoff/NamedTupleTools.jl#split-seth-axen)
@@ -190,6 +193,43 @@ julia> nt2 = (b = 6, c = 8);
 
 julia> merge(nt1, nt2)
 (a = 3, b = 6, c = 8)
+```
+
+#### recursive_merge
+```julia
+#=
+Recursively merge namedtuples. Where more than one of the namedtuple args share the same fieldname (same key),
+    the leftmost argument's key's value will be propogated. Where each namedtuple has distinct fieldnames (keys),
+    all of named fields will be gathered with their respective values. The named fields will appear in the same
+    order they are encountered (leftmost arg, second leftmost arg, .., second rightmost arg, rightmost arg).
+
+If there are no nested namedtuples, `merge(nt1, nts..., recursive=true)` is the same as `merge(nt1, nts...)`.
+=#
+
+a = (food = (fruits = (orange = "mango", white = "pear"),
+             liquids = (water = "still", wine = "burgandy")))
+
+b = (food = (fruits = (yellow = "banana", orange = "papaya"),
+             liquids = (water = "sparkling", wine = "champagne"), 
+             bread = "multigrain"))
+
+merge(b,a)  == (fruits  = (orange = "mango", white = "pear"), 
+                liquids = (water = "still", wine = "burgandy"),
+                bread   = "multigrain")
+
+merge_recursive(b,a) == 
+               (fruits  = (yellow = "banana", orange = "mango", white = "pear"), 
+                liquids = (water = "still", wine = "burgandy"),
+                bread   = "multigrain")
+
+merge(a,b)  == (fruits  = (yellow = "banana", orange = "papaya"),
+                liquids = (water = "sparkling", wine = "champagne"),
+                bread   = "multigrain")
+
+merge_recursive(a,b) == 
+               (fruits  = (orange = "papaya", white = "pear", yellow = "banana"),
+                liquids = (water = "sparkling", wine = "champagne"),
+                bread   = "multigrain")
 ```
 
 ### Split
