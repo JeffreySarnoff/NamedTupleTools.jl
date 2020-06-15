@@ -74,15 +74,15 @@ proto2 = prototype(nt2)
     y = (a = 1.0, b = "two")
 )
 
-@test rec_merge(nt1) == nt1
-@test rec_merge(nt1, nt2) === merge(nt1, nt2)
-@test rec_merge(nt1, nt2, nt1) == merge(nt1, nt2, nt1)
-@test rec_merge(ntnt1) == ntnt1
-@test rec_merge(ntnt1, ntnt2) == (
+@test merge_recursive(nt1) == nt1
+@test merge_recursive(nt1, nt2) === merge(nt1, nt2)
+@test merge_recursive(nt1, nt2, nt1) == merge(nt1, nt2, nt1)
+@test merge_recursive(ntnt1) == ntnt1
+@test merge_recursive(ntnt1, ntnt2) == (
     x = (a = 1, b = 2, c = 3, d = 4),
     y = (a = 1.0, b = "two", c = "three")
 )
-@test rec_merge(ntnt1, ntnt2, ntnt3) == (
+@test merge_recursive(ntnt1, ntnt2, ntnt3) == (
     x = (a = :one, b = 2, c = 3, d = 4),
     y = (a = 1.0, b = "two", c = "three")
 )
