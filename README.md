@@ -44,7 +44,7 @@ from others (see [Credits](#Credits)).
 - complements [_Selection_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#selection)
 
 ### Merging
-- [merge one or more NamedTuples]()
+- [merge one or more NamedTuples](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#merge)
 - undoes [_Splitting_](https://github.com/JeffreySarnoff/NamedTupleTools.jl/blob/master/README.md#splitting)
 
 ### Recursive Merging
