@@ -346,17 +346,27 @@ merge_recursive(a,b) ==
 see: [`merge`](@ref)
 """ merge_recursive
 
+"""
+    Unvalued
+
+anonymous placeholder for unvalued namedtuple keys
+(only used in recursion definitions) 
+"""
+struct Unvalued end
+const unvalued = Unvalued()
+
 merge_recursive(nt::NamedTuple) = nt
 
-merge_recursive(::Missing, ::Missing) = missing
-merge_recursive(x, ::Missing) = x
-merge_recursive(m::Missing, x) = merge_recursive(x, m)
+merge_recursive(::Unvalued, ::Unvalued) = unvalued
+merge_recursive(x, ::Unvalued) = x
+merge_recursive(m::Unvalued, x) = merge_recursive(x, m)
 merge_recursive(x, y) = y
+
 function merge_recursive(nt1::NamedTuple, nt2::NamedTuple)
     all_keys = union(keys(nt1), keys(nt2))
     gen = Base.Generator(all_keys) do key
-        v1 = get(nt1, key, missing)
-        v2 = get(nt2, key, missing)
+        v1 = get(nt1, key, unvalued)
+        v2 = get(nt2, key, unvalued)
         key => merge_recursive(v1, v2)
     end
     return (; gen...)
