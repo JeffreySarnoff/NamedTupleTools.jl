@@ -164,3 +164,23 @@ nt1 = (a = 1, b = 2)
 c = 3
 nt = (a = 1, b = 2, c = 3)
 @test @namedtuple(nt1..., c) == nt
+
+
+@testset "Flattened NamedTuple" begin
+    nt = (x = 1, a = (y = 2, z = 3, b = ((a = 1,), (a = 2,), (a = 3,))))
+    fnt = flattened(nt, :_)
+
+    @test getproperty(fnt, :x)   == 1
+    @test getproperty(fnt, :a)   == (y = 2, z = 3, b = ((a = 1,), (a = 2,), (a = 3,)))
+    @test getproperty(fnt, :a_y) == 2
+    @test getproperty(fnt, :a_z) == 3
+    @test getproperty(fnt, :a_b) == ((a = 1,), (a = 2,), (a = 3,))
+    @test getproperty(fnt, :a_b_1) == (a = 1,)
+    @test getproperty(fnt, :a_b_2) == (a = 2,)
+    @test getproperty(fnt, :a_b_3) == (a = 3,)
+    @test getproperty(fnt, :a_b_1_a) == 1
+    @test getproperty(fnt, :a_b_2_a) == 2
+    @test getproperty(fnt, :a_b_3_a) == 3
+end
+
+
