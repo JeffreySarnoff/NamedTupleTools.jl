@@ -122,6 +122,10 @@ v = [:b => 2, :a => 1]
 @test namedtuple(v) == NamedTuple{(:b, :a)}(2, 1)
 v = ["b" => 2, "a" => 1]
 @test namedtuple(v) == NamedTuple{(:b, :a)}(2, 1)
+v = [:a => [1, 2]]
+@test namedtuple(v) == NamedTuple{(:a,)}(Ref([1, 2]),)
+v = ["a" => [1, 2]]
+@test namedtuple(v) == NamedTuple{(:a,)}(Ref([1, 2]),)
 
 for DictType in [Dict, OrderedDict, LittleDict]
     let DT=DictType

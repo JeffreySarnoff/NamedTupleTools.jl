@@ -322,15 +322,15 @@ a = (food = (fruits = (orange = "mango", white = "pear"),
              liquids = (water = "still", wine = "burgandy")))
 
 b = (food = (fruits = (yellow = "banana", orange = "papaya"),
-             liquids = (water = "sparkling", wine = "champagne"), 
+             liquids = (water = "sparkling", wine = "champagne"),
              bread = "multigrain"))
 
-merge(b,a)  == (fruits  = (orange = "mango", white = "pear"), 
+merge(b,a)  == (fruits  = (orange = "mango", white = "pear"),
                 liquids = (water = "still", wine = "burgandy"),
                 bread   = "multigrain")
 
-merge_recursive(b,a) == 
-               (fruits  = (yellow = "banana", orange = "mango", white = "pear"), 
+merge_recursive(b,a) ==
+               (fruits  = (yellow = "banana", orange = "mango", white = "pear"),
                 liquids = (water = "still", wine = "burgandy"),
                 bread   = "multigrain")
 
@@ -338,7 +338,7 @@ merge(a,b)  == (fruits  = (yellow = "banana", orange = "papaya"),
                 liquids = (water = "sparkling", wine = "champagne"),
                 bread   = "multigrain")
 
-merge_recursive(a,b) == 
+merge_recursive(a,b) ==
                (fruits  = (orange = "papaya", white = "pear", yellow = "banana"),
                 liquids = (water = "sparkling", wine = "champagne"),
                 bread   = "multigrain")
@@ -350,7 +350,7 @@ see: [`merge`](@ref)
     Unvalued
 
 anonymous placeholder for unvalued namedtuple keys
-(only used in recursion definitions) 
+(only used in recursion definitions)
 """
 struct Unvalued end
 const unvalued = Unvalued()
@@ -444,10 +444,15 @@ Base.convert(::Type{D}, x::NT) where {D<:AbstractDict, N, NT<:NamedTuple{N}} =
 dictionary(nt::NamedTuple) = convert(Dict, nt) # deprecated
 
 # from PR by pdeffebach (Vector of Pairs becomes NamedTuple)
-namedtuple(v::Vector{<:Pair{<:Symbol}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
+function namedtuple(v::Vector{<:Pair{<:Symbol}})
+    N = length(v)
+    NamedTuple{ntuple(i -> v[i][1], N)}(ntuple(i -> v[i][2], N))
+end
 # with names as strings
-namedtuple(v::Vector{<:Pair{<:String}}) = namedtuple([p[1] for p in v]...)([p[2] for p in v]...)
-
+function namedtuple(v::Vector{<:Pair{String}})
+    N = length(v)
+    NamedTuple{ntuple(i -> Symbol(v[i][1]), N)}(ntuple(i -> v[i][2], N))
+end
 # NamedTuple becomes a Vector of Pairs
 Base.convert(::Type{Vector{Pair}}, nt::NamedTuple) =  map(kv->Pair(first(kv), last(kv)), zip(keys(nt), values(nt)))
 
