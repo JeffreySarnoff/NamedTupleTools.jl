@@ -45,8 +45,9 @@ NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 Retrieve, as symbols, the name of each field in appearance (first..last) order.
 - Note: for any nested field, this obtains only the name of top-level field.
 
-Technical note: With some use cases, this function is heavily used.
-The implementation relies on @generated functions to make its use virtually free.
+Technical note: With some applications, this function is used heavily.
+Fortunately, the operation is completely determined by the argument's type;
+so using an `@generated function` is appropriate and most effective.
 """
 @generated function fieldnames(x::T) where {N,S, T<:NamedTuple{N,S}}
     N
