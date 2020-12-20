@@ -20,7 +20,7 @@ export @namedtuple,
        ntfromstruct, structfromnt,
        @structfromnt
 
-import Base: propertynames, fieldnames, valtype, values, merge, split
+import Base: propertynames, fieldnames, values, merge, split
 
 if isdefined(Base, :fieldtypes)
      import Base: fieldtypes
@@ -62,7 +62,7 @@ end
 
 Retrieve the values' types as `Tuple{<types>}`.
 
-see: [`valtype`](@ref)
+see: [`fieldtypes`](@ref)
 """
 @generated function field_types(x::T) where {N,S, T<:NamedTuple{N,S}}
     S
@@ -77,7 +77,7 @@ end
 
 Retrieve the values' types as a tuple of types `(<types>,)`.
 
-see: [`valtype`](@ref)
+see: [`field_types`](@ref)
 """
 @generated function fieldtypes(x::T) where {N,S, T<:NamedTuple{N,S}}
     Tuple(S.parameters)
@@ -86,12 +86,10 @@ end
     typeof(T) === UnionAll ? Tuple((NTuple{lengthof(N),Any}).parameters) : Tuple(S.parameters)
 end
 
-
 """
-    fieldvalues
+    fieldvalues( namedtuple)
 
-obtain values assigned to fields of a struct type
-(in field order)
+obtain values assigned to fields of a struct type (in field order)
 """
 function fieldvalues(x::T) where {T}
      isstructtype(T) && return unsafe_fieldvalues(x)
@@ -100,31 +98,23 @@ end
 
 unsafe_fieldvalues(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
 
+# internal support for low level signnature manipulation
 """
-    valtype( namedtuple )
-
-Retrieve the values' types as a typeof(tuple).
-
-see: [`fieldtypes`](@ref)
-"""
-valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
-
-valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-    typeof(T) === UnionAll ? NTuple{lengthof(N),Any} : T.parameters[2]
-
-
-"""
-    untuple( Tuple{_} )
+    detuple( Tuple{_} )
 
 Retrieve the types that are internal to the `Tuple` as a (_).
-"""
-untuple(::Type{T}) where {T<:Tuple} = (T.parameters...,)
+- was `untuple`, now renamed to better pair with `retuple`
 
+see: [`retuple`](@ref)
+"""
+detuple(::Type{T}) where {T<:Tuple} = Tuple(T.parameters)
 
 """
     retuple( (_) )
 
 Generate a `Tuple` with the given internal types as a `Tuple{_}`.
+
+see: [`detuple`](@ref)
 """
 retuple(x::Tuple) = Tuple{x...,}
 
