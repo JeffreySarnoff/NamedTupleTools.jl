@@ -5,7 +5,7 @@ This module provides some useful NamedTuple tooling.
 
 see [`namedtuple`](@ref), [`isprototype`](@ref),
     [`fieldnames`](@ref), [`fieldtypes`](@ref), [`fieldvalues`](@ref)
-    [`delete`](@ref), [`merge`](@ref), [`merger`](@ref)
+    [`delete`](@ref), [`merge`](@ref), [`merge_recursive`](@ref)
 """
 module NamedTupleTools
 
@@ -38,8 +38,53 @@ struct NotPresent end
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
-propertynames(nt::NamedTuple{N,T}) where {N,T} = N   # correct
-fieldnames(nt::NamedTuple{N,T}) where {N,T} = N      # deprecate
+"""
+   fieldnames( namedtuple )
+   fieldnames( typeof(namedtuple) )
+
+Retrieve, as symbols, the name of each field in appearance (first..last) order.
+- Note: for any nested field, this obtains only the name of top-level field.
+
+Technical note: With some use cases, this function is heavily used.
+The implementation relies on @generated functions to make its use virtually free.
+"""
+@generated function fieldnames(x::T) where {N,S, T<:NamedTuple{N,S}}
+    N
+end
+@generated function fieldnames(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}}
+    N
+end
+
+"""
+    field_types( namedtuple )
+    field_types( typeof(namedtuple) )
+
+Retrieve the values' types as `Tuple{<types>}`.
+
+see: [`valtype`](@ref)
+"""
+@generated function field_types(x::T) where {N,S, T<:NamedTuple{N,S}}
+    S
+end
+@generated function field_types(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}}
+    typeof(T) === UnionAll ? NTuple{lengthof(N),Any} : S
+end
+
+"""
+    fieldtypes( namedtuple )
+    fieldtypes( typeof(namedtuple) )
+
+Retrieve the values' types as a tuple of types `(<types>,)`.
+
+see: [`valtype`](@ref)
+"""
+@generated function fieldtypes(x::T) where {N,S, T<:NamedTuple{N,S}}
+    Tuple(S.parameters)
+end
+@generated function fieldtypes(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}}
+    typeof(T) === UnionAll ? Tuple((NTuple{lengthof(N),Any}).parameters) : Tuple(S.parameters)
+end
+
 
 """
     fieldvalues
@@ -54,20 +99,6 @@ function fieldvalues(x::T) where {T}
 end
 
 """
-    fieldtypes( namedtuple )
-    fieldtypes( typeof(namedtuple) )
-
-Retrieve the values' types as a tuple.
-
-see: [`valtype`](@ref)
-"""
-fieldtypes(x::T) where {N,S, T<:NamedTuple{N,S}} = Tuple(T.parameters[2].parameters)
-
-fieldtypes(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
-       typeof(T) === UnionAll ? Tuple((NTuple{lengthof(N),Any}).parameters) :
-                                Tuple(T.parameters[2].parameters)
-
-"""
     valtype( namedtuple )
 
 Retrieve the values' types as a typeof(tuple).
@@ -78,8 +109,6 @@ valtype(x::T) where {N,S, T<:NamedTuple{N,S}} = T.parameters[2]
 
 valtype(::Type{T}) where {N, S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} =
     typeof(T) === UnionAll ? NTuple{lengthof(N),Any} : T.parameters[2]
-
-
 
 
 """
