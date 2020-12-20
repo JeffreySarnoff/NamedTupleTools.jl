@@ -11,9 +11,9 @@ module NamedTupleTools
 
 export @namedtuple,
        namedtuple, isprototype, prototype,
-       propertynames, fieldnames, fieldvalues, fieldtypes,
-       merge,
-       merge_recursive,
+       fieldnames, fieldtypes, fieldvalues, 
+       propertynames, 
+       merge, merge_recursive,
        split,
        delete,
        select,
@@ -94,10 +94,11 @@ obtain values assigned to fields of a struct type
 (in field order)
 """
 function fieldvalues(x::T) where {T}
-     !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
-
-     return ((getfield(x, name) for name in fieldnames(T))...,)
+     isstructtype(T) && return unsafe_fieldvalues(x)
+     throw(ArgumentError("$(T) is not a struct type"))
 end
+
+unsafe_fieldvalues(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
 
 """
     valtype( namedtuple )
