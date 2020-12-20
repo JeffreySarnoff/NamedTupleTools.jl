@@ -98,7 +98,14 @@ end
 
 unsafe_fieldvalues(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
 
-# internal support for low level signnature manipulation
+
+#=
+
+      >>> revision has progressed to here
+
+=#
+
+# internal support for low level signature manipulation
 """
     detuple( Tuple{_} )
 
