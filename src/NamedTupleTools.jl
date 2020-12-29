@@ -46,15 +46,10 @@ Retrieve, as symbols, the name of each field in appearance (first..last) order.
 - Note: for any nested field, this obtains only the name of top-level field.
 
 Technical note: With some applications, this function is used heavily.
-Fortunately, the operation is completely determined by the argument's type;
-so using an `@generated function` is appropriate and most effective.
+Fortunately, the operation is completely determined by the argument's type.
 """
-@generated function fieldnames(x::T) where {N,S, T<:NamedTuple{N,S}}
-    N
-end
-@generated function fieldnames(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}}
-    N
-end
+fieldnames(x::T) where {N,S, T<:NamedTuple{N,S}} = N
+fieldnames(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} = N
 
 """
     field_types( namedtuple )
@@ -64,13 +59,10 @@ Retrieve the values' types as `Tuple{<types>}`.
 
 see: [`fieldtypes`](@ref)
 """
-@generated function field_types(x::T) where {N,S, T<:NamedTuple{N,S}}
-    S
-end
-@generated function field_types(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}}
-    typeof(T) === UnionAll ? NTuple{lengthof(N),Any} : S
-end
-
+function field_types(x::T) where {N, S, T<:NamedTuple{N,S}} = S
+function field_types(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}} = S
+function field_types(::Type{T}) where {N, T<:NamedTuple{N}} = NTuple{length(N),Any}
+			
 """
     fieldtypes( namedtuple )
     fieldtypes( typeof(namedtuple) )
@@ -79,13 +71,16 @@ Retrieve the values' types as a tuple of types `(<types>,)`.
 
 see: [`field_types`](@ref)
 """
-@generated function fieldtypes(x::T) where {N,S, T<:NamedTuple{N,S}}
+function fieldtypes(x::T) where {N, S, T<:NamedTuple{N,S}}
     Tuple(S.parameters)
 end
-@generated function fieldtypes(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}}
-    typeof(T) === UnionAll ? Tuple((NTuple{lengthof(N),Any}).parameters) : Tuple(S.parameters)
+function fieldtypes(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}}
+    Tuple(S.parameters)
 end
-
+function fieldtypes(::Type{T}) where {N, T<:NamedTuple{N}}
+     Tuple(NTuple{length(N),Any}.parameters)
+end
+			
 """
     fieldvalues( namedtuple)
 
@@ -97,7 +92,6 @@ function fieldvalues(x::T) where {T}
 end
 
 unsafe_fieldvalues(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
-
 
 #=
 
@@ -126,7 +120,6 @@ see: [`detuple`](@ref)
 retuple(x::Tuple) = Tuple{x...,}
 
 
-
 namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
@@ -150,7 +143,7 @@ end
 function structfromnt(structname::Union{Symbol, String}, nt::NamedTuple{N,T}) where {N,T}
     sname = Symbol(structname)
     names = N
-    types = untuple(T)
+    types = detuple(T)
     tostruct = Meta.parse(NamedTupleTools.struct_from(sname, names, types))
     eval(tostruct) # generate Struct
     return nothing
