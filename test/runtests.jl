@@ -27,8 +27,7 @@ nt = NamedTuple{(:a, :b)}(1.0, "two")
 
 @test fieldnames(nt) == (:a, :b)
 @test fieldtypes(nt) == (Float64, String)
-@test field_types(nt) == Tuple{Float64, String}
-@test fieldtypes(nt) == (Float64, String)
+@test NameTupleTools.field_types(nt) == Tuple{Float64, String}
 
 namedtuple(:a, :b) == NamedTuple{(:a, :b),T} where T<:Tuple
 
