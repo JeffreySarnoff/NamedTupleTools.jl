@@ -28,6 +28,23 @@ else
      export fieldtypes
 end
 
+
+# internal support for low level manipulation
+
+"""
+    detuple( Tuple{_} )
+
+Retrieve the types that are internal to the `Tuple` as a (_).
+"""
+detuple(::Type{T}) where {T<:Tuple} = Tuple(T.parameters)
+
+"""
+    retuple( (_) )
+
+Generate a `Tuple` with the given internal types as a `Tuple{_}`.
+"""
+retuple(x::Tuple) = Tuple{x...,}
+
 """
     NotPresent
 
@@ -36,7 +53,9 @@ To indicate certain entries do not exist in the namedtuple.
 struct NotPresent end
 
 # accept comma delimited values
-NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
+NamedTuple{T}(xs...) where {T<:} = NamedTuple{T}(xs)
+
+# obtain aspects of a NamedTuple
 
 """
    fieldnames( namedtuple )
@@ -48,8 +67,10 @@ Retrieve, as symbols, the name of each field in appearance (first..last) order.
 Technical note: With some applications, this function is used heavily.
 Fortunately, the operation is completely determined by the argument's type.
 """
-fieldnames(x::T) where {N,S, T<:NamedTuple{N,S}} = N
-fieldnames(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} = N
+Base.fieldnames(x::T) where {N,S, T<:NamedTuple{N,S}} = N
+Base.fieldnames(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} = N
+
+Base.fieldnames(x::T) where {T} = fieldnames(T) # for structs
 
 """
     field_types( namedtuple )
@@ -70,21 +91,20 @@ function field_types(::Type{T}) where {N, T<:NamedTuple{N}} = NTuple{length(N),A
 Retrieve the values' types as a tuple of types `(<types>,)`.
 
 see: [`field_types`](@ref)
-"""
-function fieldtypes(x::T) where {N, S, T<:NamedTuple{N,S}}
-    Tuple(S.parameters)
-end
-function fieldtypes(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}}
-    Tuple(S.parameters)
-end
-function fieldtypes(::Type{T}) where {N, T<:NamedTuple{N}}
+"""			
+Base.fieldtypes(x::T) where {N, S, T<:NamedTuple{N,S}} = detuple(S)
+Base.fieldtypes(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}} = detuple(s)
+function Base.fieldtypes(::Type{T}) where {N, T<:NamedTuple{N}}
      Tuple(NTuple{length(N),Any}.parameters)
 end
+
+Base.fieldtypes(x::T) where {T} = fieldtypes(T) # for structs
 			
 """
-    fieldvalues( namedtuple)
+    fieldvalues(x)
 
 obtain values assigned to fields of a struct type (in field order)
+- `NamedTuples` and `struct`s are struct types
 """
 function fieldvalues(x::T) where {T}
      isstructtype(T) && return unsafe_fieldvalues(x)
@@ -93,46 +113,24 @@ end
 
 unsafe_fieldvalues(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
 
-#=
-
-      >>> revision has progressed to here
-
-=#
-
-# internal support for low level signature manipulation
-"""
-    detuple( Tuple{_} )
-
-Retrieve the types that are internal to the `Tuple` as a (_).
-- was `untuple`, now renamed to better pair with `retuple`
-
-see: [`retuple`](@ref)
-"""
-detuple(::Type{T}) where {T<:Tuple} = Tuple(T.parameters)
-
-"""
-    retuple( (_) )
-
-Generate a `Tuple` with the given internal types as a `Tuple{_}`.
-
-see: [`detuple`](@ref)
-"""
-retuple(x::Tuple) = Tuple{x...,}
-
+function unsafe_fieldnamesvalues(x::T) where {T}
+    names = fieldnames(x)
+    values = getfield.(Ref(x), names)
+    return names, values				
+end
 
 namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
-     names = fieldnames(T)
-     values = fieldvalues(x)
+     names, values = unsafe_fieldnamesvalues(T)
      return NamedTuple{names}(values)
 end
 
 # an instance of type S, a Struct
 function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      names = N
-     values = fieldvalues(x)
+     values = unsafe_fieldvalues(x)
      if fieldnames(S) != names
           throw(ErrorException("fields in ($S) do not match ($x)"))
      end
