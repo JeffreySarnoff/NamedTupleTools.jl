@@ -12,7 +12,6 @@ module NamedTupleTools
 export @namedtuple,
        namedtuple, isprototype, prototype,
        fieldnames, fieldtypes, fieldvalues, 
-       propertynames, 
        merge, merge_recursive,
        split,
        delete,
@@ -451,8 +450,5 @@ macro namedtuple(vars...)
    expr = Expr(:tuple, Expr(:parameters, args...))
    return expr
 end
-
-
-Base.@deprecate namedtuple(nt::NamedTuple) prototype(nt::NamedTuple)
 
 end # module NamedTupleTools
