@@ -56,11 +56,10 @@ Retrieve, as symbols, the name of each field in appearance (first..last) order.
 Technical note: With some applications, this function is used heavily.
 Fortunately, the operation is completely determined by the argument's type.
 """
-Base.fieldnames(::Type{T}) where {N,S,T<:NamedTuple{N,S}} = Base._nt_names(T)
-Base.fieldnames(x::T) where {N,S, T<:NamedTuple{N,S}} = Base._nt_names(T)
-Base.fieldnames(::Type{NamedTuple{N}}) where {N} = N
+fieldnames(::Type{T}) where {names,T<:NamedTuple{names}} = names
+fieldnames(x::T) where {names,T<:NamedTuple{names}} = names
 
-Base.fieldnames(x::T) where {T} = fieldnames(T) # for structs
+fieldnames(x::T) where {T} = fieldnames(T) # for structs
 
 """
     field_types( namedtuple )
