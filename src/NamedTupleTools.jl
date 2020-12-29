@@ -354,8 +354,8 @@ merge_recursive(x, y) = y
 function merge_recursive(nt1::NamedTuple, nt2::NamedTuple)
     all_keys = union(keys(nt1), keys(nt2))
     gen = Base.Generator(all_keys) do key
-        v1 = get(nt1, key, unvalued)
-        v2 = get(nt2, key, unvalued)
+        v1 = get(nt1, key, _unvalued)
+        v2 = get(nt2, key, _unvalued)
         key => merge_recursive(v1, v2)
     end
     return (; gen...)
