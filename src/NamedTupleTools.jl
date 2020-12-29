@@ -56,8 +56,9 @@ Retrieve, as symbols, the name of each field in appearance (first..last) order.
 Technical note: With some applications, this function is used heavily.
 Fortunately, the operation is completely determined by the argument's type.
 """
-Base.fieldnames(x::T) where {N,S, T<:NamedTuple{N,S}} = N
-Base.fieldnames(::Type{T}) where {N,S<:Tuple, T<:Union{NamedTuple{N},NamedTuple{N,S}}} = N
+Base.fieldnames(::Type{T}) where {N,S,T<:NamedTuple{N,S}} = Base._nt_names(T)
+Base.fieldnames(x::T) where {N,S, T<:NamedTuple{N,S}} = Base._nt_names(T)
+Base.fieldnames(::Type{NamedTuple{N}}) where {N} = N
 
 Base.fieldnames(x::T) where {T} = fieldnames(T) # for structs
 
@@ -82,10 +83,9 @@ Retrieve the values' types as a tuple of types `(<types>,)`.
 see: [`field_types`](@ref)
 """			
 Base.fieldtypes(x::T) where {N, S, T<:NamedTuple{N,S}} = detuple(S)
-Base.fieldtypes(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}} = detuple(s)
-function Base.fieldtypes(::Type{T}) where {N, T<:NamedTuple{N}}
-     Tuple(NTuple{length(N),Any}.parameters)
-end
+Base.fieldtypes(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}} = detuple(S)
+Base.fieldtypes(::Type{T}) where {N, T<:NamedTuple{N}} =
+    ntuple(i->Any, length(names))
 
 Base.fieldtypes(x::T) where {T} = fieldtypes(T) # for structs
 			
