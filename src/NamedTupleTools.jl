@@ -101,28 +101,23 @@ end
 
 unsafe_fieldvalues(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
 
-function unsafe_fieldnamesvalues(x::T) where {N,S,T<:NamedTuple{N,S}}
-    names = fieldnames(T)
-    values = getfield.(Ref(x), names)
-    return names, values				
-end
-
 namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
-     !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
-     names = fieldnames(T)
-     values = getfield.(Ref(x), names)
-     return NamedTuple{names}(values)
+    !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
+    names = fieldnames(T)
+    values = getfield.(Ref(x), names)
+    return NamedTuple{names}(values)
 end
 
 # an instance of type S, a Struct
 function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
-     names, values = unsafe_fieldnamesvalues(x)
-     if fieldnames(S) != names
-         throw(ErrorException("fields in ($S) do not match ($x)"))
-     end
-     return S(values...,)
+    names = fieldnames(T)
+    values = getfield.(Ref(x), names)
+    if fieldnames(S) != names
+        throw(ErrorException("fields in ($S) do not match ($x)"))
+    end
+    return S(values...,)
 end
 
 # the Struct itself
