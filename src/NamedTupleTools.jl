@@ -111,7 +111,8 @@ namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
      !isstructtype(T) && throw(ArgumentError("$(T) is not a struct type"))
-     names, values = unsafe_fieldnamesvalues(x)
+     names = fieldnames(T)
+     values = getfield.(Ref(x), names)
      return NamedTuple{names}(values)
 end
 
