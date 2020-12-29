@@ -42,7 +42,7 @@ Generate a `Tuple` with the given internal types as a `Tuple{_}`.
 retuple(x::Tuple) = Tuple{x...,}
 
 # accept comma delimited values
-NamedTuple{T}(xs...) where {T<:} = NamedTuple{T}(xs)
+NamedTuple{T}(xs...) where {T} = NamedTuple{T}(xs)
 
 # obtain aspects of a NamedTuple
 
