@@ -278,6 +278,81 @@ select(nt::NamedTuple, k::NamedTuple) = select(nt, keys(k))
 select(nt::NamedTuple, ks) = namedtuple(ks)(((nt[k] for k in ks)...,))
 
 
+#=
+
+julia> Base.fieldnames(::Type{NamedTuple{N,T}}) where {N,T} = N
+
+julia> Base.fieldnames(x::NamedTuple{N,T}) where {N,T} = N
+
+julia> """
+           flatten(args...) -> ::Tuple
+       Flatten one or more tuples into a single tuple, such that every element of that tuple is itself not a tuple, otherwise it would also be expanded (i.e. flattened).
+       """
+"    flatten(args...) -> ::Tuple\nFlatten one or more tuples into a single tuple, such that every element of that tuple is itself not a tuple, otherwise it would also be expanded (i.e. flattened).\n"
+
+julia> flatten(x::Any) = (x,)
+flatten (generic function with 4 methods)
+
+julia> flatten(t::Tuple{}) = ()
+flatten (generic function with 4 methods)
+
+julia> flatten(t::Tuple) = (flatten(t[1])..., flatten(Base.tail(t))...)
+flatten (generic function with 4 methods)
+
+julia> flatten(x, r...) = (flatten(x)..., flatten(r)...)
+flatten (generic function with 4 methods)
+
+julia> nms=(unique(flatten(fieldnames.((tnt1,tnt2))))...,)
+(:a, :c, :b, :d, :e)
+
+julia> nms=(unique(flatten(fieldnames.((nt1,nt3))))...,)
+(:a, :c, :d)
+=#
+
+#=
+   flatten is from https://github.com/Jutho/TupleTools.jl
+
+   "Flatten one or more tuples into a single tuple,
+    such that every element of that tuple is itself not a tuple,
+    otherwise it would also be expanded (i.e. flattened)."
+=#
+flatten(x::Any) = (x,)
+flatten(t::Tuple{}) = ()
+flatten(t::Tuple) = (flatten(t[1])..., flatten(Base.tail(t))...)
+flatten(x, r...) = (flatten(x)..., flatten(r)...)
+
+#=
+uniquenames(xs)
+ obtains the fieldnames present in all xs..., as a unique flattened tuple
+=#
+uniquenames(nts::Tuple{Vararg{T}}) where {T} =
+  (unique(flatten(fieldnames.(nts)))...,)
+
+tuple_unique(xs...) = (unique(xs)...,)
+
+#=
+
+@pure function merge_names(an::Tuple{Vararg{Symbol}}, bn::Tuple{Vararg{Symbol}})
+    @nospecialize an bn
+    names = Symbol[an...]
+    for n in bn
+        if !sym_in(n, an)
+            push!(names, n)
+        end
+    end
+    (names...,)
+end
+
+@pure function merge_types(names::Tuple{Vararg{Symbol}}, a::Type{<:NamedTuple}, b::Type{<:NamedTuple})
+    @nospecialize names a b
+    bn = _nt_names(b)
+    return Tuple{Any[ fieldtype(sym_in(names[n], bn) ? b : a, names[n]) for n in 1:length(names) ]...}
+end
+
+=#
+
+
+
 """
     merge(namedtuple1, namedtuple2)
     merge(nt1, nt2, nt3, ..)
