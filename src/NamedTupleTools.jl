@@ -394,8 +394,8 @@ end
 merge_recursive(nt1::NamedTuple, nt2::NamedTuple, nts...) = merge_recursive(merge_recursive(nt1, nt2), nts...)
 
 """
-    merger(nt1, nt2)
-    merger(nt1, nt2, nt3, ..)
+    rec_merge(nt1, nt2)
+    rec_merge(nt1, nt2, nt3, ..)
 
 Recursively merge namedtuples. Fieldnames and values in nt2 and its sub-namedtuples
     are all kept, with those only appear in nt1.
