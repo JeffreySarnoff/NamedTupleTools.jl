@@ -28,7 +28,6 @@ else
      export fieldtypes
 end
 
-
 # internal support for low level manipulation
 
 """
@@ -44,13 +43,6 @@ detuple(::Type{T}) where {T<:Tuple} = Tuple(T.parameters)
 Generate a `Tuple` with the given internal types as a `Tuple{_}`.
 """
 retuple(x::Tuple) = Tuple{x...,}
-
-"""
-    NotPresent
-
-To indicate certain entries do not exist in the namedtuple.
-"""
-struct NotPresent end
 
 # accept comma delimited values
 NamedTuple{T}(xs...) where {T<:} = NamedTuple{T}(xs)
@@ -365,20 +357,18 @@ merge_recursive(a,b) ==
 see: [`merge`](@ref)
 """ merge_recursive
 
-"""
-    Unvalued
-
+#=
 anonymous placeholder for unvalued namedtuple keys
 (only used in recursion definitions)
-"""
-struct Unvalued end
-const unvalued = Unvalued()
+=#
+struct _Unvalued end
+const _unvalued = _Unvalued()
 
 merge_recursive(nt::NamedTuple) = nt
 
-merge_recursive(::Unvalued, ::Unvalued) = unvalued
-merge_recursive(x, ::Unvalued) = x
-merge_recursive(m::Unvalued, x) = merge_recursive(x, m)
+merge_recursive(::_Unvalued, ::_Unvalued) = _unvalued
+merge_recursive(x, ::_Unvalued) = x
+merge_recursive(m::_Unvalued, x) = merge_recursive(x, m)
 merge_recursive(x, y) = y
 
 function merge_recursive(nt1::NamedTuple, nt2::NamedTuple)
@@ -391,34 +381,8 @@ function merge_recursive(nt1::NamedTuple, nt2::NamedTuple)
     return (; gen...)
 end
 
-merge_recursive(nt1::NamedTuple, nt2::NamedTuple, nts...) = merge_recursive(merge_recursive(nt1, nt2), nts...)
-
-"""
-    rec_merge(nt1, nt2)
-    rec_merge(nt1, nt2, nt3, ..)
-
-Recursively merge namedtuples. Fieldnames and values in nt2 and its sub-namedtuples
-    are all kept, with those only appear in nt1.
-
-see: [`merge`](@ref)
-"""
-rec_merge(nt::NamedTuple) = nt
-
-rec_merge(::NotPresent, ::NotPresent) = NotPresent()
-rec_merge(x, ::NotPresent) = x
-rec_merge(np::NotPresent, x) = rec_merge(x, np)
-rec_merge(x, y) = y
-function rec_merge(nt1::NamedTuple, nt2::NamedTuple)
-    all_keys = union(keys(nt1), keys(nt2))
-    gen = Base.Generator(all_keys) do key
-        v1 = get(nt1, key, NotPresent())
-        v2 = get(nt2, key, NotPresent())
-        key => rec_merge(v1, v2)
-    end
-    return (; gen...)
-end
-
-rec_merge(nt1::NamedTuple, nt2::NamedTuple, nts...) = rec_merge(rec_merge(nt1, nt2), nts...)
+merge_recursive(nt1::NamedTuple, nt2::NamedTuple, nts...) =
+    merge_recursive(merge_recursive(nt1, nt2), nts...)
 
 """
     split(namedtuple, symbol(s)|Tuple)
@@ -429,7 +393,6 @@ second with all but the fields in the second arg, such that
 """
 split(nt::NamedTuple, ks::Symbol) = split(nt, (ks,))
 split(nt::NamedTuple, ks) = select(nt, ks), delete(nt, ks)
-
 
 #=  interconvert: NamedTuple <--> Dict =#
 
