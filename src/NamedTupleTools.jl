@@ -69,9 +69,9 @@ Retrieve the values' types as `Tuple{<types>}`.
 
 see: [`fieldtypes`](@ref)
 """
-function field_types(x::T) where {N, S, T<:NamedTuple{N,S}} = S
-function field_types(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}} = S
-function field_types(::Type{T}) where {N, T<:NamedTuple{N}} = NTuple{length(N),Any}
+field_types(x::T) where {N, S, T<:NamedTuple{N,S}} = S
+field_types(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}} = S
+field_types(::Type{T}) where {N, T<:NamedTuple{N}} = NTuple{length(N),Any}
 			
 """
     fieldtypes( namedtuple )
