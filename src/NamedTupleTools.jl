@@ -101,8 +101,8 @@ end
 
 unsafe_fieldvalues(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
 
-function unsafe_fieldnamesvalues(x::T) where {T}
-    names = fieldnames(x)
+function unsafe_fieldnamesvalues(x::T) where {N,S,T<:NamedTuple{N,S}}
+    names = fieldnames(T)
     values = getfield.(Ref(x), names)
     return names, values				
 end
@@ -115,6 +115,28 @@ function ntfromstruct(x::T) where {T}
      return NamedTuple{names}(values)
 end
 
+# an instance of type S, a Struct
+function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
+     names, values = unsafe_fieldnamesvalues(x)
+     if fieldnames(S) != names
+         throw(ErrorException("fields in ($S) do not match ($x)"))
+     end
+     return S(values...,)
+end
+
+# the Struct itself
+function structfromnt(structname::Union{Symbol, String}, nt::NamedTuple{N,T}) where {N,T}
+    sname = Symbol(structname)
+    names = N
+    types = untuple(T)
+    tostruct = Meta.parse(NamedTupleTools.struct_from(sname, names, types))
+    eval(tostruct) # generate Struct
+    return nothing
+end
+
+macro structfromnt(sname, nt)
+    :( eval(structfromnt($(esc(sname)), $(esc(nt)))) )
+end
 # an instance of type S, a Struct
 function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      names = N
