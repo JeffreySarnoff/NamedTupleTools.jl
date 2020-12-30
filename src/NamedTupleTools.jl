@@ -432,6 +432,26 @@ end
 merge_recursive(nt1::NamedTuple, nt2::NamedTuple, nts...) =
     merge_recursive(merge_recursive(nt1, nt2), nts...)
 
+#=
+function firstin(x::NamedTuple{N,T}) where {N,T}
+    name = first(N)
+    value = first(x)
+    return NamedTuple{(name,)}((value,),)
+end
+
+function firstrest(x::NamedTuple{N,T}) where {N,T}
+    isempty(x) && return x
+    name = first(N)
+    value = first(x)
+    firstnt = NamedTuple{(name,)}((value,),)
+    names = Base.diff_names(fieldnames(x),(name,))
+    isempty(names) && return firstnt
+    values = getfield.(Ref(x), names)
+    restnt = NamedTuple{names}(values)
+    return firstnt, restnt
+end
+=#
+
 """
     split(namedtuple, symbol(s)|Tuple)
 
