@@ -254,7 +254,6 @@ select(nt::NamedTuple, k::Symbol) = nt[k]
 select(nt::NamedTuple, k::NamedTuple) = select(nt, keys(k))
 select(nt::NamedTuple, ks) = namedtuple(ks)(((nt[k] for k in ks)...,))
 
-
 #=
 
 julia> Base.fieldnames(::Type{NamedTuple{N,T}}) where {N,T} = N
@@ -353,7 +352,19 @@ merge(::Type{T1}, ::Type{T2}, ::Type{T3}, ::Type{T4}, ::Type{T5}, ::Type{T6}) wh
 merge(::Type{T1}, ::Type{T2}, ::Type{T3}, ::Type{T4}, ::Type{T5}, ::Type{T6}, ::Type{T7}) where {N1,N2,N3,N4,N5,N6,N7,T1<:NamedTuple{N1},T2<:NamedTuple{N2},T3<:NamedTuple{N3},T4<:NamedTuple{N4},T5<:NamedTuple{N5},T6<:NamedTuple{N6},T7<:NamedTuple{N7}} =
     namedtuple((unique((N1..., N2..., N3..., N4..., N5..., N6...,N7...))...,))
 
-# merge(nt1::T1, nt2::T2, ...) where {T1<:NamedTuple, T2<:NamedTuple} is already defined
+# merge(nt1::T1, nt2::T2, ...) exists in Julia versions >= 1.1
+if VERSION < v"1.1"
+	merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}) where {an, bn, cn} =
+		reduce(merge,(a, b, c))
+	merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}) where {an, bn, cn, dn} =
+		reduce(merge,(a, b, c, d))
+	merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}) where {an, bn, cn, dn, en} =
+		reduce(merge,(a, b, c, d, e))
+	merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}) where {an, bn, cn, dn, en, fn} =
+		reduce(merge,(a, b, c, d, e, f))
+	merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}, e::NamedTuple{en}, f::NamedTuple{fn}, g::NamedTuple{gn}) where {an, bn, cn, dn, en, fn, gn} =
+		reduce(merge,(a, b, c, d, e, f, g))
+end
 
 """
     merge_recursive(nt1, nt2)
