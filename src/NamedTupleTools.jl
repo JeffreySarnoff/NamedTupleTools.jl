@@ -81,12 +81,12 @@ Retrieve the values' types as a tuple of types `(<types>,)`.
 
 see: [`field_types`](@ref)
 """			
-Base.fieldtypes(x::T) where {N, S, T<:NamedTuple{N,S}} = detuple(S)
-Base.fieldtypes(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}} = detuple(S)
-Base.fieldtypes(::Type{T}) where {N, T<:NamedTuple{N}} =
+fieldtypes(x::T) where {N, S, T<:NamedTuple{N,S}} = detuple(S)
+fieldtypes(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}} = detuple(S)
+fieldtypes(::Type{T}) where {N, T<:NamedTuple{N}} =
     ntuple(i->Any, length(names))
 
-Base.fieldtypes(x::T) where {T} = fieldtypes(T) # for structs
+fieldtypes(x::T) where {T} = fieldtypes(T) # for structs
 			
 """
     fieldvalues(x)
