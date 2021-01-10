@@ -250,10 +250,12 @@ Generate a namedtuple [ntprototype] from the first arg, including only fields pr
 
 see: [`merge`](@ref)
 """
-select(nt::NamedTuple, k::Symbol) = nt[k]
-select(nt::NamedTuple, k::NamedTuple) = select(nt, keys(k))
-select(nt::NamedTuple, ks) = namedtuple(ks)(((nt[k] for k in ks)...,))
-
+# from a discourse post by Jeff Bezanson
+select(nt::NamedTuple, keys::Tuple{Vararg{Symbol}}) = NamedTuple{keys}(nt)
+# developed therefrom
+select(nt::NamedTuple, keys::Vararg{Symbol}) = NamedTuple{keys}(nt)
+select(nt::NamedTuple, keys::AbstractVector{Symbol}) = NamedTuple{Tuple(keys)}(nt)
+select(nt::NamedTuple, nt4keys::NamedTuple) = select(nt, keys(nt4keys))
 #=
 
 julia> Base.fieldnames(::Type{NamedTuple{N,T}}) where {N,T} = N
