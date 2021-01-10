@@ -86,7 +86,7 @@ proto2 = prototype(nt2)
     y = (a = 1.0, b = "two", c = "three")
 )
 
-@test select(nt1, :a) == nt1[:a]
+@test select(nt1, :a) == (a = nt1[:a])
 @test select(nt1, nt2) == (a=1,b=2)
 @test select(nt1, nt2) == select(nt1, keys(nt2))
 @test select((a = 1, b = [1, 2]), (:b,)) == (b = [1, 2],)
