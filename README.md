@@ -364,7 +364,7 @@ julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
 
 - Select
     - _submitted by Chad Scherrer_
-    - _revised with Jeff Bezanson's approach_
+    - _revised with Jeff Bezanson's `getindex` proposal_
 
 - Split
     - _submitted by Seth Axen_
