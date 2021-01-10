@@ -1,12 +1,6 @@
 # Documentation:  http://docs.travis-ci.com/user/languages/julia/
 language: julia
 os: linux
-dist: focal
-group: edge
-arch: arm64-graviton2
-compiler: clang
-script:
-  - clang --version
 julia:
   - 1.0.5
   - nightly
