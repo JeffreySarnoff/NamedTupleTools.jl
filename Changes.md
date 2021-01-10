@@ -1,0 +1,1 @@
+- `split` is deprecated in favor of `separate`
