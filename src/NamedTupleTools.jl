@@ -122,6 +122,14 @@ function setfield(collection::Tuple, value::T, key::Symbol) where {T}
 	end	
 	return Tuple(v)
 end
+const NTV = Union{NTuple{N,T}, Vector{T}} where {N,T}
+function setindex(collection::NTuple{N,T}, values::A, keys::B) where {N,T,A<:NTV,B<:NTV}
+    v = vec(collection)
+    @inbounds for (idx,ith) in enumerate(keys)
+        setindex!(v, values[idx], ith)
+    end
+    return Tuple(v)
+end
 
 # returns 0 iff notfound
 @inline indexofsymbol(symbol::Symbol, collection::NTuple{N,Symbol}) where {N} =
