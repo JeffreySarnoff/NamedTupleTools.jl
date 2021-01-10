@@ -12,7 +12,8 @@ module NamedTupleTools
 export @namedtuple,
        namedtuple, isprototype, prototype,
        fieldnames, fieldtypes, fieldvalues, 
-       merge_recursive,
+       setindex, setfield,
+       merge, merge_recursive,
        split,
        delete,
        select,
@@ -100,6 +101,31 @@ function fieldvalues(x::T) where {T}
 end
 
 unsafe_fieldvalues(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
+
+function setindex(nt::NamedTuple{N,T}, value::T1, key::Union{Int,Symbol}) where {N,T1,T2}
+	values = setindex(fieldvalues(nt), value, key)
+	return NamedTuple{N}(values)
+end
+
+function setindex(collection::Tuple, value::T, key::Int) where {T}
+	v = vec(collection)
+	if 0 < key <= length(v)
+	    @inbounds v[key] = value
+	end	
+	return Tuple(v)
+end
+function setfield(collection::Tuple, value::T, key::Symbol) where {T}
+	v = vec(collection)
+	idx = indexofsymbol(key, collection)
+	if idx > 0
+	    @inbounds v[key] = value
+	end	
+	return Tuple(v)
+end
+
+# returns 0 iff notfound
+@inline indexofsymbol(symbol::Symbol, collection::NTuple{N,Symbol}) where {N} =
+   sum((1:N)[[symbol .=== collection...]])
 
 namedtuple(x::DataType) = ntfromstruct(x)
 
