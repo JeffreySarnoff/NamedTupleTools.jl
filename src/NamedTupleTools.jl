@@ -241,6 +241,18 @@ delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple
 delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
 
 """
+    separate(namedtuple, symbol(s)|Tuple)
+
+Generate two namedtuples, the first with only the fields in the second arg, the
+second with all but the fields in the second arg, such that
+`merge(split(nt, ks)...) == nt` when `ks` contains the first fields of `nt`.
+"""
+separate(nt::NamedTuple, ks::Symbol) = separate(nt, (ks,))
+separate(nt::NamedTuple, ks) = select(nt, ks), delete(nt, ks)
+
+Base.split(nt::NamedTuple, ks) = error("use `separate` instead of `split`")
+
+"""
    select(namedtuple, symbol(s)|Tuple)
    select(ntprototype, symbol(s)|Tuple)
 
