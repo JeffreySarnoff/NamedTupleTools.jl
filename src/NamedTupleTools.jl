@@ -4,14 +4,13 @@
 This module provides some useful NamedTuple tooling.
 
 see [`namedtuple`](@ref), [`isprototype`](@ref),
-    [`fieldnames`](@ref), [`fieldtypes`](@ref), [`fieldvalues`](@ref)
-    [`delete`](@ref), [`merge`](@ref), [`merge_recursive`](@ref)
+    [`fieldvalues`](@ref), [`separate`](@ref), [`select`](@ref),
+    [`delete`](@ref), [`merge_recursive`](@ref)
 """
 module NamedTupleTools
 
 export @namedtuple,
        namedtuple, isprototype, prototype,
-       fieldnames, fieldtypes, 
        fieldvalues, 
        merge_recursive,
        separate,
@@ -20,11 +19,13 @@ export @namedtuple,
        ntfromstruct, structfromnt,
        @structfromnt
 
+#=
 import Base: fieldnames, values, merge, split
 
 if isdefined(Base, :fieldtypes)
      import Base: fieldtypes
 end
+=#
 
 # internal support for low level manipulation
 
