@@ -4,7 +4,8 @@
 This module provides some useful NamedTuple tooling.
 
 see [`namedtuple`](@ref), [`isprototype`](@ref), [`issame`](@ref),
-    [`fieldvalues`](@ref), [`separate`](@ref), [`select`](@ref),
+    [`fieldvalues`](@ref), [`fastfieldvalues`](@ref),
+    [`separate`](@ref), [`select`](@ref),
     [`delete`](@ref), [`merge_recursive`](@ref)
 """
 module NamedTupleTools
@@ -13,7 +14,7 @@ export @namedtuple,
        issame,  ≅,
        sorted,
        namedtuple, isprototype, prototype,
-       fieldvalues,
+       fieldvalues, fastfieldvalues,
        merge_recursive,
        separate,
        delete,
@@ -122,7 +123,16 @@ function fieldvalues(x::T) where {T}
     (getfield.((x,), fieldnames(T))
 end
 
-@generated fastfieldvalues(x) = Expr(:tuple, (:(x.$f) for f=fieldnames(x))...)
+"""
+    fieldvalues_fast
+	
+obtain values assigned to fields (in field order)
+
+- This generates new type-specific functions
+- Use spairingly, for time-critical situations
+""" fieldvalues_fast
+
+@generated fieldvalues_fast(x) = Expr(:tuple, (:(x.$f) for f=fieldnames(x))...)
 	
 #=	
 function fieldvalues(x::T) where {T}
