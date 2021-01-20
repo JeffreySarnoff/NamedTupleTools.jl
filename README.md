@@ -21,6 +21,9 @@ from others (see [Credits](#Credits)).
 
 ## Operations
 
+### Test for Isomorphism
+- test whether two NamedTuples have the same fields with the same values
+
 ### Construction
 - [given `names` and `values`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#construction-from-names-and-values)
 - [given a `Dict{Symbol, Any}`](https://github.com/JeffreySarnoff/NamedTupleTools.jl#dict-construction-reconstruction)
