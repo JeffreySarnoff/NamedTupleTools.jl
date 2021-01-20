@@ -108,7 +108,7 @@ see: [`field_types`](@ref)
 fieldtypes(x::T) where {N, S, T<:NamedTuple{N,S}} = detuple(S)
 fieldtypes(::Type{T}) where {N, S<:Tuple, T<:NamedTuple{N,S}} = detuple(S)
 fieldtypes(::Type{T}) where {N, T<:NamedTuple{N}} =
-    ntuple(i->Any, length(names))
+    ntuple(i->Any, length(N))
 
 fieldtypes(x::T) where {T} = fieldtypes(T) # for structs
 			
