@@ -22,6 +22,7 @@ from others (see [Credits](#Credits)).
 ## Operations
 
 ### Test for Isomorphism
+- sort a NamedTuple by fieldname
 - test whether two NamedTuples have the same fields with the same values
 
 ### Construction
