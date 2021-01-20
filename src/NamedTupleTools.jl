@@ -4,7 +4,7 @@
 This module provides some useful NamedTuple tooling.
 
 see [`namedtuple`](@ref), [`isprototype`](@ref), [`issame`](@ref),
-    [`fieldvalues`](@ref), [`fastfieldvalues`](@ref),
+    [`fieldvalues`](@ref), [`fieldvalues_fast`](@ref),
     [`separate`](@ref), [`select`](@ref),
     [`delete`](@ref), [`merge_recursive`](@ref)
 """
