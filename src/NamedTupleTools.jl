@@ -12,7 +12,6 @@ module NamedTupleTools
 
 export @namedtuple,
        issame,  ≅,
-       sorted,
        namedtuple, isprototype, prototype,
        fieldvalues, fastfieldvalues,
        merge_recursive,
