@@ -119,12 +119,17 @@ obtain values assigned to fields of a struct type (in field order)
 - `NamedTuples` and `struct`s are struct types
 """
 function fieldvalues(x::T) where {T}
+    (getfield.((x,), fieldnames(T))
+end
+#=	
+function fieldvalues(x::T) where {T}
      isstructtype(T) && return unsafe_fieldvalues(x)
      throw(ArgumentError("$(T) is not a struct type"))
 end
 
 unsafe_fieldvalues(x::T) where {T} = getfield.(Ref(x), fieldnames(T))
-
+=#
+	
 namedtuple(x::DataType) = ntfromstruct(x)
 
 function ntfromstruct(x::T) where {T}
