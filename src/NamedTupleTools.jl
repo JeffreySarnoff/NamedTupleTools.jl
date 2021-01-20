@@ -10,7 +10,7 @@ see [`namedtuple`](@ref), [`isprototype`](@ref),
 module NamedTupleTools
 
 export @namedtuple,
-       issame, ≊,
+       issame,  ≅,
        namedtuple, isprototype, prototype,
        fieldvalues,
        merge_recursive,
@@ -36,7 +36,7 @@ field order independent equality
 
 - issame((a=1, b=2), (b=2, a=1))
 - (a=1, b=2)  ≊ (b=2, a=1)
-""" issame, ≊
+""" issame, ≅
 
 function issame(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
     length(N) === length(N1) &&
@@ -44,7 +44,7 @@ function issame(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
     foldl(&, (getfield(x,k) === getfield(y,k) for k=N))
 end
 
-const ≊ = issame
+const ≅ = issame
 
 # internal support for low level manipulation
 
