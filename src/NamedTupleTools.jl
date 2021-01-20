@@ -35,7 +35,7 @@ end
 field order independent equality
 
 - issame((a=1, b=2), (b=2, a=1))
-- (a=1, b=2)  ≊ (b=2, a=1)
+- (a=1, b=2) ≅ (b=2, a=1)
 """ issame, ≅
 
 function issame(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
