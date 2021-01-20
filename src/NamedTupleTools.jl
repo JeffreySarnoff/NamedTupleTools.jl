@@ -121,6 +121,9 @@ obtain values assigned to fields of a struct type (in field order)
 function fieldvalues(x::T) where {T}
     (getfield.((x,), fieldnames(T))
 end
+
+@generated fastfieldvalues(x) = Expr(:tuple, (:(x.$f) for f=fieldnames(x))...)
+	
 #=	
 function fieldvalues(x::T) where {T}
      isstructtype(T) && return unsafe_fieldvalues(x)
