@@ -11,6 +11,7 @@ module NamedTupleTools
 
 export @namedtuple,
        issame,  ≅,
+       sorted,
        namedtuple, isprototype, prototype,
        fieldvalues,
        merge_recursive,
@@ -45,6 +46,11 @@ function issame(x::NamedTuple{N,T}, y::NamedTuple{N1,T1}) where {N,T,N1,T1}
 end
 
 const ≅ = issame
+
+function Base.sort(x::NamedTuple{N,T}) where {N,T}
+    names = Tuple(sort([N...]))
+    return NamedTuple{names}(x)
+end
 
 # internal support for low level manipulation
 
