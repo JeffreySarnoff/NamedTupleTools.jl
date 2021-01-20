@@ -3,7 +3,7 @@
 
 This module provides some useful NamedTuple tooling.
 
-see [`namedtuple`](@ref), [`isprototype`](@ref),
+see [`namedtuple`](@ref), [`isprototype`](@ref), [`issame`](@ref),
     [`fieldvalues`](@ref), [`separate`](@ref), [`select`](@ref),
     [`delete`](@ref), [`merge_recursive`](@ref)
 """
