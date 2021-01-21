@@ -516,15 +516,20 @@ Collect the elements of x into a Tuple, in their iterated order.
 """
 @inline gather_(x::T) where {T} = (collect(x)...,)
 
-namedtuple(d::T) where {T<:AbstractDict{Symbol,V}} where {V} =
-    NamedTuple{gather_(keys(d)), NTuple{length(d), V}}(gather_(values(d)))
-namedtuple(d::T) where {T<:AbstractDict{S,V}} where {S<:AbstractString, V} =
-    NamedTuple{Symbol.(gather_(keys(d))), NTuple{length(d), V}}(gather_(values(d)))
-namedtuple(d::T) where {T<:AbstractDict{Symbol,Any}} =
-    NamedTuple{gather_(keys(d)), Tuple{typeof.(values(d))...}}(gather_(values(d)))
-namedtuple(d::T) where {T<:AbstractDict{S,Any}} where {S<:AbstractString} =
-    NamedTuple{Symbol.(gather_(keys(d))), Tuple{typeof.(values(d))...}}(gather_(values(d)))
-
+if VERSION >= v"1.5"
+ 	namedtuple(d::T) where {T<:AbstractDict{Symbol,V}} where {V} =
+		NamedTuple(d)
+else
+	namedtuple(d::T) where {T<:AbstractDict{Symbol,V}} where {V} =
+	    NamedTuple{gather_(keys(d)), NTuple{length(d), V}}(gather_(values(d)))
+	namedtuple(d::T) where {T<:AbstractDict{S,V}} where {S<:AbstractString, V} =
+	    NamedTuple{Symbol.(gather_(keys(d))), NTuple{length(d), V}}(gather_(values(d)))
+	namedtuple(d::T) where {T<:AbstractDict{Symbol,Any}} =
+	    NamedTuple{gather_(keys(d)), Tuple{typeof.(values(d))...}}(gather_(values(d)))
+	namedtuple(d::T) where {T<:AbstractDict{S,Any}} where {S<:AbstractString} =
+	    NamedTuple{Symbol.(gather_(keys(d))), Tuple{typeof.(values(d))...}}(gather_(values(d)))
+end
+	
 # use: dict = convert(Dict, nt)
 #=
    for Dict{Symbol,Any}:
