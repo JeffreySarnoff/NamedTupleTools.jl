@@ -13,7 +13,7 @@ module NamedTupleTools
 export @namedtuple,
        issame,  ≅,
        namedtuple, isprototype, prototype,
-       fieldvalues, fastfieldvalues,
+       fieldvalues, fieldvalues_fast,
        merge_recursive,
        separate,
        delete,
