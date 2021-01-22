@@ -516,7 +516,7 @@ Collect the elements of x into a Tuple, in their iterated order.
 """
 @inline gather_(x::T) where {T} = (collect(x)...,)
 
-if VERSION >= v"1.6.0-DEV"
+if VERSION >= v"1.5.9"
  	namedtuple(d::T) where {T<:AbstractDict{Symbol,V}} where {V} =
 		NamedTuple(d)
 else
