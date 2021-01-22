@@ -96,7 +96,7 @@ proto2 = prototype(nt2)
 @test separate(nt1, :a)[2] == (b = 2, c = 3, d = 4)
 @test separate(nt1, (:b, :c))[1] == (b = 2, c = 3)
 @test separate(nt1, (:b, :c))[2] == (a = 1, d = 4)
-@test merge(split(nt1, (:a, :b))...) == nt1
+@test merge(separate(nt1, (:a, :b))...) == nt1
 
 struct MyStruct
     tally::Int
