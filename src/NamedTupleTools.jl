@@ -119,7 +119,7 @@ obtain values assigned to fields of a struct type (in field order)
 - `NamedTuples` and `struct`s are struct types
 """
 function fieldvalues(x::T) where {T}
-    (getfield.((x,), fieldnames(T))
+    getfield.((x,), fieldnames(T))
 end
 
 """
