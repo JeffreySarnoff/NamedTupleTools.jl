@@ -24,10 +24,11 @@ nt = namedtuple(namesofvalues, matchingvalues)
 
 
 nt = NamedTuple{(:a, :b)}(1.0, "two")
+NT = typeof(nt)
 
 @test fieldnames(nt) == (:a, :b)
-@test fieldtypes(nt) == (Float64, String)
-@test NamedTupleTools.field_types(nt) == Tuple{Float64, String}
+@test fieldtypes(NT) == (Float64, String)
+@test NamedTupleTools.field_types(NT) == Tuple{Float64, String}
 
 namedtuple(:a, :b) == NamedTuple{(:a, :b),T} where T<:Tuple
 
