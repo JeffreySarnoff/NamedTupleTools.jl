@@ -154,7 +154,7 @@ end
 # an instance of type S, a Struct
 function structfromnt(::Type{S}, x::NT) where {S, N, T, NT<:NamedTuple{N,T}}
      names = N
-     values = unsafe_fieldvalues(x)
+     values = fieldvalues(x)
      if fieldnames(S) != names
           throw(ErrorException("fields in ($S) do not match ($x)"))
      end
