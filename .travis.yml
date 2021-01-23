@@ -3,6 +3,7 @@ language: julia
 os: linux
 julia:
   - 1.0.5
+  - 1.5.2
   - nightly
 git:
   depth: 99999999  
