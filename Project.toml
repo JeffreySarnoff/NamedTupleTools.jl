@@ -4,6 +4,7 @@ keywords = ["Julia", "NamedTuples"]
 license = "MIT"
 authors = ["Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>"]
 version = "0.13.7"
+repo = "https://github.com/JeffreySarnoff/NamedTupleTools.jl.git"
 
 [compat]
 julia = "1"
