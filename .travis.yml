@@ -5,6 +5,11 @@ julia:
   - 1.0.5
   - 1.5.2
   - nightly
+# whitelist
+branches:
+  only:
+    - master
+    - generated
 git:
   depth: 99999999  
 notifications:
