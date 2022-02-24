@@ -382,3 +382,7 @@ julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
     
 - Merge: support recursive merging
     - _submitted by @wytbella_
+
+- fixups
+    - remove ambiguity
+        - _from @marius311_
