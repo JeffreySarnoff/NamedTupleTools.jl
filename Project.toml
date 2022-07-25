@@ -6,7 +6,7 @@ authors = ["Jeffrey Sarnoff <jeffrey.sarnoff@gmail.com>"]
 version = "0.14.0"
 
 [compat]
-julia = "1"
+julia = "1.6, 1.7, 1.8, 1.9"
 
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
