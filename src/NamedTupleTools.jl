@@ -314,9 +314,9 @@ merge(a::NamedTuple{an}, b::NamedTuple{bn}, c::NamedTuple{cn}, d::NamedTuple{dn}
     merge_recursive(nt1, nt2, nt3, ..)
 
 Recursively merge namedtuples. Where more than one of the namedtuple args share the same fieldname (same key),
-    the leftmost argument's key's value will be propogated. Where each namedtuple has distinct fieldnames (keys),
+    the rightmost argument's key's value will be propogated. Where each namedtuple has distinct fieldnames (keys),
     all of named fields will be gathered with their respective values. The named fields will appear in the same
-    order they are encountered (leftmost arg, second leftmost arg, .., second rightmost arg, rightmost arg).
+    order they are encountered (rightmost arg, second rightmost arg, .., second leftmost arg, leftmost arg).
 
 If there are no nested namedtuples, `merge(nt1, nts..., recursive=true)` is the same as `merge(nt1, nts...)`.
 ```
