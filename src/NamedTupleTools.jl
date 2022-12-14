@@ -162,7 +162,7 @@ end
      return (; zip(namesforvalues, valuesfornames)...,)
 end
 
-namedtuple(namesforvalues::Vector{S}, valuesfornames) where {N,S<:AbstractString} =
+namedtuple(namesforvalues::Vector{S}, valuesfornames) where {S<:AbstractString} =
     namedtuple(Symbol.(namesforvalues), valuesfornames)
 
 namedtuple(namesforvalues::NTuple{N,S}, valuesfornames) where {N,S<:AbstractString} =
@@ -257,7 +257,7 @@ delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
 
 delete(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,(b,))...,))
 delete(::Type{T}, b::NTuple{N,Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,b)...,))
-delete(::Type{T}, bs::Vararg{Symbol}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
+delete(::Type{T}, bs::Vararg{Symbol,N}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,bs)...,))
 
 """
    select(namedtuple, symbol(s)|Tuple)
