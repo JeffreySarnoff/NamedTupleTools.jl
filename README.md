@@ -2,7 +2,7 @@
 ### Some NamedTuple utilities
 
 
-#### Copyright © 2015-2020 by Jeffrey Sarnoff. This work is released under The MIT License.
+#### Copyright © 2015-2022 by Jeffrey Sarnoff. This work is released under The MIT License.
 
 ----
 
