@@ -388,3 +388,5 @@ julia> nt = @namedtuple(a, b, c, d, e = a + b, f...)
 - fixups
     - remove ambiguity
         - _from @marius311_
+    - remove unused parameter
+        - _from Neven Sajko_
