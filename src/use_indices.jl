@@ -39,7 +39,7 @@ end
 """ keep
 
 function keep(nt::NamedTuple, sym::Symbol)
-    NamedTuple{(syn,)}(nt)
+    NamedTuple{(sym,)}(nt)
 end
 
 function keep(nt::NamedTuple, idx::Integer)
@@ -47,7 +47,7 @@ function keep(nt::NamedTuple, idx::Integer)
 end
 
 function keep(nt::NamedTuple, @nospecialize(sym::NTuple{N,Symbol} where {N}))
-     NamedTuple{syn}(nt)
+     NamedTuple{sym}(nt)
 end
 
 function keep(nt::NamedTuple, @nospecialize(idx::NTuple{N,<:Integer} where {N}))
