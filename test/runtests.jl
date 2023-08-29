@@ -22,7 +22,6 @@ matchingvalues = ("violin", "Stradivarius")
 nt = namedtuple(namesofvalues, matchingvalues)
 @test nt == (instrument = "violin", madeby = "Stradivarius")
 
-
 nt = NamedTuple{(:a, :b)}(1.0, "two")
 
 @test fieldnames(nt) == (:a, :b)
@@ -115,7 +114,6 @@ ntstruct = structfromnt(MyStruct, nt)
 
 @test ntstruct == mystruct
 
-
 v = [:a => 1, :b => 2]
 @test namedtuple(v) == NamedTuple{(:a, :b)}(1, 2)
 v = ["a" => 1, "b" => 2]
@@ -157,7 +155,6 @@ dict2 = LittleDict("a"=>1, "b"=>2//11, "c"=>"three")
 nt2 = namedtuple(dict2)
 @test nt2 isa NamedTuple{(:a, :b, :c),Tuple{Int64,Rational{Int64},String}}
 
-
 nt = (a = 1, b = 2)
 a = 1; b = 2;
 nt_ab = @namedtuple(a, b)
@@ -171,6 +168,6 @@ c = 3
 nt = (a = 1, b = 2, c = 3)
 @test @namedtuple(nt1..., c) == nt
 
-
 include("use_indices.jl")
+
 
