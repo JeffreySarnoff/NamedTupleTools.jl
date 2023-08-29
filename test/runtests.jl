@@ -170,3 +170,7 @@ nt1 = (a = 1, b = 2)
 c = 3
 nt = (a = 1, b = 2, c = 3)
 @test @namedtuple(nt1..., c) == nt
+
+
+include("use_indices.jl")
+
