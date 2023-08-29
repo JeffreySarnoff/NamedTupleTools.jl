@@ -23,10 +23,12 @@ export @namedtuple,
 import Base: propertynames, fieldnames, valtype, values, merge, split
 
 if isdefined(Base, :fieldtypes)
-     import Base: fieldtypes
+     import Base:fieldtypes
 else
      export fieldtypes
 end
+
+import("use_indices.jl")
 
 """
     NotPresent
