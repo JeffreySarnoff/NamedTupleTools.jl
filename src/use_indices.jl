@@ -11,7 +11,7 @@ of AbstractArray
 from https://github.com/JuliaLang/julia/pull/51098#discussion_r1309188308
 =#
 
-"":
+"""
     idxkey(nt::NamedTuple, idx::Integer)
     idxkey(nt::NamedTuple, idx::Tuple{Vararg{Int}})
 
