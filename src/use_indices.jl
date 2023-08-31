@@ -13,7 +13,7 @@ from https://github.com/JuliaLang/julia/pull/51098#discussion_r1309188308
 
 """
     idxkey(nt::NamedTuple, idx::Integer)
-    idxkey(nt::NamedTuple, idx::Tuple{Vararg{Int}})
+    idxkey(nt::NamedTuple, idx::Tuple{Vararg{Integer}})
 
 Map the indices given with `idx` to keys of `nt`.
 """ idxkey
@@ -27,15 +27,14 @@ function idxkey(nt::NamedTuple, @nospecialize(idxs::NTuple{N,Int} where {N}))
 end
 
 """
-    keepknt::NamedTuple, sym::Symbol)
-    keepknt::NamedTuple, idx::Integer)
+    keep(nt::NamedTuple, sym::Symbol)
+    keep(nt::NamedTuple, idx::Integer)
 
     keep(nt::NamedTuple, sym::Tuple{Vararg{Symbol}})
     keep(nt::NamedTuple, idx::Tuple{Vararg{Integer}})
 
-- Construct a subset of `nt` using only the keys in `sym`.
-- Construct a subset of `nt` using only the indices in `idx`.
-
+- Construct a subset of `nt` using only the key [keys in] `sym`.
+- Construct a subset of `nt` using only the index [indicies in] `idx`.
 """ keep
 
 function keep(nt::NamedTuple, sym::Symbol)
@@ -56,9 +55,13 @@ end
 
 """
     omit(nt::NamedTuple, sym::Symbol)
-    omit(nt::NamedTuple, sym::Tuple{Vararg{Symbol}})
+    omit(nt::NamedTuple, idx::Integer)
 
-Construct a subset of `nt` omitting the keys in `sym`.
+    omit(nt::NamedTuple, sym::Tuple{Vararg{Symbol}})
+    omit(nt::NamedTuple, idx::Tuple{Vararg{Integer}})
+
+- Construct a subset of `nt` omitting the key [keys in] `sym`.
+- Construct a subset of `nt` omitting the index [indicies in] `idx`.
 """ omit
 
 function omit(nt::NamedTuple, sym::Symbol)
