@@ -15,15 +15,15 @@ from https://github.com/JuliaLang/julia/pull/51098#discussion_r1309188308
     idxkey(nt::NamedTuple, idx::Integer)
     idxkey(nt::NamedTuple, idx::Tuple{Vararg{Integer}})
 
-Map the indices given with `idx` to keys of `nt`.
+Map the index [indices] given with `idx` to keys of `nt`.
 """ idxkey
 
 function idxkey(nt::NamedTuple, idx::Integer)
     getindex(keys(nt), idx)
 end
 
-function idxkey(nt::NamedTuple, @nospecialize(idxs::NTuple{N,Int} where {N}))
-    getindex.(Ref(keys(nt)), idxs)
+function idxkey(nt::NamedTuple, @nospecialize(idx::NTuple{N,Int} where {N}))
+    isempty(idx) ? () : getindex.(Ref(keys(nt)), idx)
 end
 
 """
@@ -46,7 +46,7 @@ function keep(nt::NamedTuple, idx::Integer)
 end
 
 function keep(nt::NamedTuple, @nospecialize(sym::NTuple{N,Symbol} where {N}))
-     NamedTuple{sym}(nt)
+    isempty(sym) ? (;) : NamedTuple{sym}(nt)  
 end
 
 function keep(nt::NamedTuple, @nospecialize(idx::NTuple{N,<:Integer} where {N}))
@@ -73,10 +73,9 @@ function omit(nt::NamedTuple, idx::Integer)
 end
 
 function omit(nt::NamedTuple, @nospecialize(sym::NTuple{N,Symbol} where {N}))
-     keep(nt, Tuple(setdiff(keys(nt), sym)))
+    isempty(sym) ? nt : keep(nt, Tuple(setdiff(keys(nt), sym)))
 end
 
 function omit(nt::NamedTuple, @nospecialize(idx::NTuple{N,<:Integer} where {N}))
-     omit(nt, idxkey(nt, idx))
+    isempty(idx) ? nt : omit(nt, idx)
 end
-
