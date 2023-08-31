@@ -12,21 +12,6 @@ from https://github.com/JuliaLang/julia/pull/51098#discussion_r1309188308
 =#
 
 """
-    idxkey(nt::NamedTuple, idx::Integer)
-    idxkey(nt::NamedTuple, idx::Tuple{Vararg{Integer}})
-
-Map the index [indices] given with `idx` to keys of `nt`.
-""" idxkey
-
-function idxkey(nt::NamedTuple, idx::Integer)
-    getindex(keys(nt), idx)
-end
-
-function idxkey(nt::NamedTuple, @nospecialize(idx::NTuple{N,Int} where {N}))
-    isempty(idx) ? () : getindex.(Ref(keys(nt)), idx)
-end
-
-"""
     keep(nt::NamedTuple, sym::Symbol)
     keep(nt::NamedTuple, idx::Integer)
 
@@ -79,3 +64,19 @@ end
 function omit(nt::NamedTuple, @nospecialize(idx::NTuple{N,<:Integer} where {N}))
     isempty(idx) ? nt : omit(nt, idx)
 end
+
+"""
+    idxkey(nt::NamedTuple, idx::Integer)
+    idxkey(nt::NamedTuple, idx::Tuple{Vararg{Integer}})
+
+Map the index [indices] given with `idx` to keys of `nt`.
+""" idxkey
+
+function idxkey(nt::NamedTuple, idx::Integer)
+    getindex(keys(nt), idx)
+end
+
+function idxkey(nt::NamedTuple, @nospecialize(idx::NTuple{N,Int} where {N}))
+    isempty(idx) ? () : getindex.(Ref(keys(nt)), idx)
+end
+
