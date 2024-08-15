@@ -250,9 +250,22 @@ Generate a namedtuple [ntprototype] from the first arg omitting fields present i
 
 see: [`merge`](@ref)
 """
-delete(a::NamedTuple, b::Symbol) = Base.structdiff(a, namedtuple(b))
-delete(a::NamedTuple, b::NTuple{N,Symbol}) where {N} = Base.structdiff(a, namedtuple(b))
-delete(a::NamedTuple, bs::Vararg{Symbol}) = Base.structdiff(a, namedtuple(bs))
+if !(:delete in map(x->getfield(x, :name), methodswith(NamedTuple))
+    Base.@constprop :aggressive function delete(a::NamedTuple{an}, field:Symbol) where {N, an}
+        names = Base.diff_names(an, field)
+        NamedTuple{names}(a)
+    end
+end
+
+Base.@constprop :aggressive function delete(a::NamedTuple{an}, fields::NTuple{N,Symbol}) where {N, an}
+   names = Base.diff_names(an, fields)
+   NamedTuple{names}(a)
+end
+
+Base.@constprop :aggressive function delete(a::NamedTuple{an}, fields::Vararg{Symbol}) where {N, an}
+   names = Base.diff_names(an, fields)
+   NamedTuple{names}(a)
+end
 
 delete(::Type{T}, b::Symbol) where {S,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,(b,))...,))
 delete(::Type{T}, b::Tuple{Vararg{Symbol,N}}) where {S,N,T<:NamedTuple{S}} = namedtuple((Base.setdiff(S,b)...,))
